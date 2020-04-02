@@ -1,0 +1,2 @@
+rootProject.name='JNU_Graduate'
+include ':app'
