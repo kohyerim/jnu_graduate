@@ -11,9 +11,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
-
-    TextView id;
-    TextView pw;
     Service service = new Service();
     Button loginBtn;
 
@@ -23,8 +20,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         loginBtn = findViewById(R.id.loginBtn);
-        this.id = findViewById(R.id.studentNum);
-        this.pw = findViewById(R.id.password);
         loginBtn.setOnClickListener(new View.OnClickListener() {
 
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -38,8 +33,6 @@ public class MainActivity extends AppCompatActivity {
                 //화면이동 (if 로그인이 성공한다면?)
                 Intent lobbyintent=new Intent(MainActivity.this, lobby.class);
                 startActivity(lobbyintent);
-
-
             }
         });
     }
