@@ -29,7 +29,8 @@ public class MainActivity extends AppCompatActivity {
                 TextView pwView = findViewById(R.id.password);
                 String id = idView.getText().toString();
                 String pw = pwView.getText().toString();
-                service.execute(id, pw);
+                service.execute(getApplicationContext(), id, pw);
+
                 //화면이동 (if 로그인이 성공한다면?)
                 Intent lobbyintent=new Intent(MainActivity.this, lobby.class);
                 startActivity(lobbyintent);

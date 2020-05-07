@@ -93,7 +93,11 @@ public class Dreamy {
             response.append(inputLine);
         }
         in.close();
+        JSONObject classJson =  new JSONObject(response.toString());
+//        ObjectMapper mapper = new ObjectMapper();
+//        String tmp = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(classJson.toString());
+//        System.out.println(tmp);
 
-        return new JSONObject(response.toString());
+        return classJson;
     }
 }
