@@ -22,42 +22,61 @@
 
     <Button
         android:id="@+id/loginBtn"
-        android:layout_width="210dp"
-        android:layout_height="43dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginTop="19dp"
+        android:layout_width="223dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/login_btn_login"
         android:text="Log In"
-        app:layout_constraintStart_toStartOf="@+id/password"
-        app:layout_constraintTop_toBottomOf="@+id/password"
         android:textColor="#ffffff"
-        />
-
+        app:layout_constraintStart_toStartOf="@+id/password_container"
+        app:layout_constraintTop_toBottomOf="@+id/password_container" />
 
     <EditText
         android:id="@+id/studentNum"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/login_id_pw"
+        android:layout_width="213dp"
+        android:layout_height="25dp"
+        android:background="@android:color/transparent"
         android:ems="10"
-        android:hint="  id"
+        android:hint="id"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/password"
-        app:layout_constraintStart_toStartOf="@+id/password" />
+        app:layout_constraintBottom_toBottomOf="@+id/id_container"
+        app:layout_constraintEnd_toEndOf="@+id/id_container"
+        app:layout_constraintStart_toStartOf="@+id/id_container"
+        app:layout_constraintTop_toTopOf="@+id/id_container" />
 
     <EditText
         android:id="@+id/password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="360dp"
-        android:background="@drawable/login_id_pw"
+        android:background="@android:color/transparent"
         android:ems="10"
-        android:hint="  password"
+        android:hint="password"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toBottomOf="@+id/password_container"
+        app:layout_constraintEnd_toEndOf="@+id/password_container"
+        app:layout_constraintStart_toStartOf="@+id/password_container"
+        app:layout_constraintTop_toTopOf="@+id/password_container" />
+
+    <ImageView
+        android:id="@+id/id_container"
+        android:layout_width="223dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="308dp"
+        android:background="@drawable/login_id_pw"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/password_container"
+        android:layout_width="223dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="368dp"
+        android:background="@drawable/login_id_pw"
+        android:inputType="textPassword"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
