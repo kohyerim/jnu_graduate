@@ -57,17 +57,30 @@ public class Service extends AsyncTask<Object, Void, String>{
             this.cookie = dreamy.login();
             this.infoJson = dreamy.getInfo(this.cookie);
             JSONObject hakjuk = new JSONObject(this.infoJson.get("HJ_MST").toString());
-            hakjuk.get("student_no"); // == strings[0]: 학번
-            hakjuk.get("dept_full_nm").toString(); // 전공
-            hakjuk.get("term_grade").toString(); // 몇학기 인지 (ex. 7)
+            System.out.println(hakjuk.toString());
+
+            // 파일 저장하기 위한 JSONObject 생성
+            JSONObject profileObj = new JSONObject();
+            profileObj.put("student_num", hakjuk.get("student_no").toString()); // == strings[0]: 학번
+            profileObj.put("student_name", hakjuk.get("nm").toString());
+            profileObj.put("major", hakjuk.get("maj_nm").toString());  // 전공
+            profileObj.put("grade", hakjuk.get("grade_nm").toString()); // 학년
+            profileObj.put("term_grade", hakjuk.get("term_grade").toString());  // 몇학기 인지 (ex. 7)
 
             // 수강한 수업 가져오기 : [cookie, 연도, 학기] param
             classJson = dreamy.getClass(this.cookie, 2020, 10);
             try {
                 // 파일 확인 : Shift 2번 -> Device File Explorer -> data/data/com.example.jnu_graduate/files
-                FileOutputStream outputStream = ctx.openFileOutput("class.json", Context.MODE_PRIVATE);
-                outputStream.write(classJson.toString().getBytes());
-                outputStream.close();
+
+                // profile.json
+                FileOutputStream profileStream = ctx.openFileOutput("profile.json", Context.MODE_PRIVATE);
+                profileStream.write(profileObj.toString().getBytes());
+                profileStream.close();
+
+                // class.json
+                FileOutputStream classStream = ctx.openFileOutput("class.json", Context.MODE_PRIVATE);
+                classStream.write(classJson.toString().getBytes());
+                classStream.close();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
