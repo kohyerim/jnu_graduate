@@ -22,7 +22,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-public class Service extends AsyncTask<Object, Void, String>{
+public class Service extends AsyncTask<Object, Void, Void>{
     Dreamy dreamy;
     String cookie;
     JSONObject infoJson;
@@ -30,7 +30,7 @@ public class Service extends AsyncTask<Object, Void, String>{
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    protected String doInBackground(Object... objects) {
+    protected Void doInBackground(Object... objects) {
         Context ctx = (Context) objects[0];
         String id = objects[1].toString();
         String pw = objects[2].toString();
@@ -89,7 +89,7 @@ public class Service extends AsyncTask<Object, Void, String>{
             e.printStackTrace();
         }
 
-        return classJson.toString();
+        return null;
     }
 
     @Override
@@ -103,7 +103,7 @@ public class Service extends AsyncTask<Object, Void, String>{
     }
 
     @Override
-    protected void onPostExecute(String string) {
-        super.onPostExecute(string);
+    protected void onPostExecute(Void v) {
+        super.onPostExecute(v);
     }
 }

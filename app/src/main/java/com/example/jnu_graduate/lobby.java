@@ -90,6 +90,7 @@ public class lobby extends AppCompatActivity {
             Log.e("login activity", "Can not read file: " + e.toString());
         }
 
+
         jsonObject = new JSONObject(jsonString);
 
         student_name.setText(jsonObject.get("student_name").toString());
