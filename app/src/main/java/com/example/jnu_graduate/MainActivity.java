@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Calendar;
+
 public class MainActivity extends AppCompatActivity {
     Service service = new Service();
     Button loginBtn;
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
+                System.out.println(Calendar.getInstance().get(Calendar.YEAR));
                 TextView idView = findViewById(R.id.studentNum);
                 TextView pwView = findViewById(R.id.password);
                 String id = idView.getText().toString();
@@ -39,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
                         Intent lobbyintent=new Intent(MainActivity.this, lobby.class);
                         startActivity(lobbyintent);
                     }
-                }, 1000); // 0.5초후
+                }, 1000); // 1초후
             }
         });
     }

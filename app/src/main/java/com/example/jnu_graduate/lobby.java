@@ -90,7 +90,7 @@ public class lobby extends AppCompatActivity {
             setProfile();
         } catch (JSONException e) {
             e.printStackTrace();
-        };
+        }
 
     }
     public void gologout(){
@@ -148,6 +148,5 @@ public class lobby extends AppCompatActivity {
 
         student_name.setText(jsonObject.get("student_name").toString());
         dept.setText(jsonObject.get("major").toString());
-        System.out.println(dept.getText().toString());
     }
 }
