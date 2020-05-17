@@ -9,11 +9,17 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class libarts_page extends AppCompatActivity {
 
     Context context;
+    GradeParser gradeParser;
     private int prevcontainerid;
     ConstraintLayout constraintLayout;
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -78,6 +84,37 @@ public class libarts_page extends AppCompatActivity {
         prevcontainerid=R.id.texting;
         context=getApplicationContext();//컨텍스트 정의
         constraintLayout=findViewById(R.id.libarts_page_layout);//앞으로 들어갈 뷰들의 레이아웃 정의
+
+        new Thread() {
+            public void run() {
+                gradeParser = new GradeParser();
+                try {
+                    // 교양세부과목
+                    JSONObject gradeInfo = gradeParser.getMajor();
+                    JSONObject gradePoint = (JSONObject) gradeInfo.get("교양학점");
+                    JSONObject cultureGradePoint = (JSONObject) gradePoint.get("2017");
+                    JSONObject division = (JSONObject) cultureGradePoint.get("구분");
+
+                    Iterator i = division.keys();
+                    while(i.hasNext())
+                    {
+                        String b = i.next().toString();
+                        Object temp = cultureGradePoint.get(b.toString());
+                        System.out.println(b+temp);
+                    }
+
+                    //필수과목
+                    String gradeNum[] = new String[]{"1학년","2학년","3학년","4학년"};
+                    JSONObject majorInfo = (JSONObject) gradeInfo.get("컴퓨터공학전공");
+                    JSONObject majorGradePoint = (JSONObject) majorInfo.get("2017");
+                    JSONObject majorSub = (JSONObject) majorGradePoint.get("전공필수");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
 
         addcontainer container1=new addcontainer();
         easycreatecontainer(container1,"기초교양",20, basiclibartsmenu,basiclibartsmenu2,basiclibartsmenu3);

@@ -70,12 +70,6 @@ public class lobby extends AppCompatActivity {
                     totalGP.setText(jolupGP.toString());
                     majorGP.setText(major.toString());
 
-                    // 학번별 전공필수과목 db조회
-                    JSONObject majorSub = (JSONObject) majorGradePoint.get("전공필수");
-                    JSONObject grade = (JSONObject) majorSub.get(currentGrade);
-                    Object subject = grade.get(currentSemester);
-//                    System.out.println(subject);
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {
