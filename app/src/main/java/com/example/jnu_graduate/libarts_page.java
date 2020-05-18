@@ -9,6 +9,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,46 +41,6 @@ public class libarts_page extends AppCompatActivity {
         basiclibartsmenu2.add("외국어:");
         basiclibartsmenu2.add("영어회화2");
 
-        ArrayList basiclibartsmenu3= new ArrayList();
-        basiclibartsmenu3.add("논리적사고:");
-        basiclibartsmenu3.add("수와논리");
-
-        ArrayList majorartssearch1= new ArrayList();
-        majorartssearch1.add("공학 계열:");
-        majorartssearch1.add("정보통신과 컴퓨터개론");
-        majorartssearch1.add("물과산업");
-        majorartssearch1.add("C프로그래밍 및 실습");
-
-        ArrayList majorartssearch2= new ArrayList();
-        majorartssearch2.add("타 계열:");
-        majorartssearch2.add("전쟁과 평화");
-
-        ArrayList juninarts1= new ArrayList();
-        juninarts1.add("언어와 문학:");
-        juninarts1.add("멀티미디어와 영어 콘텐츠");
-
-        ArrayList juninarts2= new ArrayList();
-        juninarts2.add("역사와 철학:");
-
-
-        ArrayList juninarts3= new ArrayList();
-        juninarts3.add("사회와 문학:");
-        juninarts3.add("인권과 법");
-
-        ArrayList juninarts4= new ArrayList();
-        juninarts4.add("과학과 기술:");
-        juninarts4.add("발명과 특허속 생활 속 프로그래밍 수학");
-
-        ArrayList juninarts5= new ArrayList();
-        juninarts5.add("예술과 건강:");
-
-
-        ArrayList juninarts6= new ArrayList();
-        juninarts6.add("인성과 융,복합사고:");
-        juninarts6.add("문화광장");
-
-        ArrayList Jnuarts= new ArrayList();
-        Jnuarts.add("멀티미디어 제작:");
 
         //----------------------------------------------------------------기초정의-한 액티비티당 한번만
         //컨테이너가 들어가서 위치를 잡을 기준점인 이전 view의 id를 찾아내기-기본적으로 미리 설정되어있는 레이아웃의 맨위쪽에 잇는 텍스트박스id
@@ -97,13 +58,33 @@ public class libarts_page extends AppCompatActivity {
                     JSONObject gradePoint = (JSONObject) gradeInfo.get("교양학점");
                     JSONObject cultureGradePoint = (JSONObject) gradePoint.get("2017");
                     JSONObject division = (JSONObject) cultureGradePoint.get("구분");
-
                     Iterator i = division.keys();
+
+                    ArrayList<addcontainer> containerarr=new ArrayList<addcontainer>();
                     while(i.hasNext())
                     {
-                        String b = i.next().toString();
-                        Object temp = cultureGradePoint.get(b.toString());
-                        System.out.println(b+temp);
+                        final ArrayList<ArrayList<String>> grouparr=new ArrayList<ArrayList<String>>();
+                        final String b = i.next().toString();
+
+                        JSONArray arr = (JSONArray) cultureGradePoint.get(b.toString());
+                        for(int x=0; x<arr.length(); x++){
+                            ArrayList<String> childarr = new ArrayList<String>();
+                            childarr.add(arr.get(x).toString());
+                            grouparr.add(childarr);
+                        }
+                        final addcontainer container=new addcontainer();
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                easycreatecontainer(container,b,20, grouparr);
+                            }
+                        });
+
+                        containerarr.add(container);
+                        System.out.println(b+arr);
+                        System.out.println(b);
+                        System.out.println(arr);
                     }
 
                     //필수과목
@@ -111,6 +92,18 @@ public class libarts_page extends AppCompatActivity {
                     JSONObject majorInfo = (JSONObject) gradeInfo.get("컴퓨터공학전공");
                     JSONObject majorGradePoint = (JSONObject) majorInfo.get("2017");
                     JSONObject majorSub = (JSONObject) majorGradePoint.get("전공필수");
+
+                    Iterator c = majorSub.keys();
+                    while(i.hasNext())
+                    {
+                        String b = c.next().toString();
+                        Object temp = cultureGradePoint.get(b.toString());
+                        System.out.println("잉?");
+                        System.out.println(b+temp);
+                        System.out.println(b);
+                        System.out.println(temp);
+                    }
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {
@@ -119,26 +112,20 @@ public class libarts_page extends AppCompatActivity {
             }
         }.start();
 
-        addcontainer container1=new addcontainer();
-        easycreatecontainer(container1,"기초교양",20, basiclibartsmenu,basiclibartsmenu2,basiclibartsmenu3);
-        addcontainer container2=new addcontainer();
-        easycreatecontainer(container2,"전공탐색",30, majorartssearch1,majorartssearch2);
-        addcontainer container3=new addcontainer();
-        easycreatecontainer(container3,"전인교양",40, juninarts1,juninarts2,juninarts3,juninarts4,juninarts5,juninarts6);
-        addcontainer container4=new addcontainer();
-        easycreatecontainer(container4,"JNU특성교양",50, Jnuarts);
 
     }
 
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public void easycreatecontainer(addcontainer simplecontainer ,String _texts, int _progress, ArrayList...lists){
+    public void easycreatecontainer(addcontainer simplecontainer ,String _texts ,int _progress, ArrayList<ArrayList<String>> lists){
         //---------------------------------------------------------------------------여기부턴 뷰정의1
         //레이아웃을 만들어줄 객체를 생성
         //addcontainer maincontainer1 = new addcontainer(); 함수화를 위하여 add컨테이너 대신 simplecontainer로 변경
         //높이를 계산하기위해 데이터를 다집어넣어줌
-        for(ArrayList menu:lists){
-            simplecontainer.calculateheigth(menu);
+
+        for(int i=0; i<lists.size();i++){
+            ArrayList childlist= lists.get(i);
+            simplecontainer.calculateheigth(childlist);
         }
         //---------------------------------------------------------------------------컨테이너 만들기
 
@@ -153,17 +140,14 @@ public class libarts_page extends AppCompatActivity {
         //프로그래스바 생성
         simplecontainer.createprogressbar();
         //-----------------------  세부과목및 과목생성
-        for(ArrayList menu:lists){
-            simplecontainer.createsubjectmenu(menu);
+        for(int i=0; i<lists.size();i++){
+            ArrayList childlist= lists.get(i);
+            simplecontainer.createsubjectmenu(childlist);
         }
         //마지막으로 이 컨테이너가 마지막인것을 저장
         prevcontainerid=simplecontainer.getContainerid();
-
-
-
-
-
     }
+
 
 
 }

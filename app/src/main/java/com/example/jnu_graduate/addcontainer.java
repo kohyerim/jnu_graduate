@@ -127,7 +127,7 @@ public class addcontainer {
         detailsubjectnumber++;
 
         ArrayList<String> onlydetail=new ArrayList<String>();
-        String text1=subjectlist.get(0).toString();
+        String text1=subjectlist.get(0).toString()+":";
         onlydetail.add(text1);
         //
         detailsubject.setLayoutManager(new LinearLayoutManager(context));
