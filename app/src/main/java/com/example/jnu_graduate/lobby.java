@@ -30,6 +30,9 @@ public class lobby extends AppCompatActivity {
 
     GradeParser gradeParser;
 
+    String myHakbeon = "2017";
+    String majorClass = "컴퓨터공학전공";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,12 +51,6 @@ public class lobby extends AppCompatActivity {
                 try {
                     // 학점 db 불러오기
                     gradeInfo = gradeParser.getMajor();
-//                    System.out.println(gradeInfo);
-
-                    String myHakbeon = "2017";
-                    String majorClass = "컴퓨터공학전공";
-                    String currentGrade = "3학년";
-                    String currentSemester = "2학기";
 
                     // 교양학점 db조회
                     JSONObject gradePoint = (JSONObject) gradeInfo.get("교양학점");
@@ -105,6 +102,10 @@ public class lobby extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent golibarts=new Intent(lobby.this, libarts_page.class);
+
+                // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
+                golibarts.putExtra("hakbeon",myHakbeon);
+                golibarts.putExtra("major",majorClass);
                 startActivity(golibarts);
             }
         });

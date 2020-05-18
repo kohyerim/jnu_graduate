@@ -32,7 +32,7 @@ public class GradeParser {
 
     public JSONObject getCulture(int i) throws IOException, JSONException {
         try {
-            InputStream is = new URL("https://raw.githubusercontent.com/incuriositas/capstoneDatabase/master/culture/"+i+".json").openStream();
+            InputStream is = new URL("https://raw.githubusercontent.com/incuriositas/capstoneDatabase/master/courseClassification/"+i+".json").openStream();
             BufferedReader rd = new BufferedReader(new InputStreamReader(is, "UTF-8"));
             String str;
             StringBuffer buffer = new StringBuffer();

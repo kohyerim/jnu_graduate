@@ -2,6 +2,7 @@ package com.example.jnu_graduate;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -32,6 +33,10 @@ public class libarts_page extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_libarts_page);
 
+        Intent intent = getIntent();
+        final String hakbeon = intent.getExtras().getString("hakbeon");
+        final String major = intent.getExtras().getString("major");
+
         //--------------------------------------------예시로 세부분화와 과목들을 arraylist로 만듬
         ArrayList basiclibartsmenu= new ArrayList();
         basiclibartsmenu.add("글쓰기:");
@@ -56,7 +61,7 @@ public class libarts_page extends AppCompatActivity {
                     // 교양세부과목
                     JSONObject gradeInfo = gradeParser.getMajor();
                     JSONObject gradePoint = (JSONObject) gradeInfo.get("교양학점");
-                    JSONObject cultureGradePoint = (JSONObject) gradePoint.get("2017");
+                    JSONObject cultureGradePoint = (JSONObject) gradePoint.get(hakbeon);
                     JSONObject division = (JSONObject) cultureGradePoint.get("구분");
                     Iterator i = division.keys();
 
@@ -82,28 +87,38 @@ public class libarts_page extends AppCompatActivity {
                         });
 
                         containerarr.add(container);
-                        System.out.println(b+arr);
-                        System.out.println(b);
-                        System.out.println(arr);
                     }
 
-                    //필수과목
-                    String gradeNum[] = new String[]{"1학년","2학년","3학년","4학년"};
-                    JSONObject majorInfo = (JSONObject) gradeInfo.get("컴퓨터공학전공");
-                    JSONObject majorGradePoint = (JSONObject) majorInfo.get("2017");
+                    //필수과목 이건 전공필수 세부보기에서 해야되요!
+                    JSONObject majorInfo = (JSONObject) gradeInfo.get(major);
+                    JSONObject majorGradePoint = (JSONObject) majorInfo.get(hakbeon);
                     JSONObject majorSub = (JSONObject) majorGradePoint.get("전공필수");
-
+                    JSONObject eachGrade = null;
                     Iterator c = majorSub.keys();
-                    while(i.hasNext())
+                    System.out.println("c"+c);
+                    while(c.hasNext())
                     {
                         String b = c.next().toString();
-                        Object temp = cultureGradePoint.get(b.toString());
-                        System.out.println("잉?");
-                        System.out.println(b+temp);
-                        System.out.println(b);
-                        System.out.println(temp);
+                        if(b.contains("학년")) {
+                            eachGrade = (JSONObject) majorSub.get(b);
+                            Iterator perSemester = eachGrade.keys();
+                            while(perSemester.hasNext()){
+                                String semester = perSemester.next().toString();
+                                Object temp = eachGrade.get(semester);
+                                System.out.println(temp);
+                            }
+                        }
                     }
 
+                    // 교양 구분 db
+                    Integer year = 2017;
+                    String classification = "기초교양";
+                    String subjectName = "수와논리";
+                    JSONObject subjectInfo = gradeParser.getCulture(year);
+                    JSONObject cultureSub = (JSONObject) subjectInfo.get("교양");
+                    JSONObject mainDivision = (JSONObject) cultureSub.get(classification);
+                    Object field = mainDivision.get(subjectName);
+                    System.out.println(field);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {
