@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <TextView
+        android:id="@+id/recyclecontainer"
+        android:layout_width="375dp"
+        android:layout_height="211dp"
+        android:background="@drawable/libart_innercontain"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/recycletitle"
+        android:layout_width="77dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="12dp"
+        android:textColor="#6799FF"
+        app:layout_constraintStart_toStartOf="@+id/recyclecontainer"
+        app:layout_constraintTop_toTopOf="@+id/recyclecontainer" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

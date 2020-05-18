@@ -22,6 +22,8 @@ public class libarts_page extends AppCompatActivity {
     GradeParser gradeParser;
     private int prevcontainerid;
     ConstraintLayout constraintLayout;
+    private int detailsubjectnum=0;
+
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @SuppressLint("ResourceType")
     @Override
@@ -58,7 +60,7 @@ public class libarts_page extends AppCompatActivity {
 
         ArrayList juninarts2= new ArrayList();
         juninarts2.add("역사와 철학:");
-        juninarts2.add("");
+
 
         ArrayList juninarts3= new ArrayList();
         juninarts3.add("사회와 문학:");
@@ -70,7 +72,7 @@ public class libarts_page extends AppCompatActivity {
 
         ArrayList juninarts5= new ArrayList();
         juninarts5.add("예술과 건강:");
-        juninarts5.add("");
+
 
         ArrayList juninarts6= new ArrayList();
         juninarts6.add("인성과 융,복합사고:");
@@ -78,12 +80,13 @@ public class libarts_page extends AppCompatActivity {
 
         ArrayList Jnuarts= new ArrayList();
         Jnuarts.add("멀티미디어 제작:");
-        Jnuarts.add("");
+
         //----------------------------------------------------------------기초정의-한 액티비티당 한번만
         //컨테이너가 들어가서 위치를 잡을 기준점인 이전 view의 id를 찾아내기-기본적으로 미리 설정되어있는 레이아웃의 맨위쪽에 잇는 텍스트박스id
         prevcontainerid=R.id.texting;
         context=getApplicationContext();//컨텍스트 정의
         constraintLayout=findViewById(R.id.libarts_page_layout);//앞으로 들어갈 뷰들의 레이아웃 정의
+
 
         new Thread() {
             public void run() {
@@ -140,14 +143,9 @@ public class libarts_page extends AppCompatActivity {
         //---------------------------------------------------------------------------컨테이너 만들기
 
         //객체에 컨텍스트,들어갈 레이아웃 이전 view의id를 주고 컨테이너 생성
-        simplecontainer.setContainer(context,constraintLayout,prevcontainerid);
+        simplecontainer.setContainer(context,constraintLayout,prevcontainerid,_texts);
         simplecontainer.createcontainer();
-        //---------------------------------------------------------------------------------텍스트생성
-        //컨테이너에 들어갈 메인 text 생성 및 id정의
-        String maintext=_texts;
-        simplecontainer.setmainText(maintext);
-        //메인텍스트 생성
-        simplecontainer.createmainText();
+
         //---------------------------------------------------------------------------프로그래스바 생성
         //프로그래스바 설정
         int progress=_progress;
