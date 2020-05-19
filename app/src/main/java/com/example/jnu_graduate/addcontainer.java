@@ -102,23 +102,19 @@ public class addcontainer {
         progressbar_item item = new progressbar_item();
         item.setProgress(progress);
         progressbarlist.add(item);
-
-
         prevviewid=progressbarid;
-
     }
 
     //세부과목 만들기
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void createsubjectmenu(ArrayList subjectlist){
         //세부과목과 교과목이 들어갈 텍스트뷰와 그것을 구성하는 옵션들이 들어갈것 정의
-        subject_r_c_adapter adapter1  = null ;
-        subject_r_c_adapter adapter2  = null ;
+        onlysubject_r_c_adapter adapter1  = null ;
+        onlysubject_r_c_adapter adapter2  = null ;
         RecyclerView detailsubject= new RecyclerView(context);
         RecyclerView subjectmenu= new RecyclerView(context);
         Constraints.LayoutParams params = new Constraints.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         Constraints.LayoutParams params2 = new Constraints.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
         //세부과목부터
         params.startToStart = containerid;
         params.topToBottom = progressbarid;
@@ -132,11 +128,11 @@ public class addcontainer {
         //
         detailsubject.setLayoutManager(new LinearLayoutManager(context));
         if(subjectlist.size()>=2){
-            adapter1 = new subject_r_c_adapter(onlydetail,true);
+            adapter1 = new onlysubject_r_c_adapter(onlydetail,true);
         }
 
         if(subjectlist.size()<2){
-            adapter1 = new subject_r_c_adapter(onlydetail,false);
+            adapter1 = new onlysubject_r_c_adapter(onlydetail,false);
         }
         adapter1.notifyDataSetChanged();
         detailsubject.setAdapter(adapter1);
@@ -168,12 +164,41 @@ public class addcontainer {
         }
         subjectmenu.setLayoutParams(params2);
         subjectmenu.setLayoutManager(new LinearLayoutManager(context));
-        adapter2 = new subject_r_c_adapter(onlysubject,true);
+        adapter2 = new onlysubject_r_c_adapter(onlysubject,true);
         adapter2.notifyDataSetChanged();
         subjectmenu.setAdapter(adapter2);
 
         constraintLayout.addView(subjectmenu);
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    public void createnodivisionsubjectmenu(ArrayList subjectlist){
+        //세부과목없는 전공과목나열
+        onlysubject_r_c_adapter adapter  = null ;
+        RecyclerView noDetailsubject= new RecyclerView(context);
+        Constraints.LayoutParams params = new Constraints.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        //파라미터 정의
+        params.startToStart = containerid;
+        params.topToBottom = progressbarid;
+        params.setMarginStart((int)(dpToPx(16)));
+        params.leftMargin = (int)(dpToPx(16));
+        params.topMargin = (int)(dpToPx(10));
+        prevviewid= View.generateViewId();
+        noDetailsubject.setId(prevviewid);
+        detailsubjectnumber++;
+        noDetailsubject.setLayoutParams(params);
+
+        for(int i=0; i<subjectlist.size();i++){
+            subjectmenunumber++;
+        }
+        //
+        noDetailsubject.setLayoutManager(new LinearLayoutManager(context));
+        adapter=new onlysubject_r_c_adapter(subjectlist,true);
+        adapter.notifyDataSetChanged();
+        noDetailsubject.setAdapter(adapter);
+        constraintLayout.addView(noDetailsubject);
+    }
+
 
     public void calculateheigth(ArrayList arrayList){
         detailsubjectcounter++;
@@ -184,5 +209,14 @@ public class addcontainer {
             menucounter++;
         }
         containerHeight=80+detailsubjectcounter*24+menucounter*18;
+    }
+
+    public void onlymajorcalculateheigth(ArrayList arrayList){
+        detailsubjectcounter++;// 메뉴가아니라 세부로 사용
+        for(int i=0; i<arrayList.size();i++){
+            menucounter++;
+        }
+
+        containerHeight=80+detailsubjectcounter*26+menucounter*26;
     }
 }

@@ -22,6 +22,7 @@ public class lobby extends AppCompatActivity {
 
     Button logout;
     TextView libarts;
+    TextView major;
     TextView cultureGP;
     TextView majorGP;
     TextView totalGP;
@@ -77,6 +78,7 @@ public class lobby extends AppCompatActivity {
 
         gologout();
         golibarts_page();
+        gomajor_page();
         try {
             setProfile();
         } catch (JSONException e) {
@@ -107,6 +109,21 @@ public class lobby extends AppCompatActivity {
                 golibarts.putExtra("hakbeon",myHakbeon);
                 golibarts.putExtra("major",majorClass);
                 startActivity(golibarts);
+            }
+        });
+
+    }
+
+    public void gomajor_page(){
+        major=findViewById(R.id.major_credit_container);
+        major.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent gomajor=new Intent(lobby.this, major_page.class);
+                // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
+                gomajor.putExtra("hakbeon",myHakbeon);
+                gomajor.putExtra("major",majorClass);
+                startActivity(gomajor);
             }
         });
 

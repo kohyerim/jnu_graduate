@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".libarts_page"></activity>
+        <activity android:name=".major_page"></activity>
         <activity android:name=".lobby" />
         <activity android:name=".MainActivity">
             <intent-filter>
