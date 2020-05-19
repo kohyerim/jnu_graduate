@@ -31,8 +31,8 @@ public class lobby extends AppCompatActivity {
 
     GradeParser gradeParser;
 
-    String myHakbeon = "2017";
-    String majorClass = "컴퓨터공학전공";
+    String myHakbeon = "";
+    String majorClass = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +50,11 @@ public class lobby extends AppCompatActivity {
                 gradeParser = new GradeParser();
                 JSONObject gradeInfo = null;
                 try {
+                    try {
+                        setProfile();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     // 학점 db 불러오기
                     gradeInfo = gradeParser.getMajor();
 
@@ -79,11 +84,6 @@ public class lobby extends AppCompatActivity {
         gologout();
         golibarts_page();
         gomajor_page();
-        try {
-            setProfile();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
     }
     public void gologout(){
@@ -160,5 +160,8 @@ public class lobby extends AppCompatActivity {
 
         student_name.setText(jsonObject.get("student_name").toString());
         dept.setText(jsonObject.get("major").toString());
+
+        myHakbeon = jsonObject.get("student_num").toString().substring(0,4);
+        majorClass = jsonObject.get("major").toString();
     }
 }
