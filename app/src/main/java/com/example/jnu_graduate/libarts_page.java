@@ -37,16 +37,6 @@ public class libarts_page extends AppCompatActivity {
         final String hakbeon = intent.getExtras().getString("hakbeon");
         final String major = intent.getExtras().getString("major");
 
-        //--------------------------------------------예시로 세부분화와 과목들을 arraylist로 만듬
-        ArrayList basiclibartsmenu= new ArrayList();
-        basiclibartsmenu.add("글쓰기:");
-        basiclibartsmenu.add("글쓰기");
-
-        ArrayList basiclibartsmenu2= new ArrayList();
-        basiclibartsmenu2.add("외국어:");
-        basiclibartsmenu2.add("영어회화2");
-
-
         //----------------------------------------------------------------기초정의-한 액티비티당 한번만
         //컨테이너가 들어가서 위치를 잡을 기준점인 이전 view의 id를 찾아내기-기본적으로 미리 설정되어있는 레이아웃의 맨위쪽에 잇는 텍스트박스id
         prevcontainerid=R.id.libartspage_main_title;
@@ -89,27 +79,6 @@ public class libarts_page extends AppCompatActivity {
                         containerarr.add(container);
                     }
 
-                    //필수과목 이건 전공필수 세부보기에서 해야되요!
-                    JSONObject majorInfo = (JSONObject) gradeInfo.get(major);
-                    JSONObject majorGradePoint = (JSONObject) majorInfo.get(hakbeon);
-                    JSONObject majorSub = (JSONObject) majorGradePoint.get("전공필수");
-                    JSONObject eachGrade = null;
-                    Iterator c = majorSub.keys();
-                    System.out.println("c"+c);
-                    while(c.hasNext())
-                    {
-                        String b = c.next().toString();
-                        if(b.contains("학년")) {
-                            eachGrade = (JSONObject) majorSub.get(b);
-                            Iterator perSemester = eachGrade.keys();
-                            while(perSemester.hasNext()){
-                                String semester = perSemester.next().toString();
-                                Object temp = eachGrade.get(semester);
-                                System.out.println(temp);
-                            }
-                        }
-                    }
-
                     // 교양 구분 db
                     Integer year = 2017;
                     String classification = "기초교양";
@@ -118,7 +87,7 @@ public class libarts_page extends AppCompatActivity {
                     JSONObject cultureSub = (JSONObject) subjectInfo.get("교양");
                     JSONObject mainDivision = (JSONObject) cultureSub.get(classification);
                     Object field = mainDivision.get(subjectName);
-                    System.out.println(field);
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {
@@ -126,8 +95,6 @@ public class libarts_page extends AppCompatActivity {
                 }
             }
         }.start();
-
-
     }
 
 

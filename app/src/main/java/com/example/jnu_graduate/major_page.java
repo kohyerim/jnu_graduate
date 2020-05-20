@@ -37,17 +37,6 @@ public class major_page extends AppCompatActivity {
         final String hakbeon = intent.getExtras().getString("hakbeon");
         final String major = intent.getExtras().getString("major");
 
-        //--------------------------------------------예시로 세부분화와 과목들을 arraylist로 만듬
-        ArrayList basiclibartsmenu= new ArrayList();
-        basiclibartsmenu.add("글쓰기:");
-        basiclibartsmenu.add("글쓰기");
-
-        ArrayList basiclibartsmenu2= new ArrayList();
-        basiclibartsmenu2.add("외국어:");
-        basiclibartsmenu2.add("영어회화2");
-
-
-
         //----------------------------------------------------------------기초정의-한 액티비티당 한번만
         //컨테이너가 들어가서 위치를 잡을 기준점인 이전 view의 id를 찾아내기-기본적으로 미리 설정되어있는 레이아웃의 맨위쪽에 잇는 텍스트박스id
         prevcontainerid=R.id.majorpage_main_title;
@@ -81,7 +70,6 @@ public class major_page extends AppCompatActivity {
                             while(perSemester.hasNext()){
                                 String semester = perSemester.next().toString();
                                 Object temp = eachGrade.get(semester);
-                                System.out.println(temp);
                                 JSONArray arr = (JSONArray) eachGrade.get(semester);
                                 for(int x=0; x<arr.length(); x++) {
                                     pilsumajor.add(arr.get(x).toString());
@@ -96,16 +84,6 @@ public class major_page extends AppCompatActivity {
                             pilsumajorcreatecontainer(pilsumajorcontainer, "필수교양",20, pilsumajor);
                         }
                     });
-
-                    // 교양 구분 db
-                    Integer year = 2015;
-                    String classification = "기초교양";
-                    String subjectName = "수와논리";
-                    JSONObject subjectInfo = gradeParser.getCulture(year);
-                    JSONObject cultureSub = (JSONObject) subjectInfo.get("교양");
-                    JSONObject mainDivision = (JSONObject) cultureSub.get(classification);
-                    Object field = mainDivision.get(subjectName);
-                    System.out.println(field);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {
