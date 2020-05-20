@@ -49,6 +49,7 @@ public class lobby extends AppCompatActivity {
             public void run(){
                 gradeParser = new GradeParser();
                 JSONObject gradeInfo = null;
+                JSONObject majorInfo = null;
                 try {
                     try {
                         setProfile();
@@ -66,7 +67,7 @@ public class lobby extends AppCompatActivity {
                     cultureGP.setText(minGrade.toString()+'-'+maxGrade.toString());
 
                     // 졸업학점 db 조회
-                    JSONObject majorInfo = (JSONObject) gradeInfo.get(majorClass);
+                    majorInfo = gradeParser.eachMajor();
                     JSONObject majorGradePoint = (JSONObject) majorInfo.get(myHakbeon);
                     Object jolupGP = majorGradePoint.get("졸업학점");
                     Object major = majorGradePoint.get("심화전공");

@@ -47,4 +47,23 @@ public class GradeParser {
         }
         return null;
     }
+
+    public JSONObject eachMajor() throws JSONException {
+        try {
+            InputStream is = new URL("https://raw.githubusercontent.com/incuriositas/capstoneDatabase/master/gradePoint/ce.json").openStream();
+            BufferedReader rd = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+            String str;
+            StringBuffer buffer = new StringBuffer();
+            while((str = rd.readLine()) != null){
+                buffer.append(str);
+            }
+            String receiveMsg = buffer.toString();
+            JSONObject culture =  new JSONObject(receiveMsg);
+            return culture;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

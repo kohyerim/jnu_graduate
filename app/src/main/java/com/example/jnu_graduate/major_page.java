@@ -49,10 +49,8 @@ public class major_page extends AppCompatActivity {
                 gradeParser = new GradeParser();
                 try {
                     // 교양세부과목
-                    JSONObject gradeInfo = gradeParser.getMajor();
-                    //필수과목 이건 전공필수 세부보기에서 해야되요!
-                    JSONObject majorInfo = (JSONObject) gradeInfo.get(major);
-                    JSONObject majorGradePoint = (JSONObject) majorInfo.get(hakbeon);
+                    JSONObject gradeInfo = gradeParser.eachMajor();
+                    JSONObject majorGradePoint = (JSONObject) gradeInfo.get(hakbeon);
                     JSONObject majorSub = (JSONObject) majorGradePoint.get("전공필수");
                     JSONObject eachGrade = null;
                     Iterator c = majorSub.keys();
@@ -84,8 +82,6 @@ public class major_page extends AppCompatActivity {
                             pilsumajorcreatecontainer(pilsumajorcontainer, "필수교양",20, pilsumajor);
                         }
                     });
-                } catch (IOException e) {
-                    e.printStackTrace();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

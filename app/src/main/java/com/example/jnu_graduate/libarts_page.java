@@ -48,11 +48,23 @@ public class libarts_page extends AppCompatActivity {
             public void run() {
                 gradeParser = new GradeParser();
                 try {
+                    // 전공필수 과목 참고코드
+                    // 해당 키값에 맞는 곳에 배열에 들어있는 과목 출력해주시면 됩니다!
+                    JSONObject majorInfo = gradeParser.eachMajor();
+                    JSONObject hakbeonInfo = (JSONObject) majorInfo.get(hakbeon);
+                    JSONObject cultureInfo = (JSONObject) hakbeonInfo.get("교양필수");
+                    System.out.println(cultureInfo);
+
                     // 교양세부과목
                     JSONObject gradeInfo = gradeParser.getMajor();
                     JSONObject gradePoint = (JSONObject) gradeInfo.get("교양학점");
                     JSONObject cultureGradePoint = (JSONObject) gradePoint.get(hakbeon);
                     JSONObject division = (JSONObject) cultureGradePoint.get("구분");
+
+                    // progress bar하실때 세부학점 받아오는 부분 참고 코드입니다.
+                    JSONObject gradePointDetail = (JSONObject) cultureGradePoint.get("세부학점");
+                    System.out.println(gradePointDetail);
+
                     Iterator i = division.keys();
 
                     ArrayList<addcontainer> containerarr=new ArrayList<addcontainer>();
