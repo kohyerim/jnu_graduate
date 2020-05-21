@@ -1,13 +1,19 @@
 package com.example.jnu_graduate;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,15 +47,22 @@ public class lobby extends AppCompatActivity {
     String max_wholecredit;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lobby);
+
+        Toolbar tb = findViewById(R.id.toolbar1);
+        setSupportActionBar(tb);
+        ActionBar ab = getSupportActionBar();
+
+        ab.setTitle("나의 정보");
+
         cultureGP = findViewById(R.id.liberal_arts_credit);
         majorGP = findViewById(R.id.major_credit);
         totalGP = findViewById(R.id.whole_credit);
 
-        //왜인진 모르겟지만 이안에 뭔가 코드를 작성하려고 들면 액티비티가 실행이 안됨...
         // 제 생각에는 아마 manifests에 laylout 추가 안해서 그런것 같아요!!
 
         new Thread(){
@@ -98,8 +111,54 @@ public class lobby extends AppCompatActivity {
         gowhole_page();
 
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu_sample, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.libarts_btn:
+                Intent golibarts=new Intent(lobby.this, libarts_page.class);
+
+                // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
+                golibarts.putExtra("hakbeon",myHakbeon);
+                golibarts.putExtra("major",majorClass);
+                golibarts.putExtra("min_libartscredit",min_libartscredit);
+                golibarts.putExtra("max_libartscredit",max_libartscredit);
+                golibarts.putExtra("max_majorcredit",max_majorcredit);
+                startActivity(golibarts);
+                return true;
+            case R.id.major_btn:
+                Intent gomajor=new Intent(lobby.this, major_page.class);
+                // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
+                gomajor.putExtra("hakbeon",myHakbeon);
+                gomajor.putExtra("major",majorClass);
+                gomajor.putExtra("min_libartscredit",min_libartscredit);
+                gomajor.putExtra("max_libartscredit",max_libartscredit);
+                gomajor.putExtra("max_majorcredit",max_majorcredit);
+                startActivity(gomajor);
+                return true;
+            case R.id.whole_btn:
+                Intent gowhole=new Intent(lobby.this, whole_page.class);
+                // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
+                gowhole.putExtra("hakbeon",myHakbeon);
+                gowhole.putExtra("major",majorClass);
+                gowhole.putExtra("min_libartscredit",min_libartscredit);
+                gowhole.putExtra("max_libartscredit",max_libartscredit);
+                gowhole.putExtra("max_majorcredit",max_majorcredit);
+                startActivity(gowhole);
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     public void gologout(){
-        logout=findViewById(R.id.btn_logout);
+        logout=findViewById(R.id.logout_btn);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

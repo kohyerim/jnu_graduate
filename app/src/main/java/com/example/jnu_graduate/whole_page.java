@@ -1,13 +1,17 @@
 package com.example.jnu_graduate;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,25 +27,41 @@ public class whole_page extends AppCompatActivity {
     GradeParser gradeParser;
     private int prevcontainerid;
     ConstraintLayout constraintLayout;
+    Intent intent = getIntent();
     private int detailsubjectnum=0;
+    private String hakbeon = null;
+    private String major = null;
+    private String min_libartscredit = null;
+    private String max_libartscredit = null;
+    private String max_majorcredit = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_whole_page);
+        Toolbar tb = findViewById(R.id.toolbar4);
+        setSupportActionBar(tb);
+        ActionBar ab = getSupportActionBar();
 
-        Intent intent = getIntent();
-        final String hakbeon = intent.getExtras().getString("hakbeon");
-        final String major = intent.getExtras().getString("major");
-        final String min_libartscredit = intent.getExtras().getString("min_libartscredit");
-        final String max_libartscredit = intent.getExtras().getString("max_libartscredit ");
-        final String max_majorcredit = intent.getExtras().getString("max_majorcredit");
+        ab.setTitle("전체 학점");
+
+        Intent intent=getIntent();
+        hakbeon = intent.getExtras().getString("hakbeon");
+
+        major = intent.getExtras().getString("major");
+
+        min_libartscredit = intent.getExtras().getString("min_libartscredit");
+
+        max_libartscredit = intent.getExtras().getString("max_libartscredit ");
+
+        max_majorcredit = intent.getExtras().getString("max_majorcredit");
+
 
 
 
         //----------------------------------------------------------------기초정의-한 액티비티당 한번만
         //컨테이너가 들어가서 위치를 잡을 기준점인 이전 view의 id를 찾아내기-기본적으로 미리 설정되어있는 레이아웃의 맨위쪽에 잇는 텍스트박스id
-        prevcontainerid=R.id.wholepage_main_title;
+        prevcontainerid=R.id.toolbar4;
         context=getApplicationContext();//컨텍스트 정의
         constraintLayout=findViewById(R.id.whole_page_layout);//앞으로 들어갈 뷰들의 레이아웃 정의
 
@@ -144,5 +164,43 @@ public class whole_page extends AppCompatActivity {
         }
         //마지막으로 이 컨테이너가 마지막인것을 저장
         prevcontainerid=simplecontainer.getContainerid();
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu_sample, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.lobby_btn:
+                Intent golobby=new Intent(whole_page.this, lobby.class);
+                startActivity(golobby);
+            case R.id.libarts_btn:
+                Intent golibarts=new Intent(whole_page.this, libarts_page.class);
+                // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
+                golibarts.putExtra("hakbeon",hakbeon);
+                golibarts.putExtra("major",major);
+                golibarts.putExtra("min_libartscredit",min_libartscredit);
+                golibarts.putExtra("max_libartscredit",max_libartscredit);
+                golibarts.putExtra("max_majorcredit",max_majorcredit);
+                startActivity(golibarts);
+                return true;
+            case R.id.major_btn:
+                Intent gomajor=new Intent(whole_page.this, major_page.class);
+                // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
+                gomajor.putExtra("hakbeon",hakbeon);
+                gomajor.putExtra("major",major);
+                gomajor.putExtra("min_libartscredit",min_libartscredit);
+                gomajor.putExtra("max_libartscredit",max_libartscredit);
+                gomajor.putExtra("max_majorcredit",max_majorcredit);
+                startActivity(gomajor);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

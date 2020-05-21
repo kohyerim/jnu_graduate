@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".whole_page"></activity>
+
+        <activity android:name=".whole_page" />
         <activity android:name=".libarts_page" />
         <activity android:name=".major_page" />
         <activity android:name=".lobby" />

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+        <item
+
+            android:id="@+id/lobby_btn"
+            android:title="메인화면"
+            />
+        <item
+
+            android:id="@+id/libarts_btn"
+            android:title="교양학점"
+            />
+        <item
+            android:id="@+id/major_btn"
+            android:title="전공학점"
+            />
+        <item
+            android:id="@+id/whole_btn"
+            android:title="전체학점"
+            />
+
+
+</menu>

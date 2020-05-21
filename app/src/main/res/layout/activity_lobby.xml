@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".lobby">
+
+
+<ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".lobby">
@@ -11,31 +18,30 @@
     android:background="@color/white"
     tools:context=".lobby">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleMarginStart="170dp">
 
-    <TextView
-        android:id="@+id/st_info_text"
-        android:layout_width="83dp"
-        android:layout_height="25dp"
-        android:layout_marginLeft="155dp"
-        android:layout_marginTop="16dp"
-        android:text="나의 정보"
-        android:textSize="20dp"
-        android:textColor="#4374D9"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <!--사진 이름 학부 학점 컨테이너-->
 
     <Button
-        android:id="@+id/btn_logout"
-        android:layout_width="25dp"
-        android:layout_height="29dp"
-        android:layout_marginLeft="368dp"
-        android:layout_marginTop="12dp"
+        android:id="@+id/logout_btn"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/logout_icon"
-        android:scaleType="centerCrop"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-    <!--사진 이름 학부 학점 컨테이너-->
+        app:layout_constraintStart_toStartOf="@+id/toolbar1"
+        app:layout_constraintTop_toTopOf="@+id/toolbar1" />
+
     <TextView
         android:id="@+id/st_info"
         android:layout_width="382dp"
@@ -502,3 +508,4 @@
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

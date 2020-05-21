@@ -13,18 +13,17 @@
         android:background="@color/white"
         >
 
-        <TextView
-            android:id="@+id/libartspage_main_title"
-            android:layout_width="wrap_content"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar2"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="164dp"
-            android:layout_marginLeft="164dp"
-            android:layout_marginTop="16dp"
-            android:text="교양 학점"
-            android:textSize="20dp"
-
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:titleMarginStart="170dp">
+
+
+        </androidx.appcompat.widget.Toolbar>
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

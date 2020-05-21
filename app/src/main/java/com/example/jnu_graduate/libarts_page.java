@@ -5,9 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import org.json.JSONArray;
@@ -25,6 +29,11 @@ public class libarts_page extends AppCompatActivity {
     private int prevcontainerid;
     ConstraintLayout constraintLayout;
     private int detailsubjectnum=0;
+    private String hakbeon = null;
+    private String major = null;
+    private String min_libartscredit = null;
+    private String max_libartscredit = null;
+    private String max_majorcredit = null;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @SuppressLint("ResourceType")
@@ -33,13 +42,23 @@ public class libarts_page extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_libarts_page);
 
+        Toolbar tb = findViewById(R.id.toolbar2);
+        setSupportActionBar(tb);
+        ActionBar ab = getSupportActionBar();
+
+        ab.setTitle("교양 학점");
         Intent intent = getIntent();
-        final String hakbeon = intent.getExtras().getString("hakbeon");
-        final String major = intent.getExtras().getString("major");
+        hakbeon = intent.getExtras().getString("hakbeon");
+        major = intent.getExtras().getString("major");
+        min_libartscredit = intent.getExtras().getString("min_libartscredit");
+        max_libartscredit = intent.getExtras().getString("max_libartscredit ");
+        max_majorcredit = intent.getExtras().getString("max_majorcredit");
+        System.out.println(hakbeon+"교양");
+
 
         //----------------------------------------------------------------기초정의-한 액티비티당 한번만
         //컨테이너가 들어가서 위치를 잡을 기준점인 이전 view의 id를 찾아내기-기본적으로 미리 설정되어있는 레이아웃의 맨위쪽에 잇는 텍스트박스id
-        prevcontainerid=R.id.libartspage_main_title;
+        prevcontainerid=R.id.toolbar2;
         context=getApplicationContext();//컨텍스트 정의
         constraintLayout=findViewById(R.id.libarts_page_layout);//앞으로 들어갈 뷰들의 레이아웃 정의
 
@@ -86,6 +105,7 @@ public class libarts_page extends AppCompatActivity {
                             @Override
                             public void run() {
                                 easycreatecontainer(container,b,20, grouparr);
+
                             }
                         });
 
@@ -143,6 +163,43 @@ public class libarts_page extends AppCompatActivity {
         prevcontainerid=simplecontainer.getContainerid();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu_sample, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.lobby_btn:
+                Intent golobby = new Intent(libarts_page.this, lobby.class);
+                startActivity(golobby);
+                return true;
+            case R.id.major_btn:
+                Intent gomajor = new Intent(libarts_page.this, major_page.class);
+                // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
+                gomajor.putExtra("hakbeon", hakbeon);
+                gomajor.putExtra("major", major);
+                gomajor.putExtra("min_libartscredit", min_libartscredit);
+                gomajor.putExtra("max_libartscredit", max_libartscredit);
+                gomajor.putExtra("max_majorcredit", max_majorcredit);
+                startActivity(gomajor);
+                return true;
+            case R.id.whole_btn:
+                Intent gowhole=new Intent(libarts_page.this, whole_page.class);
+                // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
+                gowhole.putExtra("hakbeon",hakbeon);
+                gowhole.putExtra("major",major);
+                gowhole.putExtra("min_libartscredit",min_libartscredit);
+                gowhole.putExtra("max_libartscredit",max_libartscredit);
+                gowhole.putExtra("max_majorcredit",max_majorcredit);
+                startActivity(gowhole);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
 
 }
