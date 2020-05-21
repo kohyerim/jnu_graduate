@@ -37,6 +37,7 @@ public class major_page extends AppCompatActivity {
         final String hakbeon = intent.getExtras().getString("hakbeon");
         final String major = intent.getExtras().getString("major");
 
+
         //----------------------------------------------------------------기초정의-한 액티비티당 한번만
         //컨테이너가 들어가서 위치를 잡을 기준점인 이전 view의 id를 찾아내기-기본적으로 미리 설정되어있는 레이아웃의 맨위쪽에 잇는 텍스트박스id
         prevcontainerid=R.id.majorpage_main_title;
@@ -79,7 +80,7 @@ public class major_page extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            pilsumajorcreatecontainer(pilsumajorcontainer, "필수교양",20, pilsumajor);
+                            pilsumajorcreatecontainer(pilsumajorcontainer, "필수 전공",20, pilsumajor);
                         }
                     });
                 } catch (JSONException e) {

@@ -109,6 +109,25 @@ public class addcontainer {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void createsubjectmenu(ArrayList subjectlist){
         //세부과목과 교과목이 들어갈 텍스트뷰와 그것을 구성하는 옵션들이 들어갈것 정의
+        int detailmarginstart= (int)(dpToPx(16));
+        int detailleftmargin= (int)(dpToPx(16));
+        int detailtopmargin= (int)(dpToPx(24*detailsubjectnumber+18*subjectmenunumber));
+        subjectmenuresource(subjectlist, detailmarginstart, detailleftmargin, detailtopmargin);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    public void createsubjectmenu2(ArrayList subjectlist){
+        //세부과목과 교과목이 들어갈 텍스트뷰와 그것을 구성하는 옵션들이 들어갈것 정의
+        int detailmarginstart= (int)(dpToPx(40));
+        int detailleftmargin= (int)(dpToPx(40));
+        int detailtopmargin= (int)(dpToPx(24*detailsubjectnumber+18*subjectmenunumber));
+        subjectmenuresource(subjectlist, detailmarginstart, detailleftmargin, detailtopmargin);
+    }
+
+
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    private void subjectmenuresource(ArrayList subjectlist, int detailmarginstart, int detailleftmargin, int detailtopmargin) {
         onlysubject_r_c_adapter adapter1  = null ;
         onlysubject_r_c_adapter adapter2  = null ;
         RecyclerView detailsubject= new RecyclerView(context);
@@ -138,16 +157,17 @@ public class addcontainer {
         detailsubject.setAdapter(adapter1);
 
         //
-        params.setMarginStart((int)(dpToPx(16)));
-        params.leftMargin = (int)(dpToPx(16));
-        params.topMargin = (int)(dpToPx(24*detailsubjectnumber+18*subjectmenunumber));
+        params.setMarginStart(detailmarginstart);
+        params.leftMargin = detailleftmargin;
+        params.topMargin = (detailtopmargin);
         detailsubject.setLayoutParams(params);
         constraintLayout.addView(detailsubject);
+
         //교과목
 
         params2.setMarginStart((int)(dpToPx(8)));
         params2.leftMargin = (int)(dpToPx(8));
-        params2.topMargin = (int)(dpToPx(24*detailsubjectnumber+18*subjectmenunumber));
+        params2.topMargin = (int)(dpToPx(24*(detailsubjectnumber-1)+18*subjectmenunumber ));
         params2.startToEnd = prevviewid;
         params2.topToBottom = progressbarid;
 
@@ -162,6 +182,7 @@ public class addcontainer {
             onlysubject.add(imsi);
             subjectmenunumber++;
         }
+
         subjectmenu.setLayoutParams(params2);
         subjectmenu.setLayoutManager(new LinearLayoutManager(context));
         adapter2 = new onlysubject_r_c_adapter(onlysubject,true);
@@ -217,6 +238,6 @@ public class addcontainer {
             menucounter++;
         }
 
-        containerHeight=80+detailsubjectcounter*26+menucounter*26;
+        containerHeight=80+detailsubjectcounter*26+menucounter*28;
     }
 }

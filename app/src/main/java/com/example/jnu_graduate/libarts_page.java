@@ -77,6 +77,7 @@ public class libarts_page extends AppCompatActivity {
                         for(int x=0; x<arr.length(); x++){
                             ArrayList<String> childarr = new ArrayList<String>();
                             childarr.add(arr.get(x).toString());
+                            childarr.add("음시");
                             grouparr.add(childarr);
                         }
                         final addcontainer container=new addcontainer();

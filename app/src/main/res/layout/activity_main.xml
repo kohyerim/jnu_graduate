@@ -7,16 +7,19 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:gravity="center"
         android:id="@+id/button2"
-        android:layout_width="412dp"
-        android:layout_height="184dp"
-        android:background="@drawable/login_btn_login"
-        android:text="수료 말고 졸업"
-        android:textColor="#ffffff"
-        android:textSize="30dp"
+        android:layout_width="330dp"
+        android:layout_height="330dp"
+        android:layout_marginTop="40dp"
+
+        android:background="@drawable/main_back"
+        android:fontFamily="@font/sangsangflowerload"
+        android:gravity="center"
+        android:text="제때\n졸업"
+        android:textColor="#B9C5DF"
+        android:textSize="60dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,12 +27,38 @@
         android:id="@+id/loginBtn"
         android:layout_width="223dp"
         android:layout_height="40dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/login_btn_login"
         android:text="Log In"
         android:textColor="#ffffff"
         app:layout_constraintStart_toStartOf="@+id/password_container"
         app:layout_constraintTop_toBottomOf="@+id/password_container" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="213dp"
+        android:layout_height="25dp"
+        android:background="@android:color/transparent"
+        android:ems="10"
+        android:hint="password"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toBottomOf="@+id/password_container"
+        app:layout_constraintEnd_toEndOf="@+id/password_container"
+        app:layout_constraintStart_toStartOf="@+id/password_container"
+        app:layout_constraintTop_toTopOf="@+id/password_container"
+        app:layout_constraintVertical_bias="0.636" />
+
+    <ImageView
+        android:id="@+id/password_container"
+        android:layout_width="223dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/login_id_pw"
+        android:inputType="textPassword"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/id_container" />
 
     <EditText
         android:id="@+id/studentNum"
@@ -42,41 +71,18 @@
         app:layout_constraintBottom_toBottomOf="@+id/id_container"
         app:layout_constraintEnd_toEndOf="@+id/id_container"
         app:layout_constraintStart_toStartOf="@+id/id_container"
-        app:layout_constraintTop_toTopOf="@+id/id_container" />
-
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:ems="10"
-        android:hint="password"
-        android:inputType="textPassword"
-        app:layout_constraintBottom_toBottomOf="@+id/password_container"
-        app:layout_constraintEnd_toEndOf="@+id/password_container"
-        app:layout_constraintStart_toStartOf="@+id/password_container"
-        app:layout_constraintTop_toTopOf="@+id/password_container" />
+        app:layout_constraintTop_toTopOf="@+id/id_container"
+        app:layout_constraintVertical_bias="0.636" />
 
     <ImageView
         android:id="@+id/id_container"
         android:layout_width="223dp"
         android:layout_height="47dp"
-        android:layout_marginTop="308dp"
+        android:layout_marginTop="388dp"
         android:background="@drawable/login_id_pw"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/password_container"
-        android:layout_width="223dp"
-        android:layout_height="47dp"
-        android:layout_marginTop="368dp"
-        android:background="@drawable/login_id_pw"
-        android:inputType="textPassword"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

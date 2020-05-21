@@ -23,6 +23,7 @@ public class lobby extends AppCompatActivity {
     Button logout;
     TextView libarts;
     TextView major;
+    TextView whole;
     TextView cultureGP;
     TextView majorGP;
     TextView totalGP;
@@ -33,6 +34,12 @@ public class lobby extends AppCompatActivity {
 
     String myHakbeon = "";
     String majorClass = "";
+
+    String min_libartscredit;
+    String max_libartscredit;
+    String max_majorcredit;
+    String max_wholecredit;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,16 +71,19 @@ public class lobby extends AppCompatActivity {
                     JSONObject cultureGradePoint = (JSONObject) gradePoint.get(myHakbeon);
                     Object minGrade = cultureGradePoint.get("min");
                     Object maxGrade = cultureGradePoint.get("max");
-                    cultureGP.setText(minGrade.toString()+'-'+maxGrade.toString());
-
+                    cultureGP.setText("??"+"/"+minGrade.toString()+'-'+maxGrade.toString());
+                    min_libartscredit=minGrade.toString();
+                    max_libartscredit=maxGrade.toString();
                     // 졸업학점 db 조회
                     majorInfo = gradeParser.eachMajor();
                     JSONObject majorGradePoint = (JSONObject) majorInfo.get(myHakbeon);
                     Object jolupGP = majorGradePoint.get("졸업학점");
                     Object major = majorGradePoint.get("심화전공");
-                    totalGP.setText(jolupGP.toString());
-                    majorGP.setText(major.toString());
+                    totalGP.setText("??"+"/"+jolupGP.toString());
+                    majorGP.setText("??"+"/"+major.toString());
 
+                    max_wholecredit=jolupGP.toString();
+                    max_majorcredit=major.toString();
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {
@@ -85,6 +95,7 @@ public class lobby extends AppCompatActivity {
         gologout();
         golibarts_page();
         gomajor_page();
+        gowhole_page();
 
     }
     public void gologout(){
@@ -125,6 +136,24 @@ public class lobby extends AppCompatActivity {
                 gomajor.putExtra("hakbeon",myHakbeon);
                 gomajor.putExtra("major",majorClass);
                 startActivity(gomajor);
+            }
+        });
+
+    }
+
+    public void gowhole_page(){
+        whole=findViewById(R.id.whole_credit_container);
+        whole.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent gowhole=new Intent(lobby.this, whole_page.class);
+                // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
+                gowhole.putExtra("hakbeon",myHakbeon);
+                gowhole.putExtra("major",majorClass);
+                gowhole.putExtra("min_libartscredit",min_libartscredit);
+                gowhole.putExtra("max_libartscredit",max_libartscredit);
+                gowhole.putExtra("max_majorcredit",max_majorcredit);
+                startActivity(gowhole);
             }
         });
 
