@@ -10,6 +10,7 @@
         android:layout_height="match_parent"
         tools:context=".libarts_page"
         android:id="@+id/libarts_page_layout"
+        android:background="@color/white"
         >
 
         <TextView

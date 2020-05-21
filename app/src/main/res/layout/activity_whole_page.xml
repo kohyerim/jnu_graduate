@@ -10,6 +10,7 @@
         android:layout_height="match_parent"
         tools:context=".whole_page"
         android:id="@+id/whole_page_layout"
+        android:background="@color/white"
         >
 
         <TextView
