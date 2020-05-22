@@ -12,8 +12,30 @@
         style="@android:style/Widget.ProgressBar.Horizontal"
         android:layout_width="356dp"
         android:layout_height="13dp"
+        android:layout_marginTop="24dp"
         android:progress="40"
         android:progressDrawable="@drawable/progress_bar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/here_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="here"
+        android:textColor="@color/bluetitle"
+        app:layout_constraintStart_toStartOf="@+id/recycleprogressbar"
+        app:layout_constraintTop_toBottomOf="@+id/recycleprogressbar" />
+
+    <TextView
+        android:id="@+id/max_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="340dp"
+        android:layout_marginLeft="340dp"
+        android:text="max"
+        android:textColor="@color/bluetitle"
+        app:layout_constraintBottom_toTopOf="@+id/recycleprogressbar"
+        app:layout_constraintStart_toStartOf="@+id/recycleprogressbar" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

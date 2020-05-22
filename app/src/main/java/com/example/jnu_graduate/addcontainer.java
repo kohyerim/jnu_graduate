@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -26,7 +27,8 @@ public class addcontainer {
     private int prevviewid;
     private int progressbarid;
 
-
+    private String here;
+    private String max;
     private int menucounter=0;
     private int detailsubjectcounter=0;
     private int detailsubjectnumber=0;
@@ -80,13 +82,13 @@ public class addcontainer {
     //프로그래스바 만들기
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void createprogressbar(){
-        Constraints.LayoutParams params = new Constraints.LayoutParams((int) dpToPx(356), (int) dpToPx(13));
+        Constraints.LayoutParams params = new Constraints.LayoutParams((int) dpToPx(356), (int) dpToPx(56));
         params.startToStart = containerid;
         params.topToTop = containerid;
         params.setMarginStart((int)(dpToPx(12)));
         params.leftMargin = (int)(dpToPx(12));
-        params.topMargin = (int)(dpToPx(40));
-        p_Adapter=new progressbar_r_c_adapter(progressbarlist);
+        params.topMargin = (int)(dpToPx(22));
+        p_Adapter=new progressbar_r_c_adapter(progressbarlist,here,max);
         progressbar_r_c.setAdapter(p_Adapter);
         progressbar_r_c.setLayoutParams(params);
         progressbar_r_c.setLayoutManager(new LinearLayoutManager(context)) ;
@@ -94,15 +96,17 @@ public class addcontainer {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public void setprogressbar (int progress) {
+    public void setprogressbar (String here, String max) {
         progressbarid=View.generateViewId();
         RecyclerView imsicontainer=new RecyclerView(context);
         imsicontainer.setId(progressbarid);
         progressbar_r_c=imsicontainer;
         progressbar_item item = new progressbar_item();
-        item.setProgress(progress);
         progressbarlist.add(item);
         prevviewid=progressbarid;
+        this.here=here;
+        this.max=max;
+        System.out.println("1");
     }
 
     //세부과목 만들기
@@ -203,7 +207,7 @@ public class addcontainer {
         params.topToBottom = progressbarid;
         params.setMarginStart((int)(dpToPx(16)));
         params.leftMargin = (int)(dpToPx(16));
-        params.topMargin = (int)(dpToPx(10));
+        params.topMargin = (int)(dpToPx(18));
         prevviewid= View.generateViewId();
         noDetailsubject.setId(prevviewid);
         detailsubjectnumber++;
@@ -229,7 +233,7 @@ public class addcontainer {
         if(arrayList.size()==1){
             menucounter++;
         }
-        containerHeight=80+detailsubjectcounter*24+menucounter*18;
+        containerHeight=100+detailsubjectcounter*24+menucounter*18;
     }
 
     public void onlymajorcalculateheigth(ArrayList arrayList){
@@ -238,6 +242,6 @@ public class addcontainer {
             menucounter++;
         }
 
-        containerHeight=80+detailsubjectcounter*26+menucounter*28;
+        containerHeight=120+detailsubjectcounter*26+menucounter*28;
     }
 }

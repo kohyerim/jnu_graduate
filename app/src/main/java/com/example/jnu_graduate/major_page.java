@@ -100,7 +100,7 @@ public class major_page extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            pilsumajorcreatecontainer(pilsumajorcontainer, "필수 전공",20, pilsumajor);
+                            pilsumajorcreatecontainer(pilsumajorcontainer, "필수 전공","20","30", pilsumajor);
                         }
                     });
                 } catch (JSONException e) {
@@ -114,7 +114,7 @@ public class major_page extends AppCompatActivity {
 
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public void easycreatecontainer(addcontainer simplecontainer ,String _texts ,int _progress, ArrayList<ArrayList<String>> lists){
+    public void easycreatecontainer(addcontainer simplecontainer ,String _texts ,String now_credit,String max_credit, ArrayList<ArrayList<String>> lists){
         //---------------------------------------------------------------------------여기부턴 뷰정의1
         //레이아웃을 만들어줄 객체를 생성
         //addcontainer maincontainer1 = new addcontainer(); 함수화를 위하여 add컨테이너 대신 simplecontainer로 변경
@@ -132,8 +132,7 @@ public class major_page extends AppCompatActivity {
 
         //---------------------------------------------------------------------------프로그래스바 생성
         //프로그래스바 설정
-        int progress=_progress;
-        simplecontainer.setprogressbar(progress);
+        simplecontainer.setprogressbar(now_credit,max_credit);
         //프로그래스바 생성
         simplecontainer.createprogressbar();
         //-----------------------  세부과목및 과목생성
@@ -146,7 +145,7 @@ public class major_page extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public void pilsumajorcreatecontainer(addcontainer simplecontainer ,String _texts ,int _progress, ArrayList lists){
+    public void pilsumajorcreatecontainer(addcontainer simplecontainer ,String _texts ,String now_credit,String max_credit, ArrayList lists){
         //---------------------------------------------------------------------------여기부턴 뷰정의1
         //레이아웃을 만들어줄 객체를 생성
         //addcontainer maincontainer1 = new addcontainer(); 함수화를 위하여 add컨테이너 대신 simplecontainer로 변경
@@ -161,8 +160,8 @@ public class major_page extends AppCompatActivity {
 
         //---------------------------------------------------------------------------프로그래스바 생성
         //프로그래스바 설정
-        int progress=_progress;
-        simplecontainer.setprogressbar(progress);
+
+        simplecontainer.setprogressbar(now_credit,max_credit);
         //프로그래스바 생성
         simplecontainer.createprogressbar();
         //-----------------------  세부과목및 과목생성
