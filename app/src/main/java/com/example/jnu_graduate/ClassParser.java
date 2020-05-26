@@ -73,8 +73,4 @@ public class ClassParser {
         parsedClassFile.write(finalJson.toString().getBytes());
         parsedClassFile.close();
     }
-
-    public JSONArray getClassjson() {
-        return classjson;
-    }
 }

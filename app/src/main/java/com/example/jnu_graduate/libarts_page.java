@@ -19,6 +19,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,8 +28,8 @@ public class libarts_page extends AppCompatActivity {
 
     Context context;
     GradeParser gradeParser;
-    ClassParser classParser;
-    JSONArray classArray;
+    OpenJSONFile opener;
+    JSONObject classJson;
     private int prevcontainerid;
     ConstraintLayout constraintLayout;
     private int detailsubjectnum=0;
@@ -71,11 +72,12 @@ public class libarts_page extends AppCompatActivity {
             public void run() {
                 gradeParser = new GradeParser();
                 try {
-                    classParser = new ClassParser(openFileInput("parsedClass.json"), getApplicationContext());
-                    classArray = classParser.getClassjson();
-                } catch (JSONException | FileNotFoundException e) {
+                    opener = new OpenJSONFile(openFileInput("parsedClass.json"), getApplicationContext());
+                    classJson = opener.getJSONObject();
+                } catch (FileNotFoundException | JSONException e) {
                     e.printStackTrace();
                 }
+
                 try {
                     // 전공필수 과목 참고코드
                     // 해당 키값에 맞는 곳에 배열에 들어있는 과목 출력해주시면 됩니다!
@@ -96,6 +98,7 @@ public class libarts_page extends AppCompatActivity {
                     System.out.println(gradePointDetail);
                     Iterator i = division.keys();
                     final ArrayList<addcontainer> containerarr=new ArrayList<addcontainer>();
+                    ArrayList<String> keyArr = new ArrayList<>();
                     while(i.hasNext())
                     {
                         final ArrayList<ArrayList<String>> grouparr=new ArrayList<ArrayList<String>>();
@@ -104,8 +107,8 @@ public class libarts_page extends AppCompatActivity {
                         JSONArray arr = (JSONArray) cultureGradePoint.get(b.toString());
                         for(int x=0; x<arr.length(); x++){
                             ArrayList<String> childarr = new ArrayList<String>();
-                            childarr.add(arr.get(x).toString());
-                            // 분류에 맞게 과목 파싱해서 추가
+                            String sub_division = arr.get(x).toString();
+                            childarr.add(sub_division);
                             grouparr.add(childarr);
                         }
                         final addcontainer container=new addcontainer();
@@ -114,21 +117,32 @@ public class libarts_page extends AppCompatActivity {
                             @Override
                             public void run() {
                                 easycreatecontainer(container,b,"1",k, grouparr);
-
                             }
                         });
 
                         containerarr.add(container);
                     }
-
-                    // 교양 구분 db
-                    Integer year = 2017;
-                    String classification = "기초교양";
-                    String subjectName = "수와논리";
-                    JSONObject subjectInfo = gradeParser.getCulture(year);
-                    JSONObject cultureSub = (JSONObject) subjectInfo.get("교양");
-                    JSONObject mainDivision = (JSONObject) cultureSub.get(classification);
-                    Object field = mainDivision.get(subjectName);
+                    Iterator iterator = classJson.keys();
+                    while(iterator.hasNext()){
+                        keyArr.add(iterator.next().toString());
+                    }
+                    for (int num=0; num<keyArr.size(); num++){
+                        JSONArray tmp = (JSONArray) classJson.get(keyArr.get(num));
+                        for(int num2=0; num2<tmp.length(); num2++){
+                            JSONObject tmpobj = (JSONObject) tmp.get(num2);
+                            if (tmpobj.get("isu_nm").toString().equals("전공탐색")){
+                                String tmpField = getField("전공탐색교양", tmpobj.get("subject_nm").toString());
+                                System.out.println(tmpField);
+                            }
+                            else if(tmpobj.get("isu_nm").toString().equals("전공") || tmpobj.get("isu_nm").toString().equals("전공필수")){
+                                System.out.println("전공분야");
+                            }
+                            else{
+                                String tmpField = getField(tmpobj.get("isu_nm").toString(), tmpobj.get("subject_nm").toString());
+                                System.out.println(tmpField);
+                            }
+                        }
+                    }
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -137,6 +151,17 @@ public class libarts_page extends AppCompatActivity {
                 }
             }
         }.start();
+    }
+
+    // 교양 구분 db
+    // ex . getFiled("기초교양", "수와논리")
+    public String getField(String classification, String subjectName) throws JSONException, IOException {
+        JSONObject subjectInfo = gradeParser.getCulture(Integer.parseInt(hakbeon));
+        JSONObject cultureSub = (JSONObject) subjectInfo.get("교양");
+        JSONObject mainDivision = (JSONObject) cultureSub.get(classification);
+        Object field = mainDivision.get(subjectName);
+
+        return field.toString();
     }
 
 
