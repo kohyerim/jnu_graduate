@@ -23,11 +23,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
-
 public class libarts_page extends AppCompatActivity {
 
     Context context;
     GradeParser gradeParser;
+    ClassParser classParser;
+    JSONArray classArray;
     private int prevcontainerid;
     ConstraintLayout constraintLayout;
     private int detailsubjectnum=0;
@@ -70,6 +71,12 @@ public class libarts_page extends AppCompatActivity {
             public void run() {
                 gradeParser = new GradeParser();
                 try {
+                    classParser = new ClassParser(openFileInput("parsedClass.json"), getApplicationContext());
+                    classArray = classParser.getClassjson();
+                } catch (JSONException | FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                try {
                     // 전공필수 과목 참고코드
                     // 해당 키값에 맞는 곳에 배열에 들어있는 과목 출력해주시면 됩니다!
                     JSONObject majorInfo = gradeParser.eachMajor();
@@ -91,7 +98,6 @@ public class libarts_page extends AppCompatActivity {
                     final ArrayList<addcontainer> containerarr=new ArrayList<addcontainer>();
                     while(i.hasNext())
                     {
-
                         final ArrayList<ArrayList<String>> grouparr=new ArrayList<ArrayList<String>>();
                         final String b = i.next().toString();
                         final String k =division.get(b).toString();
@@ -99,6 +105,7 @@ public class libarts_page extends AppCompatActivity {
                         for(int x=0; x<arr.length(); x++){
                             ArrayList<String> childarr = new ArrayList<String>();
                             childarr.add(arr.get(x).toString());
+                            // 분류에 맞게 과목 파싱해서 추가
                             grouparr.add(childarr);
                         }
                         final addcontainer container=new addcontainer();

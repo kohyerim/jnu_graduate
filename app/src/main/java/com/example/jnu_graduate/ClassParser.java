@@ -72,7 +72,9 @@ public class ClassParser {
         FileOutputStream parsedClassFile = this.ctx.openFileOutput("parsedClass.json", Context.MODE_PRIVATE);
         parsedClassFile.write(finalJson.toString().getBytes());
         parsedClassFile.close();
+    }
 
-
+    public JSONArray getClassjson() {
+        return classjson;
     }
 }
