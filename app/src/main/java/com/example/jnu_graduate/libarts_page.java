@@ -36,6 +36,7 @@ public class libarts_page extends AppCompatActivity {
     private String max_libartscredit = null;
     private String max_majorcredit = null;
 
+
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @SuppressLint("ResourceType")
     @Override
@@ -99,6 +100,41 @@ public class libarts_page extends AppCompatActivity {
                         for(int x=0; x<arr.length(); x++){
                             ArrayList<String> childarr = new ArrayList<String>();
                             childarr.add(arr.get(x).toString());
+                            childarr.add("음시");
+                            childarr.add("음시");
+                            childarr.add("음시");
+                            childarr.add("음시");
+                            childarr.add("음시");
+                            childarr.add("음시");
+                            childarr.add("음시");
+                            childarr.add("음시");
+                            childarr.add("음시");
+                            childarr.add("음시");
+                            childarr.add("음시");
+                            childarr.add("음시");
+                            childarr.add("음시");
+                            childarr.add("음시");
+                            childarr.add("음시");
+                            childarr.add("음시");
+                            childarr.add("음시");
+                            childarr.add("음시");
+                            childarr.add("음시");
+                            childarr.add("음시");
+                            childarr.add("음시");
+                            childarr.add("음시");
+                            childarr.add("음시");
+                            childarr.add("음시");
+                            childarr.add("음시");
+                            childarr.add("음시");
+                            childarr.add("음시");
+                            childarr.add("음시");
+                            childarr.add("음시");
+                            childarr.add("음시");
+                            childarr.add("음시");
+                            childarr.add("음시");
+                            childarr.add("음시");
+                            childarr.add("음시");
+                            childarr.add("음시");
                             childarr.add("음시");
                             grouparr.add(childarr);
                         }

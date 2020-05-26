@@ -34,6 +34,7 @@ public class addcontainer {
     private int detailsubjectnumber=0;
     private int subjectmenunumber=0;
     private float containerHeight=80;
+    private int yaubun=0;
 
     progressbar_r_c_adapter p_Adapter = null;
     container_r_c_adapter c_Adapter = null ;
@@ -115,7 +116,7 @@ public class addcontainer {
         //세부과목과 교과목이 들어갈 텍스트뷰와 그것을 구성하는 옵션들이 들어갈것 정의
         int detailmarginstart= (int)(dpToPx(16));
         int detailleftmargin= (int)(dpToPx(16));
-        int detailtopmargin= (int)(dpToPx(24*detailsubjectnumber+18*subjectmenunumber));
+        int detailtopmargin= (int)(dpToPx(24*detailsubjectnumber+18*subjectmenunumber+yaubun));
         subjectmenuresource(subjectlist, detailmarginstart, detailleftmargin, detailtopmargin);
     }
 
@@ -124,7 +125,7 @@ public class addcontainer {
         //세부과목과 교과목이 들어갈 텍스트뷰와 그것을 구성하는 옵션들이 들어갈것 정의
         int detailmarginstart= (int)(dpToPx(40));
         int detailleftmargin= (int)(dpToPx(40));
-        int detailtopmargin= (int)(dpToPx(24*detailsubjectnumber+18*subjectmenunumber));
+        int detailtopmargin= (int)(dpToPx(24*detailsubjectnumber+18*subjectmenunumber+yaubun));
         subjectmenuresource(subjectlist, detailmarginstart, detailleftmargin, detailtopmargin);
     }
 
@@ -132,8 +133,8 @@ public class addcontainer {
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void subjectmenuresource(ArrayList subjectlist, int detailmarginstart, int detailleftmargin, int detailtopmargin) {
-        onlysubject_r_c_adapter adapter1  = null ;
-        onlysubject_r_c_adapter adapter2  = null ;
+        subject_r_c_adapter adapter1  = null ;
+        subject_r_c_adapter adapter2  = null ;
         RecyclerView detailsubject= new RecyclerView(context);
         RecyclerView subjectmenu= new RecyclerView(context);
         Constraints.LayoutParams params = new Constraints.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -151,11 +152,11 @@ public class addcontainer {
         //
         detailsubject.setLayoutManager(new LinearLayoutManager(context));
         if(subjectlist.size()>=2){
-            adapter1 = new onlysubject_r_c_adapter(onlydetail,true);
+            adapter1 = new subject_r_c_adapter(onlydetail,true);
         }
 
         if(subjectlist.size()<2){
-            adapter1 = new onlysubject_r_c_adapter(onlydetail,false);
+            adapter1 = new subject_r_c_adapter(onlydetail,false);
         }
         adapter1.notifyDataSetChanged();
         detailsubject.setAdapter(adapter1);
@@ -171,7 +172,7 @@ public class addcontainer {
 
         params2.setMarginStart((int)(dpToPx(8)));
         params2.leftMargin = (int)(dpToPx(8));
-        params2.topMargin = (int)(dpToPx(24*(detailsubjectnumber-1)+18*subjectmenunumber ));
+        params2.topMargin = (int)(dpToPx(24*(detailsubjectnumber-1)+18*subjectmenunumber+yaubun));
         params2.startToEnd = prevviewid;
         params2.topToBottom = progressbarid;
 
@@ -189,7 +190,7 @@ public class addcontainer {
 
         subjectmenu.setLayoutParams(params2);
         subjectmenu.setLayoutManager(new LinearLayoutManager(context));
-        adapter2 = new onlysubject_r_c_adapter(onlysubject,true);
+        adapter2 = new subject_r_c_adapter(onlysubject,true);
         adapter2.notifyDataSetChanged();
         subjectmenu.setAdapter(adapter2);
 
@@ -241,6 +242,7 @@ public class addcontainer {
         for(int i=0; i<arrayList.size();i++){
             menucounter++;
         }
+        yaubun=arrayList.size()/10;
 
         containerHeight=120+detailsubjectcounter*26+menucounter*28;
     }
