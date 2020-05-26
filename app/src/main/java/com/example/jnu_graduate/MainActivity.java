@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
                         Intent lobbyintent=new Intent(MainActivity.this, lobby.class);
                         startActivity(lobbyintent);
                     }
-                }, 5000); // 1초후
+                }, 3000); // 1초후
             }
         });
     }

@@ -56,14 +56,6 @@ public class lobby extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lobby);
 
-        try {
-            classParser = new ClassParser(openFileInput("class.json"), getApplicationContext());
-            classParser.createParsedClass();
-        } catch (JSONException | IOException e) {
-            e.printStackTrace();
-        }
-
-
         Toolbar tb = findViewById(R.id.toolbar1);
         setSupportActionBar(tb);
         ActionBar ab = getSupportActionBar();
@@ -87,6 +79,12 @@ public class lobby extends AppCompatActivity {
                 gradeParser = new GradeParser();
                 JSONObject gradeInfo = null;
                 JSONObject majorInfo = null;
+                try {
+                    classParser = new ClassParser(openFileInput("class.json"), getApplicationContext());
+                    classParser.createParsedClass();
+                } catch (JSONException | IOException e) {
+                    e.printStackTrace();
+                }
 
                 try {
                     // 학점 db 불러오기

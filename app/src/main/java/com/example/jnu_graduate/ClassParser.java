@@ -48,13 +48,6 @@ public class ClassParser {
     }
 
     public void createParsedClass() throws JSONException, IOException {
-        // 1-1학기만 테스트
-         // 1학년 1학기 접근
-
-         // 1학년 1학기 1번째 과목인 기초공학설계에 접근
-        //subject.get("subject_nm"); // 기공설 과목명에 접근
-
-
         JSONObject finalJson = new JSONObject();
         for(int i=0; i<classjson.length(); i++){
             JSONObject tmpJson = (JSONObject) classjson.get(i);
