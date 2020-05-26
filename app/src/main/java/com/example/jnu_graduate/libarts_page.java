@@ -27,7 +27,6 @@ public class libarts_page extends AppCompatActivity {
 
     Context context;
     GradeParser gradeParser;
-    ClassParser classParser;
     private int prevcontainerid;
     ConstraintLayout constraintLayout;
     private int detailsubjectnum=0;
@@ -43,17 +42,6 @@ public class libarts_page extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_libarts_page);
-
-        try {
-            classParser = new ClassParser(openFileInput("class.json"), getApplicationContext());
-            classParser.createParsedClass();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         Toolbar tb = findViewById(R.id.toolbar2);
         setSupportActionBar(tb);

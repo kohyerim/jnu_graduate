@@ -1,5 +1,6 @@
 package com.example.jnu_graduate;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import java.io.InputStreamReader;
 
 public class lobby extends AppCompatActivity {
 
+
     Button logout;
     TextView libarts;
     TextView major;
@@ -37,6 +39,7 @@ public class lobby extends AppCompatActivity {
     private JSONObject jsonObject;
 
     GradeParser gradeParser;
+    ClassParser classParser;
 
     String myHakbeon = "";
     String majorClass = "";
@@ -53,6 +56,14 @@ public class lobby extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lobby);
 
+        try {
+            classParser = new ClassParser(openFileInput("class.json"), getApplicationContext());
+            classParser.createParsedClass();
+        } catch (JSONException | IOException e) {
+            e.printStackTrace();
+        }
+
+
         Toolbar tb = findViewById(R.id.toolbar1);
         setSupportActionBar(tb);
         ActionBar ab = getSupportActionBar();
@@ -63,19 +74,21 @@ public class lobby extends AppCompatActivity {
         majorGP = findViewById(R.id.major_credit);
         totalGP = findViewById(R.id.whole_credit);
 
-        // 제 생각에는 아마 manifests에 laylout 추가 안해서 그런것 같아요!!
+        try {
+            setProfile();
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
 
         new Thread(){
             public void run(){
                 gradeParser = new GradeParser();
                 JSONObject gradeInfo = null;
                 JSONObject majorInfo = null;
+
                 try {
-                    try {
-                        setProfile();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                     // 학점 db 불러오기
                     gradeInfo = gradeParser.getMajor();
 

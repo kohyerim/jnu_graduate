@@ -94,6 +94,7 @@ public class Service extends AsyncTask<Object, Void, Void>{
                 FileOutputStream classStream = ctx.openFileOutput("class.json", Context.MODE_PRIVATE);
                 classStream.write(classJson.toString().getBytes());
                 classStream.close();
+
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }

@@ -49,16 +49,31 @@ public class ClassParser {
 
     public void createParsedClass() throws JSONException, IOException {
         // 1-1학기만 테스트
-        JSONObject tmpJson = (JSONObject) classjson.get(0);
-        JSONArray tmp = (JSONArray) tmpJson.get("DTL_LIST");
-        JSONObject subject = (JSONObject) tmp.get(0); // 1학년 1학기 1번째 과목인 기초공학설계에 접근
-        subject.get("subject_nm"); // 기공설 과목명에 접근
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("subject_nm", subject.get("subject_nm"));
-        JSONArray jsonArray = new JSONArray();
-        jsonArray.put(jsonObject);
+         // 1학년 1학기 접근
+
+         // 1학년 1학기 1번째 과목인 기초공학설계에 접근
+        //subject.get("subject_nm"); // 기공설 과목명에 접근
+
+
         JSONObject finalJson = new JSONObject();
-        finalJson.put(String.valueOf(0), jsonArray);
+        for(int i=0; i<classjson.length(); i++){
+            JSONObject tmpJson = (JSONObject) classjson.get(i);
+            JSONArray tmp = (JSONArray) tmpJson.get("DTL_LIST");
+            JSONArray jsonArray = new JSONArray();
+            for(int j=0; j<tmp.length(); j++){
+                JSONObject subject = (JSONObject) tmp.get(j);
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("credit", subject.get("credit"));
+                jsonObject.put("curri_year", subject.get("curri_year"));
+                jsonObject.put("isu_nm", subject.get("isu_nm"));
+                jsonObject.put("subject_nm", subject.get("subject_nm"));
+                jsonObject.put("sum_credit", subject.get("sum_credit"));
+                jsonObject.put("trans_credit", subject.get("trans_credit"));
+                jsonArray.put(jsonObject);
+                finalJson.put(String.valueOf(i), jsonArray);
+            }
+
+        }
 
         FileOutputStream parsedClassFile = this.ctx.openFileOutput("parsedClass.json", Context.MODE_PRIVATE);
         parsedClassFile.write(finalJson.toString().getBytes());
