@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
@@ -81,61 +82,23 @@ public class libarts_page extends AppCompatActivity {
                     JSONObject gradePoint = (JSONObject) gradeInfo.get("교양학점");
                     JSONObject cultureGradePoint = (JSONObject) gradePoint.get(hakbeon);
                     JSONObject division = (JSONObject) cultureGradePoint.get("구분");
-                    final String max=cultureGradePoint.get("max").toString();
 
 
                     // progress bar하실때 세부학점 받아오는 부분 참고 코드입니다.
                     JSONObject gradePointDetail = (JSONObject) cultureGradePoint.get("세부학점");
                     System.out.println(gradePointDetail);
-
                     Iterator i = division.keys();
-
-                    ArrayList<addcontainer> containerarr=new ArrayList<addcontainer>();
+                    final ArrayList<addcontainer> containerarr=new ArrayList<addcontainer>();
                     while(i.hasNext())
                     {
+
                         final ArrayList<ArrayList<String>> grouparr=new ArrayList<ArrayList<String>>();
                         final String b = i.next().toString();
-
+                        final String k =division.get(b).toString();
                         JSONArray arr = (JSONArray) cultureGradePoint.get(b.toString());
                         for(int x=0; x<arr.length(); x++){
                             ArrayList<String> childarr = new ArrayList<String>();
                             childarr.add(arr.get(x).toString());
-                            childarr.add("음시");
-                            childarr.add("음시");
-                            childarr.add("음시");
-                            childarr.add("음시");
-                            childarr.add("음시");
-                            childarr.add("음시");
-                            childarr.add("음시");
-                            childarr.add("음시");
-                            childarr.add("음시");
-                            childarr.add("음시");
-                            childarr.add("음시");
-                            childarr.add("음시");
-                            childarr.add("음시");
-                            childarr.add("음시");
-                            childarr.add("음시");
-                            childarr.add("음시");
-                            childarr.add("음시");
-                            childarr.add("음시");
-                            childarr.add("음시");
-                            childarr.add("음시");
-                            childarr.add("음시");
-                            childarr.add("음시");
-                            childarr.add("음시");
-                            childarr.add("음시");
-                            childarr.add("음시");
-                            childarr.add("음시");
-                            childarr.add("음시");
-                            childarr.add("음시");
-                            childarr.add("음시");
-                            childarr.add("음시");
-                            childarr.add("음시");
-                            childarr.add("음시");
-                            childarr.add("음시");
-                            childarr.add("음시");
-                            childarr.add("음시");
-                            childarr.add("음시");
                             grouparr.add(childarr);
                         }
                         final addcontainer container=new addcontainer();
@@ -143,7 +106,7 @@ public class libarts_page extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                easycreatecontainer(container,b,"15",max, grouparr);
+                                easycreatecontainer(container,b,"1",k, grouparr);
 
                             }
                         });
