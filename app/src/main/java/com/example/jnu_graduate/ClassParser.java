@@ -58,6 +58,7 @@ public class ClassParser {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("credit", subject.get("credit"));
                 jsonObject.put("curri_year", subject.get("curri_year"));
+                jsonObject.put("term_gb", subject.get("term_gb"));
                 jsonObject.put("isu_nm", subject.get("isu_nm"));
                 jsonObject.put("subject_nm", subject.get("subject_nm"));
                 jsonObject.put("sum_credit", subject.get("sum_credit"));
