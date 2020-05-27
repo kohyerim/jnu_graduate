@@ -98,7 +98,31 @@ public class libarts_page extends AppCompatActivity {
                     System.out.println(gradePointDetail);
                     Iterator i = division.keys();
                     final ArrayList<addcontainer> containerarr=new ArrayList<addcontainer>();
+
+                    // 교양 분류
                     ArrayList<String> keyArr = new ArrayList<>();
+                    ArrayList <String> arrayList = new ArrayList<>();
+                    Iterator iterator = classJson.keys();
+                    while(iterator.hasNext()){
+                        keyArr.add(iterator.next().toString());
+                    }
+                    for (int num=0; num<keyArr.size(); num++){
+                        JSONArray tmp = (JSONArray) classJson.get(keyArr.get(num));
+                        for(int num2=0; num2<tmp.length(); num2++){
+                            JSONObject tmpobj = (JSONObject) tmp.get(num2);
+                            if (tmpobj.get("isu_nm").toString().equals("전공탐색")){
+                                String tmpField = getField("전공탐색교양", tmpobj.get("subject_nm").toString());
+                                arrayList.add(tmpField);
+                            }
+                            else if(tmpobj.get("isu_nm").toString().equals("전공") || tmpobj.get("isu_nm").toString().equals("전공필수")){
+
+                            }
+                            else{
+                                String tmpField = getField(tmpobj.get("isu_nm").toString(), tmpobj.get("subject_nm").toString());
+                                arrayList.add(tmpField);
+                            }
+                        }
+                    }
                     while(i.hasNext())
                     {
                         final ArrayList<ArrayList<String>> grouparr=new ArrayList<ArrayList<String>>();
@@ -122,28 +146,6 @@ public class libarts_page extends AppCompatActivity {
 
                         containerarr.add(container);
                     }
-                    Iterator iterator = classJson.keys();
-                    while(iterator.hasNext()){
-                        keyArr.add(iterator.next().toString());
-                    }
-                    for (int num=0; num<keyArr.size(); num++){
-                        JSONArray tmp = (JSONArray) classJson.get(keyArr.get(num));
-                        for(int num2=0; num2<tmp.length(); num2++){
-                            JSONObject tmpobj = (JSONObject) tmp.get(num2);
-                            if (tmpobj.get("isu_nm").toString().equals("전공탐색")){
-                                String tmpField = getField("전공탐색교양", tmpobj.get("subject_nm").toString());
-                                System.out.println(tmpField);
-                            }
-                            else if(tmpobj.get("isu_nm").toString().equals("전공") || tmpobj.get("isu_nm").toString().equals("전공필수")){
-                                System.out.println("전공분야");
-                            }
-                            else{
-                                String tmpField = getField(tmpobj.get("isu_nm").toString(), tmpobj.get("subject_nm").toString());
-                                System.out.println(tmpField);
-                            }
-                        }
-                    }
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {

@@ -44,8 +44,6 @@ public class OpenJSONFile {
 
         classjson = new JSONObject(jsonString);
 
-        System.out.println(jsonString);
-
     }
 
     public JSONObject getJSONObject(){
