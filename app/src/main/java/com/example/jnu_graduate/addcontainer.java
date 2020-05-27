@@ -29,10 +29,12 @@ public class addcontainer {
 
     private String here;
     private String max;
+    private int bigmenucounter=0;
     private int menucounter=0;
     private int detailsubjectcounter=0;
     private int detailsubjectnumber=0;
     private int subjectmenunumber=0;
+    private int bigsubjectmenunumber=0;
     private float containerHeight=80;
     private int yaubun=0;
 
@@ -116,7 +118,7 @@ public class addcontainer {
         //세부과목과 교과목이 들어갈 텍스트뷰와 그것을 구성하는 옵션들이 들어갈것 정의
         int detailmarginstart= (int)(dpToPx(16));
         int detailleftmargin= (int)(dpToPx(16));
-        int detailtopmargin= (int)(dpToPx(24*detailsubjectnumber+18*subjectmenunumber+yaubun));
+        int detailtopmargin= (int)(dpToPx(24*detailsubjectnumber+18*subjectmenunumber+yaubun+bigsubjectmenunumber*36*18));
         subjectmenuresource(subjectlist, detailmarginstart, detailleftmargin, detailtopmargin);
     }
 
@@ -125,7 +127,7 @@ public class addcontainer {
         //세부과목과 교과목이 들어갈 텍스트뷰와 그것을 구성하는 옵션들이 들어갈것 정의
         int detailmarginstart= (int)(dpToPx(40));
         int detailleftmargin= (int)(dpToPx(40));
-        int detailtopmargin= (int)(dpToPx(24*detailsubjectnumber+18*subjectmenunumber+yaubun));
+        int detailtopmargin= (int)(dpToPx(24*detailsubjectnumber+18*subjectmenunumber+yaubun+bigsubjectmenunumber*36*18));
         subjectmenuresource(subjectlist, detailmarginstart, detailleftmargin, detailtopmargin);
     }
 
@@ -172,7 +174,7 @@ public class addcontainer {
 
         params2.setMarginStart((int)(dpToPx(8)));
         params2.leftMargin = (int)(dpToPx(8));
-        params2.topMargin = (int)(dpToPx(24*(detailsubjectnumber-1)+18*subjectmenunumber+yaubun));
+        params2.topMargin = (int)(dpToPx(24*(detailsubjectnumber-1)+18*subjectmenunumber+yaubun+bigsubjectmenunumber*36*18));
         params2.startToEnd = prevviewid;
         params2.topToBottom = progressbarid;
 
@@ -187,7 +189,10 @@ public class addcontainer {
             onlysubject.add(imsi);
             subjectmenunumber++;
         }
-
+        if(subjectlist.size()>35){
+            subjectmenunumber=0;
+            bigsubjectmenunumber++;
+        }
         subjectmenu.setLayoutParams(params2);
         subjectmenu.setLayoutManager(new LinearLayoutManager(context));
         adapter2 = new subject_r_c_adapter(onlysubject,true);
@@ -234,7 +239,11 @@ public class addcontainer {
         if(arrayList.size()==1){
             menucounter++;
         }
-        containerHeight=100+detailsubjectcounter*24+menucounter*18;
+        if(menucounter>35){
+            bigmenucounter++;
+            menucounter=0;
+        }
+        containerHeight=100+detailsubjectcounter*24+menucounter*18+bigmenucounter*18*36;
     }
 
     public void onlymajorcalculateheigth(ArrayList arrayList){
