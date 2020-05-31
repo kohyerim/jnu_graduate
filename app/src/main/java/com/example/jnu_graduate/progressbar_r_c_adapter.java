@@ -35,6 +35,9 @@ public class progressbar_r_c_adapter extends RecyclerView.Adapter<progressbar_r_
     }
     public float caculatemargin(int progress){
         double imsi=progress*3.4;
+        if(imsi>340){
+            imsi=340;
+        }
         int imsi2=(int) imsi;
         float margin = imsi2;
         return margin;

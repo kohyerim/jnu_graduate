@@ -95,57 +95,30 @@ public class libarts_page extends AppCompatActivity {
 
                     // progress bar하실때 세부학점 받아오는 부분 참고 코드입니다.
                     JSONObject gradePointDetail = (JSONObject) cultureGradePoint.get("세부학점");
-                    System.out.println(gradePointDetail);
-                    Iterator i = division.keys();
-                    final ArrayList<addcontainer> containerarr=new ArrayList<addcontainer>();
+                    Iterator divisionI=division.keys();
 
-                    // 교양 분류
-                    ArrayList<String> keyArr = new ArrayList<>();
-                    ArrayList <String> arrayList = new ArrayList<>();
-                    Iterator iterator = classJson.keys();
-                    while(iterator.hasNext()){
-                        keyArr.add(iterator.next().toString());
-                    }
-                    for (int num=0; num<keyArr.size(); num++){
-                        JSONArray tmp = (JSONArray) classJson.get(keyArr.get(num));
-                        for(int num2=0; num2<tmp.length(); num2++){
-                            JSONObject tmpobj = (JSONObject) tmp.get(num2);
-                            if (tmpobj.get("isu_nm").toString().equals("전공탐색")){
-                                String tmpField = getField("전공탐색교양", tmpobj.get("subject_nm").toString());
-                                arrayList.add(tmpField);
-                            }
-                            else if(tmpobj.get("isu_nm").toString().equals("전공") || tmpobj.get("isu_nm").toString().equals("전공필수")){
-
-                            }
-                            else{
-                                String tmpField = getField(tmpobj.get("isu_nm").toString(), tmpobj.get("subject_nm").toString());
-                                arrayList.add(tmpField);
-                            }
-                        }
-                    }
-                    while(i.hasNext())
-                    {
-                        final ArrayList<ArrayList<String>> grouparr=new ArrayList<ArrayList<String>>();
-                        final String b = i.next().toString();
-                        final String k =division.get(b).toString();
-                        JSONArray arr = (JSONArray) cultureGradePoint.get(b.toString());
-                        for(int x=0; x<arr.length(); x++){
-                            ArrayList<String> childarr = new ArrayList<String>();
-                            String sub_division = arr.get(x).toString();
-                            childarr.add(sub_division);
-                            grouparr.add(childarr);
-                        }
+                    while(divisionI.hasNext()){
+                        final String title=divisionI.next().toString();
+                        System.out.println(title+"타이틀이 몇개냐");
                         final addcontainer container=new addcontainer();
+                        final Containerhelper containerhelper=new Containerhelper();
+                        containerhelper.setBasicSetting(constraintLayout,context,prevcontainerid);
+                        containerhelper.setStartSetting(title,hakbeon,classJson,majorInfo,gradeInfo,getCultureDB(title,hakbeon),container);
+                        containerhelper.cultureContainerCreate();
+                        final String herecredit=String.valueOf(containerhelper.get_herecredit());
+                        final String maxcredit=containerhelper.get_maxcredit();
+                        final addcontainer addcontainer1=new addcontainer();
+                        final ArrayList<ArrayList<String>> grouparr=containerhelper.getGrouparr();
 
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                easycreatecontainer(container,b,"1",k, grouparr);
+                                easycreatecontainer(addcontainer1,title,herecredit,maxcredit,grouparr);
                             }
                         });
 
-                        containerarr.add(container);
                     }
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {
@@ -165,7 +138,12 @@ public class libarts_page extends AppCompatActivity {
 
         return field.toString();
     }
-
+    public JSONObject getCultureDB(String classification, String _hakbeon) throws JSONException, IOException {
+        JSONObject subjectInfo = gradeParser.getCulture(Integer.parseInt(_hakbeon));
+        JSONObject cultureSub = (JSONObject) subjectInfo.get("교양");
+        JSONObject mainDivision = (JSONObject) cultureSub.get(classification);
+        return mainDivision;
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void easycreatecontainer(addcontainer simplecontainer ,String _texts ,String now_credit,String max_credit, ArrayList<ArrayList<String>> lists){
