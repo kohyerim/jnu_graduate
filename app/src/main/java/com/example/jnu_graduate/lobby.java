@@ -20,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -176,6 +177,10 @@ public class lobby extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // logout logic
+                getApplicationContext().deleteFile("class.json");
+                getApplicationContext().deleteFile("parsedClass.json");
+                getApplicationContext().deleteFile("profile.json");
                 Intent loginintent=new Intent(lobby.this, MainActivity.class);
                 startActivity(loginintent);
                 finish();
