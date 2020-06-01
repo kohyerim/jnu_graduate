@@ -1,8 +1,13 @@
 package com.example.jnu_graduate;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Handler;
+import android.widget.ProgressBar;
 
 import androidx.annotation.RequiresApi;
 
@@ -24,16 +29,19 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-public class Service extends AsyncTask<Object, Void, Void>{
+public class Service extends AsyncTask<Object, Void, Boolean>{
     Dreamy dreamy;
     String cookie;
     JSONObject infoJson;
     JSONArray classJson = new JSONArray();
+    Context ctx;
+    Context MainActivity;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    protected Void doInBackground(Object... objects) {
-        Context ctx = (Context) objects[0];
+    protected Boolean doInBackground(Object... objects) {
+        this.ctx = (Context) objects[0];
+        this.MainActivity = (Context) objects[3];
         String id = objects[1].toString();
         String pw = objects[2].toString();
         this.dreamy = new Dreamy(id, pw);
@@ -58,6 +66,9 @@ public class Service extends AsyncTask<Object, Void, Void>{
             // 로그인 하고 Cookie, 학번, 전공 학기 정보 가져오기
             this.cookie = dreamy.login();
             this.infoJson = dreamy.getInfo(this.cookie);
+            if(this.infoJson == null){
+                return false;
+            }
             JSONObject hakjuk = new JSONObject(this.infoJson.get("HJ_MST").toString());
 
             // 파일 저장하기 위한 JSONObject 생성
@@ -103,7 +114,7 @@ public class Service extends AsyncTask<Object, Void, Void>{
             e.printStackTrace();
         }
 
-        return null;
+        return true;
     }
 
     @Override
@@ -117,7 +128,30 @@ public class Service extends AsyncTask<Object, Void, Void>{
     }
 
     @Override
-    protected void onPostExecute(Void v) {
-        super.onPostExecute(v);
+    protected void onPostExecute(Boolean loginResult) {
+        // login Success
+        if(loginResult){
+            ProgressDialog progressDialog = new ProgressDialog(this.MainActivity);
+            //progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setMessage("초기 설정 중");
+            progressDialog.show();
+            Handler mHandler = new Handler();
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent lobbyintent=new Intent(ctx, lobby.class);
+                    ctx.startActivity(lobbyintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                }
+            }, 1000);
+        }
+        // login Fail
+        else{
+            System.out.println("login fail");
+            AlertDialog.Builder builder = new AlertDialog.Builder(this.MainActivity);
+            builder.setMessage("Login Fail");
+            builder.setPositiveButton("확인", null);
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
     }
 }

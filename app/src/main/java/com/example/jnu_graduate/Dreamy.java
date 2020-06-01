@@ -65,8 +65,10 @@ public class Dreamy {
             response.append(inputLine);
         }
         in.close();
-
-        return new JSONObject(response.toString());
+        if(!response.toString().equals("<SCRIPT type=text/javascript>\talert('Session 이 종료되었습니다.');\ttop.location='/frame/sysUser.do'    </SCRIPT>")){
+            return new JSONObject(response.toString());
+        }
+        return null;
     }
 
     public JSONObject getClass(String cookie, Integer year, Integer term_gb) throws IOException, JSONException {
