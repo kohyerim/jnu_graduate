@@ -103,7 +103,7 @@ public class libarts_page extends AppCompatActivity {
                         final addcontainer container=new addcontainer();
                         final Containerhelper containerhelper=new Containerhelper();
                         containerhelper.setBasicSetting(constraintLayout,context,prevcontainerid);
-                        containerhelper.setStartSetting(title,hakbeon,classJson,majorInfo,gradeInfo,getCultureDB(title,hakbeon),container);
+                        containerhelper.setStartSetting(title,hakbeon,classJson,majorInfo,gradeInfo,container);
                         containerhelper.cultureContainerCreate();
                         final String herecredit=String.valueOf(containerhelper.get_herecredit());
                         final String maxcredit=containerhelper.get_maxcredit();
