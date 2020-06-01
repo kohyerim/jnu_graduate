@@ -40,6 +40,7 @@ public class lobby extends AppCompatActivity {
 
     GradeParser gradeParser;
     ClassParser classParser;
+    OpenJSONFile opener;
 
     String myHakbeon = "";
     String majorClass = "";
@@ -82,6 +83,7 @@ public class lobby extends AppCompatActivity {
                 try {
                     classParser = new ClassParser(openFileInput("class.json"), getApplicationContext());
                     classParser.createParsedClass();
+                    opener = new OpenJSONFile(openFileInput("parsedClass.json"), getApplicationContext());
                 } catch (JSONException | IOException e) {
                     e.printStackTrace();
                 }
@@ -95,7 +97,7 @@ public class lobby extends AppCompatActivity {
                     JSONObject cultureGradePoint = (JSONObject) gradePoint.get(myHakbeon);
                     Object minGrade = cultureGradePoint.get("min");
                     Object maxGrade = cultureGradePoint.get("max");
-                    cultureGP.setText("??"+"/"+minGrade.toString()+'-'+maxGrade.toString());
+                    cultureGP.setText(opener.getCultureGP()+"/"+minGrade.toString()+'-'+maxGrade.toString());
                     min_libartscredit=minGrade.toString();
                     max_libartscredit=maxGrade.toString();
                     // 졸업학점 db 조회
@@ -103,8 +105,9 @@ public class lobby extends AppCompatActivity {
                     JSONObject majorGradePoint = (JSONObject) majorInfo.get(myHakbeon);
                     Object jolupGP = majorGradePoint.get("졸업학점");
                     Object major = majorGradePoint.get("심화전공");
-                    totalGP.setText("??"+"/"+jolupGP.toString());
-                    majorGP.setText("??"+"/"+major.toString());
+                    totalGP.setText(opener.getTotalGP()+"/"+jolupGP.toString());
+                    majorGP.setText(opener.getMajorGP()+"/"+major.toString()+"~");
+
 
                     max_wholecredit=jolupGP.toString();
                     max_majorcredit=major.toString();

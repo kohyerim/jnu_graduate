@@ -83,9 +83,6 @@ public class Containerhelper {
                 for(int num2=0; num2<tmp.length(); num2++){
                     JSONObject tmpobj = (JSONObject) tmp.get(num2);
                     if(tmpobj.get("isu_nm").equals(finalTitle)){
-                        if(tmpobj.get("isu_nm").equals("JNU특성화교양")){
-                            System.out.println(tmpobj.toString());
-                        }
                         divisionSubject.add(tmpobj);
                     }
                 }
