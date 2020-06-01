@@ -96,10 +96,10 @@ public class libarts_page extends AppCompatActivity {
                     // progress bar하실때 세부학점 받아오는 부분 참고 코드입니다.
                     JSONObject gradePointDetail = (JSONObject) cultureGradePoint.get("세부학점");
                     Iterator divisionI=division.keys();
-
+                    System.out.println("division : " + division);
                     while(divisionI.hasNext()){
                         final String title=divisionI.next().toString();
-//                        System.out.println(title+"타이틀이 몇개냐");
+                        System.out.println(title+"타이틀이 몇개냐");
                         final addcontainer container=new addcontainer();
                         final Containerhelper containerhelper=new Containerhelper();
                         containerhelper.setBasicSetting(constraintLayout,context,prevcontainerid);
