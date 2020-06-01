@@ -99,7 +99,7 @@ public class libarts_page extends AppCompatActivity {
 
                     while(divisionI.hasNext()){
                         final String title=divisionI.next().toString();
-                        System.out.println(title+"타이틀이 몇개냐");
+//                        System.out.println(title+"타이틀이 몇개냐");
                         final addcontainer container=new addcontainer();
                         final Containerhelper containerhelper=new Containerhelper();
                         containerhelper.setBasicSetting(constraintLayout,context,prevcontainerid);

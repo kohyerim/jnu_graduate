@@ -53,7 +53,7 @@ public class Containerhelper {
         return grouparr;
     }
     public void setStartSetting(String title, String hakbeon, JSONObject mysubject, JSONObject majorinfo, JSONObject gradeinfo, addcontainer container){
-        this.title=title;
+        this.title = title;
         this.hakbeon=hakbeon;
         this.majorInfo=majorinfo;
         this.gradeInfo=gradeinfo;
@@ -63,9 +63,19 @@ public class Containerhelper {
             needdivision=true;
         }
 
-        System.out.println("학번은 어케생겻니"+hakbeon);
+//        System.out.println("학번은 어케생겻니"+hakbeon);
         ArrayList<String> keyArr = new ArrayList<>();
         divisionSubject=new ArrayList<JSONObject>();
+        final String finalTitle;
+        if (title.equals("전공탐색교양")){
+            finalTitle = "전공탐색";
+        }
+//        else if (title.equals("JNU")){
+//            finalTitle = "JNU특성화교양";
+//        }
+        else {
+            finalTitle = title;
+        }
         try {
             Iterator iterator = mysubject.keys();
             while(iterator.hasNext()){
@@ -75,7 +85,7 @@ public class Containerhelper {
                 JSONArray tmp = (JSONArray) mysubject.get(keyArr.get(num));
                 for(int num2=0; num2<tmp.length(); num2++){
                     JSONObject tmpobj = (JSONObject) tmp.get(num2);
-                    if(tmpobj.get("isu_nm").equals(title)){
+                    if(tmpobj.get("isu_nm").equals(finalTitle)){
                         divisionSubject.add(tmpobj);
                     }
                 }
@@ -88,7 +98,7 @@ public class Containerhelper {
     public void test(){
         for(int i=0; i<divisionSubject.size(); i++){
             JSONObject imsi=divisionSubject.get(i);
-            System.out.println(imsi+"캇트");
+//            System.out.println(imsi+"캇트");
         }
     }
 
@@ -166,7 +176,7 @@ public class Containerhelper {
                 }
                 //만일 db에 없는 것일경우(년도가 달라서 분류가 달라졋으면 수강년도기준으로 다시찾기)
                 if(intoarr==null){
-                    System.out.println("지금 intoarr가 null이니?");
+//                    System.out.println("지금 intoarr가 null이니?");
                     JSONObject otherdb= null;
                     try {
                         otherdb = getotherCultureDB(curri_year);
