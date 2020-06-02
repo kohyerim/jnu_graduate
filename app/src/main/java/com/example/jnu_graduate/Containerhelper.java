@@ -129,7 +129,9 @@ public class Containerhelper {
                 for (int num2 = 0; num2 < majortmp.length(); num2++) {
                     JSONObject tmpobj = (JSONObject) majortmp.get(num2);
                     if (tmpobj.get("isu_nm").equals(finalTitle)||tmpobj.get("isu_nm").equals("전공필수")) {
-                        divisionSubject.add(tmpobj);
+                        if(!tmpobj.get("credit").equals("0")){
+                            divisionSubject.add(tmpobj);
+                        }
                     }
                 }
             }
@@ -138,14 +140,6 @@ public class Containerhelper {
         }
 
 
-    }
-
-
-    public void test(){
-        for(int i=0; i<divisionSubject.size(); i++){
-            JSONObject imsi=divisionSubject.get(i);
-//            System.out.println(imsi+"캇트");
-        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
