@@ -18,6 +18,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -34,7 +35,8 @@ public class major_page extends AppCompatActivity {
     private String min_libartscredit = null;
     private String max_libartscredit = null;
     private String max_majorcredit = null;
-
+    OpenJSONFile opener;
+    JSONObject classJson;
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @SuppressLint("ResourceType")
     @Override
@@ -67,45 +69,38 @@ public class major_page extends AppCompatActivity {
 
         new Thread() {
             public void run() {
+                JSONObject majorInfo=null;
+                JSONObject gradeInfo=null;
                 gradeParser = new GradeParser();
                 try {
-                    // 교양세부과목
-                    JSONObject gradeInfo = gradeParser.eachMajor();
-                    JSONObject majorGradePoint = (JSONObject) gradeInfo.get(hakbeon);
-                    JSONObject majorSub = (JSONObject) majorGradePoint.get("전공필수");
-                    JSONObject eachGrade = null;
-                    Iterator c = majorSub.keys();
-                    System.out.println("c"+c);
-
-                    ArrayList<addcontainer> containerarr=new ArrayList<addcontainer>();
-                    final ArrayList<String> pilsumajor = new ArrayList<String>();
-                    while(c.hasNext())
-                    {
-                        String b = c.next().toString();
-                        if(b.contains("학년")) {
-                            eachGrade = (JSONObject) majorSub.get(b);
-                            Iterator perSemester = eachGrade.keys();
-
-                            while(perSemester.hasNext()){
-                                String semester = perSemester.next().toString();
-                                Object temp = eachGrade.get(semester);
-                                JSONArray arr = (JSONArray) eachGrade.get(semester);
-                                for(int x=0; x<arr.length(); x++) {
-                                    pilsumajor.add(arr.get(x).toString());
-                                }
-                            }
-                        }
-                    }
-                    final addcontainer pilsumajorcontainer = new addcontainer();
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pilsumajorcreatecontainer(pilsumajorcontainer, "필수 전공","20","30", pilsumajor);
-                        }
-                    });
-                } catch (JSONException e) {
+                    opener = new OpenJSONFile(openFileInput("parsedClass.json"), getApplicationContext());
+                    classJson = opener.getJSONObject();
+                    majorInfo = gradeParser.eachMajor();
+                    gradeInfo = gradeParser.getMajor();
+                } catch (FileNotFoundException | JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
+
+                // 교양세부과목
+                final String title="전공";
+                final addcontainer container=new addcontainer();
+                final Containerhelper containerhelper=new Containerhelper();
+                containerhelper.setBasicSetting(constraintLayout,context,prevcontainerid);
+                containerhelper.setMajorStartSetting(title,hakbeon,classJson,majorInfo,gradeInfo,container);
+                containerhelper.majorContainerCreate();
+                final String herecredit=String.valueOf(containerhelper.get_herecredit());
+                final String maxcredit=containerhelper.get_maxcredit();
+                final addcontainer addcontainer1=new addcontainer();
+                final ArrayList<ArrayList<String>> grouparr=containerhelper.getGrouparr();
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        easycreatecontainer(addcontainer1,title,herecredit,maxcredit,grouparr);
+                    }
+                });
             }
         }.start();
 
@@ -145,13 +140,16 @@ public class major_page extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public void pilsumajorcreatecontainer(addcontainer simplecontainer ,String _texts ,String now_credit,String max_credit, ArrayList lists){
+    public void pilsumajorcreatecontainer(addcontainer simplecontainer ,String _texts ,String now_credit,String max_credit, ArrayList<ArrayList<String>> lists){
         //---------------------------------------------------------------------------여기부턴 뷰정의1
         //레이아웃을 만들어줄 객체를 생성
         //addcontainer maincontainer1 = new addcontainer(); 함수화를 위하여 add컨테이너 대신 simplecontainer로 변경
         //높이를 계산하기위해 데이터를 다집어넣어줌
 
-        simplecontainer.onlymajorcalculateheigth(lists);
+        for(int i=0; i<lists.size();i++) {
+            ArrayList childlist= lists.get(i);
+            simplecontainer.onlymajorcalculateheigth(childlist);
+        }
         //---------------------------------------------------------------------------컨테이너 만들기
 
         //객체에 컨텍스트,들어갈 레이아웃 이전 view의id를 주고 컨테이너 생성
@@ -166,6 +164,11 @@ public class major_page extends AppCompatActivity {
         simplecontainer.createprogressbar();
         //-----------------------  세부과목및 과목생성
         simplecontainer.createnodivisionsubjectmenu(lists);
+
+        for(int i=0; i<lists.size();i++) {
+            ArrayList childlist= lists.get(i);
+            simplecontainer.createnodivisionsubjectmenu(childlist);
+        }
         //마지막으로 이 컨테이너가 마지막인것을 저장
         prevcontainerid=simplecontainer.getContainerid();
     }

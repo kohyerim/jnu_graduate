@@ -210,7 +210,7 @@ public class addcontainer {
         Constraints.LayoutParams params = new Constraints.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         //파라미터 정의
         params.startToStart = containerid;
-        params.topToBottom = progressbarid;
+        params.topToBottom = prevviewid;
         params.setMarginStart((int)(dpToPx(16)));
         params.leftMargin = (int)(dpToPx(16));
         params.topMargin = (int)(dpToPx(18));
@@ -251,7 +251,7 @@ public class addcontainer {
         for(int i=0; i<arrayList.size();i++){
             menucounter++;
         }
-        yaubun=arrayList.size()/10;
+        yaubun=arrayList.size()/5;
 
         containerHeight=120+detailsubjectcounter*26+menucounter*28;
     }
