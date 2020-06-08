@@ -1,17 +1,13 @@
 package com.example.jnu_graduate;
 
-import android.content.Context;
 import android.os.Build;
-import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -38,6 +34,9 @@ public class Containerhelper {
     private ArrayList<ArrayList<String>> libartsgrouparr=new ArrayList<>();
     private ArrayList<ArrayList<String>> majorgrouparr=new ArrayList<>();
     //
+    private int pilsumaxcount =0;
+    private int pilsuherecount =0;
+
     public int get_herecredit(){
         return hereCredit;
     }
@@ -59,7 +58,7 @@ public class Containerhelper {
             needdivision=true;
         }
 
-//        System.out.println("학번은 어케생겻니"+hakbeon);
+
         ArrayList<String> keyArr = new ArrayList<>();
         divisionSubject=new ArrayList<JSONObject>();
         final String finalTitle;
@@ -132,36 +131,33 @@ public class Containerhelper {
 
     public void makePilsuStartSetting(String hakbeon,JSONObject mysubject, JSONObject majorinfo){
         this.majorInfo=majorinfo;
-        System.out.println(majorinfo+"메이저인포");
+
         try {
-            System.out.println("시작은햇니?");
+
             JSONObject majorinfo2=majorInfo;
-            System.out.println(majorinfo2+"메이저인포2");
+
             JSONObject hakbeonInfo = (JSONObject) majorInfo.get(hakbeon);
-            System.out.println(hakbeonInfo+"학번인포");
+
             JSONObject pilsu_cultureInfo = (JSONObject) hakbeonInfo.get("교양필수");
             JSONObject pilsu_majorInfo = (JSONObject) hakbeonInfo.get("전공필수");
 
             libartsgrouparr=new ArrayList<>();
             majorgrouparr=new ArrayList<>();
             Iterator culturelist=pilsu_cultureInfo.keys();
-            System.out.println("왜안나와?");
-            System.out.println(pilsu_cultureInfo+"pilsu_cultureinfo");
-            System.out.println(pilsu_majorInfo+"pilsu_majorinfo");
-            System.out.println("왜안나와?2");
+
             while(culturelist.hasNext()){
                 String subject_1=culturelist.next().toString();
                 JSONArray subject_2=(JSONArray)pilsu_cultureInfo.get(subject_1);
-                System.out.println("시작은햇니2");
+
                 for(int i=0; i<subject_2.length();i++){
                     String subject=subject_2.get(i).toString();
                     ArrayList<String> childarr=new ArrayList<>();
                     childarr.add(subject);
-                    System.out.println(childarr+"childarr");
+
                     //
                     ArrayList<String> keyArr = new ArrayList<>();
                     Iterator iterator = mysubject.keys();
-                    System.out.println("나 여기까지왓다1");
+
                     while (iterator.hasNext()) {
                         keyArr.add(iterator.next().toString());
                     }
@@ -170,15 +166,9 @@ public class Containerhelper {
                         JSONArray majortmp = (JSONArray) mysubject.get(keyArr.get(num));
                         for (int num2 = 0; num2 < majortmp.length(); num2++) {
                             JSONObject tmpobj = (JSONObject) majortmp.get(num2);
-                            System.out.println("나 여기까지왓다2");
-                            System.out.println(subject);
-                            System.out.println(tmpobj.get("subject_nm").toString());
                             if (tmpobj.get("subject_nm").toString().equals(subject)) {
-                                if(tmpobj.get("subject_nm").toString().equals("자료구조")){
-                                    childarr.add("");
-                                    break loop;
-                                }
-
+                                childarr.add("");
+                                break loop;
                             }
                         }
                     }
@@ -196,8 +186,7 @@ public class Containerhelper {
                     JSONArray subject_3=(JSONArray)pilsu_majorInfo2.get(subject_2);
                     for(int i=0; i<subject_3.length();i++){
                         String subject=subject_3.get(i).toString();
-                        System.out.println("시작한다궁");
-                        System.out.println(subject+"메이저subject");
+
                         ArrayList<String> childarr=new ArrayList<>();
                         childarr.add(subject);
                         //
@@ -212,12 +201,7 @@ public class Containerhelper {
                             for (int num2 = 0; num2 < majortmp.length(); num2++) {
                                 JSONObject tmpobj = (JSONObject) majortmp.get(num2);
                                 if (tmpobj.get("subject_nm").equals(subject)) {
-                                    System.out.println(subject+"안쪽subject");
-                                    System.out.println(tmpobj.get("subject_nm")+"메이저subject");
-                                    if(tmpobj.get("subject_nm").toString().equals("자료구조")){
-                                        childarr.add("");
-                                        break loop;
-                                    }
+                                    childarr.add("");
                                     break loop;
                                 }
                             }
@@ -237,6 +221,35 @@ public class Containerhelper {
     }
     public ArrayList<ArrayList<String>> get_libartsgrouparr(){
         return libartsgrouparr;
+    }
+
+    public int get_pilsumaxcount(){
+        for(int i=0; i<majorgrouparr.size(); i++){
+            pilsumaxcount++;
+        }
+        for(int i=0; i<libartsgrouparr.size(); i++){
+            pilsumaxcount++;
+        }
+        return pilsumaxcount;
+    }
+
+    public int get_pilsuherecount(){
+        for(int i=0; i<majorgrouparr.size(); i++){
+            ArrayList<String> childarr=majorgrouparr.get(i);
+                if(childarr.size()>1){
+
+                    pilsuherecount++;
+
+            }
+        }
+        for(int i=0; i<libartsgrouparr.size(); i++){
+            ArrayList<String> childarr=libartsgrouparr.get(i);
+                if(childarr.size()>1){
+
+                    pilsuherecount++;
+            }
+        }
+        return pilsuherecount;
     }
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void cultureContainerCreate(){
@@ -309,7 +322,7 @@ public class Containerhelper {
                 }
                 //만일 db에 없는 것일경우(년도가 달라서 분류가 달라졋으면 수강년도기준으로 다시찾기)
                 if(intoarr==null){
-//                    System.out.println("지금 intoarr가 null이니?");
+//
                     JSONObject otherdb= null;
                     try {
                         otherdb = getotherCultureDB(curri_year);
@@ -439,14 +452,13 @@ public class Containerhelper {
                         _term_gb="계절학기";
                         break;
                 }
-                System.out.println(isu_nm+"이건isn_nm");
+
                 if(isu_nm.equals(childarr1.get(0).toString())){
                     childarr1.add(curri_year+"-"+_term_gb+":"+subject_nm);
-                    System.out.println(childarr1.get(0).toString()+"이건childarr1");
                 }
                 else{
                     childarr2.add(curri_year+"-"+_term_gb+":"+subject_nm);
-                    System.out.println(childarr2.get(0).toString()+"이건childarr2");
+
                 }
                 hereCredit+=Integer.parseInt(credit);
             }

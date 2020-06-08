@@ -26,6 +26,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 public class lobby extends AppCompatActivity {
 
@@ -34,6 +35,7 @@ public class lobby extends AppCompatActivity {
     TextView major;
     TextView whole;
     TextView pilsu;
+    TextView pilsuGP;
     TextView cultureGP;
     TextView majorGP;
     TextView totalGP;
@@ -52,16 +54,13 @@ public class lobby extends AppCompatActivity {
     String max_majorcredit;
     String max_wholecredit;
 
-
+    JSONObject classJson;
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lobby);
         //로비 진입시 로그인 액티비티 종료
-
-
-
         //
         Toolbar tb = findViewById(R.id.toolbar1);
         setSupportActionBar(tb);
@@ -70,7 +69,7 @@ public class lobby extends AppCompatActivity {
         cultureGP = findViewById(R.id.liberal_arts_credit);
         majorGP = findViewById(R.id.major_credit);
         totalGP = findViewById(R.id.whole_credit);
-
+        pilsuGP = findViewById(R.id.pilsu_credit);
         try {
             setProfile();
 
@@ -91,6 +90,7 @@ public class lobby extends AppCompatActivity {
                 } catch (JSONException | IOException e) {
                     e.printStackTrace();
                 }
+
 
                 try {
                     // 학점 db 불러오기
@@ -115,6 +115,14 @@ public class lobby extends AppCompatActivity {
 
                     max_wholecredit=jolupGP.toString();
                     max_majorcredit=major.toString();
+
+
+                    classJson = opener.getJSONObject();
+                    Containerhelper containerhelper=new Containerhelper();
+                    containerhelper.makePilsuStartSetting(myHakbeon,classJson,majorInfo);
+                    pilsuGP.setText(containerhelper.get_pilsuherecount()+"/"+containerhelper.get_pilsumaxcount());
+
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {

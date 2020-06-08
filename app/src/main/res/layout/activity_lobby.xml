@@ -45,7 +45,7 @@
     <TextView
         android:id="@+id/st_info"
         android:layout_width="382dp"
-        android:layout_height="283dp"
+        android:layout_height="310dp"
         android:layout_marginStart="12dp"
         android:layout_marginLeft="12dp"
         android:layout_marginTop="56dp"
@@ -102,7 +102,7 @@
     <TextView
         android:id="@+id/credit_container"
         android:layout_width="353dp"
-        android:layout_height="175dp"
+        android:layout_height="200dp"
         android:layout_marginTop="96dp"
         android:layout_marginEnd="12dp"
         android:layout_marginRight="12dp"
@@ -112,6 +112,7 @@
         app:layout_constraintHorizontal_bias="0.965"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar1" />
+
 
     <TextView
         android:id="@+id/graduate_credit_text"
@@ -126,20 +127,77 @@
 
     <!-- 교양 -->
 
+
     <TextView
         android:id="@+id/pilsu_container"
         android:layout_width="88dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
+        android:layout_height="69dp"
+        android:layout_marginStart="88dp"
+        android:layout_marginLeft="88dp"
         android:layout_marginTop="216dp"
         android:background="@drawable/lobby_credit_container"
         android:clickable="true"
-        android:gravity="center"
-        android:text="필수 학점"
         android:textColor="#000000"
         app:layout_constraintStart_toStartOf="@+id/st_info"
         app:layout_constraintTop_toTopOf="@+id/st_info" />
+
+    <TextView
+        android:id="@+id/pilsu_text"
+        android:layout_width="88dp"
+        android:layout_height="23dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:text="필수과목"
+        android:textColor="#000000"
+        app:layout_constraintStart_toStartOf="@+id/pilsu_container"
+        app:layout_constraintTop_toTopOf="@+id/pilsu_container" />
+
+    <TextView
+        android:id="@+id/pilsu_credit"
+        android:layout_width="88dp"
+        android:layout_height="23dp"
+        android:layout_marginTop="36dp"
+        android:gravity="center"
+        android:text="0/0"
+        android:textColor="#000000"
+        app:layout_constraintStart_toStartOf="@+id/pilsu_container"
+        app:layout_constraintTop_toTopOf="@+id/pilsu_container" />
+
+
+    <TextView
+        android:id="@+id/Linked_Major_container"
+        android:layout_width="88dp"
+        android:layout_height="69dp"
+        android:layout_marginStart="212dp"
+        android:layout_marginLeft="212dp"
+        android:layout_marginTop="216dp"
+        android:background="@drawable/lobby_credit_container"
+        android:clickable="true"
+        android:textColor="#000000"
+        app:layout_constraintStart_toStartOf="@+id/st_info"
+        app:layout_constraintTop_toTopOf="@+id/st_info" />
+
+    <TextView
+        android:id="@+id/Linked_Major_text"
+        android:layout_width="88dp"
+        android:layout_height="23dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:text="연계전공"
+        android:textColor="#000000"
+        app:layout_constraintStart_toStartOf="@+id/Linked_Major_container"
+        app:layout_constraintTop_toTopOf="@+id/Linked_Major_container" />
+
+    <TextView
+        android:id="@+id/Linked_Major_credit"
+        android:layout_width="88dp"
+        android:layout_height="23dp"
+        android:layout_marginTop="36dp"
+        android:gravity="center"
+        android:text="0/0"
+        android:textColor="#000000"
+        app:layout_constraintStart_toStartOf="@+id/Linked_Major_container"
+        app:layout_constraintTop_toTopOf="@+id/Linked_Major_container" />
 
     <TextView
         android:id="@+id/liberal_arts_credit_container"
@@ -219,7 +277,7 @@
         android:id="@+id/whole_credit_container"
         android:layout_width="88dp"
         android:layout_height="69dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="36dp"
         android:background="@drawable/lobby_credit_container"
         android:clickable="true"
         app:layout_constraintEnd_toEndOf="@+id/credit_container"

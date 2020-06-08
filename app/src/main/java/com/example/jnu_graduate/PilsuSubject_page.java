@@ -128,18 +128,13 @@ public class PilsuSubject_page extends AppCompatActivity {
         simplecontainer.createsubjectmenu3(imsilist1);
         for(int i=0; i<lists.size();i++){
             ArrayList childlist= lists.get(i);
-            System.out.println("가져온 배열을 봅시다");
-            System.out.println(childlist);
-            System.out.println("가져온 배열을 봅시다");
+
             simplecontainer.createsubjectmenu4(childlist);
         }
 
         simplecontainer.createsubjectmenu3(imsilist2);
         for(int i=0; i<lists2.size();i++){
             ArrayList childlist= lists2.get(i);
-            System.out.println("가져온 배열을 봅시다");
-            System.out.println(childlist);
-            System.out.println("가져온 배열을 봅시다");
 
             simplecontainer.createsubjectmenu4(childlist);
         }
