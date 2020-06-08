@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -22,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class whole_page extends AppCompatActivity {
-
+    public static Activity wholeactivity;
     Context context;
     GradeParser gradeParser;
     private int prevcontainerid;
@@ -34,28 +35,29 @@ public class whole_page extends AppCompatActivity {
     private String min_libartscredit = null;
     private String max_libartscredit = null;
     private String max_majorcredit = null;
+    private String max_wholecredit;
+
+    private String here_libartscredit =null;
+    private String here_majorscredit =null;
+    private String here_wholecredit =null;
+    JSONObject classJson;
+    OpenJSONFile opener;
+    ClassParser classParser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_whole_page);
+        wholeactivity=whole_page.this;
+
         Toolbar tb = findViewById(R.id.toolbar4);
         setSupportActionBar(tb);
         ActionBar ab = getSupportActionBar();
 
         ab.setTitle("전체 학점");
-
         Intent intent=getIntent();
         hakbeon = intent.getExtras().getString("hakbeon");
-
         major = intent.getExtras().getString("major");
-
-        min_libartscredit = intent.getExtras().getString("min_libartscredit");
-
-        max_libartscredit = intent.getExtras().getString("max_libartscredit ");
-
-        max_majorcredit = intent.getExtras().getString("max_majorcredit");
-
 
 
 
@@ -68,43 +70,77 @@ public class whole_page extends AppCompatActivity {
 
 
         new Thread() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             public void run() {
+                gradeParser = new GradeParser();
+                JSONObject gradeInfo = null;
+                JSONObject majorInfo = null;
+                try {
+                    classParser = new ClassParser(openFileInput("class.json"), getApplicationContext());
+                    classParser.createParsedClass();
+                    opener = new OpenJSONFile(openFileInput("parsedClass.json"), getApplicationContext());
+                    classJson = opener.getJSONObject();
+                } catch (JSONException | IOException e) {
+                    e.printStackTrace();
+                }
+
+
+                try {
+                    // 학점 db 불러오기
+                    gradeInfo = gradeParser.getMajor();
+
+                    // 교양학점 db조회
+                    JSONObject gradePoint = (JSONObject) gradeInfo.get("교양학점");
+                    JSONObject cultureGradePoint = (JSONObject) gradePoint.get(hakbeon);
+                    Object minGrade = cultureGradePoint.get("min");
+                    Object maxGrade = cultureGradePoint.get("max");
+                    min_libartscredit=minGrade.toString();
+                    max_libartscredit=maxGrade.toString();
+                    // 졸업학점 db 조회
+                    majorInfo = gradeParser.eachMajor();
+                    JSONObject majorGradePoint = (JSONObject) majorInfo.get(hakbeon);
+                    Object jolupGP = majorGradePoint.get("졸업학점");
+                    Object major = majorGradePoint.get("심화전공");
+                    max_wholecredit=jolupGP.toString();
+                    max_majorcredit=major.toString();
+
+
+
+
+                    here_libartscredit=String.valueOf(opener.getCultureGP());
+                    here_majorscredit=String.valueOf(opener.getMajorGP());
+                    here_wholecredit=String.valueOf(opener.getTotalGP());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 gradeParser = new GradeParser();
                 //학점지정
                 ArrayList<String> libartscredit=new ArrayList<String>();
                 libartscredit.add("교양 학점");
-                libartscredit.add("???"+"/"+min_libartscredit+"-"+max_libartscredit);
+                libartscredit.add(here_libartscredit+"/"+min_libartscredit+"-"+max_libartscredit);
                 ArrayList<String> majorcredit=new ArrayList<String>();
                 majorcredit.add("전공 학점");
-                majorcredit.add("???"+"/"+max_majorcredit);
-                ArrayList<String> normalcredit=new ArrayList<String>();
-                normalcredit.add("일반 선택");
-                normalcredit.add("???");
+                majorcredit.add(here_majorscredit+"/"+max_majorcredit+"~");
                 final ArrayList<ArrayList<String>> totallist=new ArrayList<ArrayList<String>>();
                 totallist.add(libartscredit);
                 totallist.add(majorcredit);
-                totallist.add(normalcredit);
                 //일반 과목지정
-                ArrayList<String> normalsubject=new ArrayList<String>();
-                normalsubject.add("20XX-1");
-                normalsubject.add("과목1");
-                normalsubject.add("과목2");
-                ArrayList<String> normalsubject2=new ArrayList<String>();
-                normalsubject2.add("20XX-2");
-                normalsubject2.add("과목3");
-                normalsubject2.add("과목4");
-                final ArrayList<ArrayList<String>> normallist=new ArrayList<ArrayList<String>>();
-                normallist.add(normalsubject);
-                normallist.add(normalsubject2);
-                //
+                final String title="일반선택";
                 final addcontainer wholecontainer = new addcontainer();
-
+                final Containerhelper containerhelper=new Containerhelper();
+                containerhelper.setStartSetting(title,hakbeon,classJson,majorInfo,gradeInfo);
+                containerhelper.wholeContainerCreate();
+                final ArrayList<ArrayList<String>> normallist=containerhelper.getGrouparr();
+                //
 
                 runOnUiThread(new Runnable() {
                     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
                     @Override
                     public void run() {
-                        easycreatecontainer(wholecontainer,"전체 학점", "20","30", totallist,normallist);
+                        easycreatecontainer(wholecontainer,"전체 학점", here_wholecredit,max_wholecredit, totallist,normallist);
 
 
                     }
@@ -179,25 +215,22 @@ public class whole_page extends AppCompatActivity {
             case R.id.lobby_btn:
                 Intent golobby=new Intent(whole_page.this, lobby.class);
                 startActivity(golobby);
+
             case R.id.libarts_btn:
                 Intent golibarts=new Intent(whole_page.this, libarts_page.class);
                 // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
                 golibarts.putExtra("hakbeon",hakbeon);
                 golibarts.putExtra("major",major);
-                golibarts.putExtra("min_libartscredit",min_libartscredit);
-                golibarts.putExtra("max_libartscredit",max_libartscredit);
-                golibarts.putExtra("max_majorcredit",max_majorcredit);
                 startActivity(golibarts);
+
                 return true;
             case R.id.major_btn:
                 Intent gomajor=new Intent(whole_page.this, major_page.class);
                 // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
                 gomajor.putExtra("hakbeon",hakbeon);
                 gomajor.putExtra("major",major);
-                gomajor.putExtra("min_libartscredit",min_libartscredit);
-                gomajor.putExtra("max_libartscredit",max_libartscredit);
-                gomajor.putExtra("max_majorcredit",max_majorcredit);
                 startActivity(gomajor);
+
                 return true;
 
             default:

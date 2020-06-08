@@ -1,6 +1,7 @@
 package com.example.jnu_graduate;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -24,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class major_page extends AppCompatActivity {
-
+    public static Activity majoractivity;
     Context context;
     GradeParser gradeParser;
     private int prevcontainerid;
@@ -43,13 +44,13 @@ public class major_page extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_major_page);
+        majoractivity=major_page.this;
+
         Toolbar tb = findViewById(R.id.toolbar3);
         setSupportActionBar(tb);
         ActionBar ab = getSupportActionBar();
 
         ab.setTitle("전공 학점");
-
-
 
         Intent intent = getIntent();
         hakbeon = intent.getExtras().getString("hakbeon");
@@ -87,8 +88,8 @@ public class major_page extends AppCompatActivity {
                 final String title="전공";
                 final addcontainer container=new addcontainer();
                 final Containerhelper containerhelper=new Containerhelper();
-                containerhelper.setBasicSetting(constraintLayout,context,prevcontainerid);
-                containerhelper.setMajorStartSetting(title,hakbeon,classJson,majorInfo,gradeInfo,container);
+
+                containerhelper.setMajorStartSetting(title,hakbeon,classJson,majorInfo,gradeInfo);
                 containerhelper.majorContainerCreate();
                 final String herecredit=String.valueOf(containerhelper.get_herecredit());
                 final String maxcredit=containerhelper.get_maxcredit();
@@ -139,39 +140,6 @@ public class major_page extends AppCompatActivity {
         prevcontainerid=simplecontainer.getContainerid();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public void pilsumajorcreatecontainer(addcontainer simplecontainer ,String _texts ,String now_credit,String max_credit, ArrayList<ArrayList<String>> lists){
-        //---------------------------------------------------------------------------여기부턴 뷰정의1
-        //레이아웃을 만들어줄 객체를 생성
-        //addcontainer maincontainer1 = new addcontainer(); 함수화를 위하여 add컨테이너 대신 simplecontainer로 변경
-        //높이를 계산하기위해 데이터를 다집어넣어줌
-
-        for(int i=0; i<lists.size();i++) {
-            ArrayList childlist= lists.get(i);
-            simplecontainer.onlymajorcalculateheigth(childlist);
-        }
-        //---------------------------------------------------------------------------컨테이너 만들기
-
-        //객체에 컨텍스트,들어갈 레이아웃 이전 view의id를 주고 컨테이너 생성
-        simplecontainer.setContainer(context,constraintLayout,prevcontainerid,_texts);
-        simplecontainer.createcontainer();
-
-        //---------------------------------------------------------------------------프로그래스바 생성
-        //프로그래스바 설정
-
-        simplecontainer.setprogressbar(now_credit,max_credit);
-        //프로그래스바 생성
-        simplecontainer.createprogressbar();
-        //-----------------------  세부과목및 과목생성
-        simplecontainer.createnodivisionsubjectmenu(lists);
-
-        for(int i=0; i<lists.size();i++) {
-            ArrayList childlist= lists.get(i);
-            simplecontainer.createnodivisionsubjectmenu(childlist);
-        }
-        //마지막으로 이 컨테이너가 마지막인것을 저장
-        prevcontainerid=simplecontainer.getContainerid();
-    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu_sample, menu);
@@ -185,6 +153,7 @@ public class major_page extends AppCompatActivity {
             case R.id.lobby_btn:
                 Intent golobby=new Intent(major_page.this, libarts_page.class);
                 startActivity(golobby);
+
                 return true;
             case R.id.libarts_btn:
                 Intent golibarts=new Intent(major_page.this, libarts_page.class);
@@ -192,9 +161,7 @@ public class major_page extends AppCompatActivity {
                 // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
                 golibarts.putExtra("hakbeon",hakbeon);
                 golibarts.putExtra("major",major);
-                golibarts.putExtra("min_libartscredit",min_libartscredit);
-                golibarts.putExtra("max_libartscredit",max_libartscredit);
-                golibarts.putExtra("max_majorcredit",max_majorcredit);
+
                 startActivity(golibarts);
                 return true;
 
@@ -203,9 +170,7 @@ public class major_page extends AppCompatActivity {
                 // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
                 gowhole.putExtra("hakbeon",hakbeon);
                 gowhole.putExtra("major",major);
-                gowhole.putExtra("min_libartscredit",min_libartscredit);
-                gowhole.putExtra("max_libartscredit",max_libartscredit);
-                gowhole.putExtra("max_majorcredit",max_majorcredit);
+
                 startActivity(gowhole);
                 return true;
             default:

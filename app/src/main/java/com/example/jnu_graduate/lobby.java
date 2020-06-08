@@ -1,5 +1,6 @@
 package com.example.jnu_graduate;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -27,7 +28,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class lobby extends AppCompatActivity {
-
 
     Button logout;
     TextView libarts;
@@ -57,13 +57,17 @@ public class lobby extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lobby);
+        //로비 진입시 로그인 액티비티 종료
+        MainActivity loginactivity= (MainActivity) MainActivity.loginactivity;
+        loginactivity.finish();
 
+
+
+        //
         Toolbar tb = findViewById(R.id.toolbar1);
         setSupportActionBar(tb);
         ActionBar ab = getSupportActionBar();
-
         ab.setTitle("나의 정보");
-
         cultureGP = findViewById(R.id.liberal_arts_credit);
         majorGP = findViewById(R.id.major_credit);
         totalGP = findViewById(R.id.whole_credit);
@@ -138,13 +142,9 @@ public class lobby extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.libarts_btn:
                 Intent golibarts=new Intent(lobby.this, libarts_page.class);
-
                 // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
                 golibarts.putExtra("hakbeon",myHakbeon);
                 golibarts.putExtra("major",majorClass);
-                golibarts.putExtra("min_libartscredit",min_libartscredit);
-                golibarts.putExtra("max_libartscredit",max_libartscredit);
-                golibarts.putExtra("max_majorcredit",max_majorcredit);
                 startActivity(golibarts);
                 return true;
             case R.id.major_btn:
@@ -152,9 +152,7 @@ public class lobby extends AppCompatActivity {
                 // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
                 gomajor.putExtra("hakbeon",myHakbeon);
                 gomajor.putExtra("major",majorClass);
-                gomajor.putExtra("min_libartscredit",min_libartscredit);
-                gomajor.putExtra("max_libartscredit",max_libartscredit);
-                gomajor.putExtra("max_majorcredit",max_majorcredit);
+
                 startActivity(gomajor);
                 return true;
             case R.id.whole_btn:
@@ -162,9 +160,7 @@ public class lobby extends AppCompatActivity {
                 // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
                 gowhole.putExtra("hakbeon",myHakbeon);
                 gowhole.putExtra("major",majorClass);
-                gowhole.putExtra("min_libartscredit",min_libartscredit);
-                gowhole.putExtra("max_libartscredit",max_libartscredit);
-                gowhole.putExtra("max_majorcredit",max_majorcredit);
+
                 startActivity(gowhole);
 
             default:
@@ -183,6 +179,12 @@ public class lobby extends AppCompatActivity {
                 getApplicationContext().deleteFile("profile.json");
                 Intent loginintent=new Intent(lobby.this, MainActivity.class);
                 startActivity(loginintent);
+                Activity libarts_activity=(Activity)libarts_page.libartsactivity;
+                libarts_activity.finish();
+                Activity major_activity=(Activity)major_page.majoractivity;
+                major_activity.finish();
+                Activity whole_activity=(Activity)whole_page.wholeactivity;
+                whole_activity.finish();
                 finish();
             }
         });
@@ -194,7 +196,6 @@ public class lobby extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent golibarts=new Intent(lobby.this, libarts_page.class);
-
                 // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
                 golibarts.putExtra("hakbeon",myHakbeon);
                 golibarts.putExtra("major",majorClass);

@@ -1,6 +1,7 @@
 package com.example.jnu_graduate;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -25,7 +26,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 public class libarts_page extends AppCompatActivity {
-
+    public static Activity libartsactivity;
     Context context;
     GradeParser gradeParser;
     OpenJSONFile opener;
@@ -46,6 +47,7 @@ public class libarts_page extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_libarts_page);
+        libartsactivity=libarts_page.this;
 
         Toolbar tb = findViewById(R.id.toolbar2);
         setSupportActionBar(tb);
@@ -102,8 +104,7 @@ public class libarts_page extends AppCompatActivity {
                         System.out.println(title+"타이틀이 몇개냐");
                         final addcontainer container=new addcontainer();
                         final Containerhelper containerhelper=new Containerhelper();
-                        containerhelper.setBasicSetting(constraintLayout,context,prevcontainerid);
-                        containerhelper.setStartSetting(title,hakbeon,classJson,majorInfo,gradeInfo,container);
+                        containerhelper.setStartSetting(title,hakbeon,classJson,majorInfo,gradeInfo);
                         containerhelper.cultureContainerCreate();
                         final String herecredit=String.valueOf(containerhelper.get_herecredit());
                         final String maxcredit=containerhelper.get_maxcredit();
@@ -195,9 +196,6 @@ public class libarts_page extends AppCompatActivity {
                 // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
                 gomajor.putExtra("hakbeon", hakbeon);
                 gomajor.putExtra("major", major);
-                gomajor.putExtra("min_libartscredit", min_libartscredit);
-                gomajor.putExtra("max_libartscredit", max_libartscredit);
-                gomajor.putExtra("max_majorcredit", max_majorcredit);
                 startActivity(gomajor);
                 return true;
             case R.id.whole_btn:
@@ -205,9 +203,6 @@ public class libarts_page extends AppCompatActivity {
                 // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
                 gowhole.putExtra("hakbeon",hakbeon);
                 gowhole.putExtra("major",major);
-                gowhole.putExtra("min_libartscredit",min_libartscredit);
-                gowhole.putExtra("max_libartscredit",max_libartscredit);
-                gowhole.putExtra("max_majorcredit",max_majorcredit);
                 startActivity(gowhole);
                 return true;
             default:

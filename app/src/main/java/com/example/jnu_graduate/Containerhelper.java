@@ -18,10 +18,7 @@ import java.util.Iterator;
 
 public class Containerhelper {
     GradeParser gradeParser;
-    //기본
-    private ConstraintLayout constraintLayout;
-    private Context context;
-    private int prevcontainerid;
+
     //받아와야할거
     private addcontainer container;
     private String title;
@@ -37,11 +34,7 @@ public class Containerhelper {
     private String maxCredit;
     private ArrayList<ArrayList<String>> grouparr;
     private boolean needdivision =false;
-    public void setBasicSetting(ConstraintLayout constraintLayout, Context context, int prevcontainerid){
-        this.constraintLayout=constraintLayout;
-        this.context=context;
-        this.prevcontainerid=prevcontainerid;
-    }
+
     public int get_herecredit(){
         return hereCredit;
     }
@@ -52,10 +45,9 @@ public class Containerhelper {
     public ArrayList<ArrayList<String>> getGrouparr(){
         return grouparr;
     }
-    public void setStartSetting(String title, String hakbeon, JSONObject mysubject, JSONObject majorinfo, JSONObject gradeinfo, addcontainer container){
+    public void setStartSetting(String title, String hakbeon, JSONObject mysubject, JSONObject majorinfo, JSONObject gradeinfo){
         this.title = title;
         this.hakbeon=hakbeon;
-        this.container=container;
         gradeParser=new GradeParser();
         this.majorInfo=majorinfo;
         this.gradeInfo=gradeinfo;
@@ -96,10 +88,9 @@ public class Containerhelper {
 
     }
 
-    public void setMajorStartSetting(String title, String hakbeon, JSONObject mysubject, JSONObject majorinfo, JSONObject gradeinfo, addcontainer container){
+    public void setMajorStartSetting(String title, String hakbeon, JSONObject mysubject, JSONObject majorinfo, JSONObject gradeinfo){
         this.title = title;
         this.hakbeon=hakbeon;
-        this.container=container;
         gradeParser=new GradeParser();
         this.majorInfo=majorinfo;
         this.gradeInfo=gradeinfo;
@@ -377,6 +368,65 @@ public class Containerhelper {
         }
     }
 
+    public void wholeContainerCreate(){
+        try {
+            // 전공필수 과목 참고코드
+            JSONObject majorgradeInfo = gradeParser.eachMajor();
+            JSONObject majorGradePoint = (JSONObject) majorgradeInfo.get(hakbeon);
+            maxCredit=majorGradePoint.get("심화전공").toString();
+            //제목넣기
+            ArrayList<ArrayList<String>> grouparr=new ArrayList<ArrayList<String>>();
+            ArrayList<String> childarr1=new ArrayList<String>();
+            childarr1.add(title);
+            //검색
+            for(int i=0; i<divisionSubject.size();i++) {
+                JSONObject imsi = divisionSubject.get(i);
+                String curri_year = imsi.get("curri_year").toString();
+                String subject_nm = imsi.get("subject_nm").toString();
+                String isu_nm=imsi.get("isu_nm").toString();
+                String credit=imsi.get("credit").toString();
+                String term_gb=imsi.get("term_gb").toString();
+                String _term_gb=null;
+                switch (term_gb){
+                    case "10":
+                        _term_gb="1";
+                        break;
+                    case "20":
+                        _term_gb="2";
+                        break;
+                    case "11":
+                        _term_gb="계절학기";
+                        break;
+                    case "21":
+                        _term_gb="계절학기";
+                        break;
+                }
+                if(isu_nm.equals(childarr1.get(0).toString())){
+                    childarr1.add(curri_year+"-"+_term_gb+":"+subject_nm);
+                }
+                hereCredit+=Integer.parseInt(credit);
+            }
+            grouparr.add(childarr1);
+
+
+            //학점계산.
+            this.grouparr=grouparr;
+//            for (int x = 0; x < grouparr.size(); x++) {
+//                ArrayList<String> childarr = grouparr.get(x);//childarr설정
+//                for(int i=1; i<childarr.size(); i++){
+//                    for(int k=0; k<divisionSubject.size();k++){
+//                        JSONObject imsi=divisionSubject.get(k);
+//                        if(imsi.get("subject_nm").equals(childarr.get(i))){
+//                            int addcredt=Integer.parseInt(imsi.get("credit").toString());
+//                            hereCredit+=addcredt;
+//                        }
+//                    }
+//                }
+//            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
     public JSONObject getCultureDB(String classification, String _hakbeon) throws JSONException, IOException {
         JSONObject subjectInfo = gradeParser.getCulture(Integer.parseInt(_hakbeon));
         JSONObject cultureSub = (JSONObject) subjectInfo.get("교양");

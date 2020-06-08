@@ -1,5 +1,6 @@
 package com.example.jnu_graduate;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -21,13 +22,14 @@ import java.util.Calendar;
 public class MainActivity extends AppCompatActivity {
     Service service;
     Button loginBtn;
+    public static Activity loginactivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        loginactivity=MainActivity.this;
         loginBtn = findViewById(R.id.loginBtn);
         loginBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -40,7 +42,9 @@ public class MainActivity extends AppCompatActivity {
                 String id = idView.getText().toString();
                 String pw = pwView.getText().toString();
                 service.execute(getApplicationContext(), id, pw, MainActivity.this);
+
             }
+
         });
     }
 }

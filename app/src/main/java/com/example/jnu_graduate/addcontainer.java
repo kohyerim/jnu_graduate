@@ -85,7 +85,7 @@ public class addcontainer {
     //프로그래스바 만들기
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void createprogressbar(){
-        Constraints.LayoutParams params = new Constraints.LayoutParams((int) dpToPx(356), (int) dpToPx(56));
+        Constraints.LayoutParams params = new Constraints.LayoutParams((int) dpToPx(365), (int) dpToPx(56));
         params.startToStart = containerid;
         params.topToTop = containerid;
         params.setMarginStart((int)(dpToPx(12)));
