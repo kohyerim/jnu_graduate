@@ -143,6 +143,7 @@ public class Service extends AsyncTask<Object, Void, Boolean>{
                     ctx.startActivity(lobbyintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                 }
             }, 1000);
+
         }
         // login Fail
         else{

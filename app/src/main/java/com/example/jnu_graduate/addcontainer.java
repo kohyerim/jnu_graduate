@@ -26,7 +26,7 @@ public class addcontainer {
     private int containerid;
     private int prevviewid;
     private int progressbarid;
-
+    private boolean chainred=true;
     private String here;
     private String max;
     private int bigmenucounter=0;
@@ -70,6 +70,7 @@ public class addcontainer {
         this.containerid=View.generateViewId();
         RecyclerView imsicontainer=new RecyclerView(context);
         imsicontainer.setId(containerid);
+        prevviewid=containerid;
         this.container= imsicontainer;
         this.constraintLayout = constraintLayout;
         this.prevcontainerid = prevcontainerid;
@@ -130,7 +131,6 @@ public class addcontainer {
         int detailtopmargin= (int)(dpToPx(24*detailsubjectnumber+18*subjectmenunumber+yaubun+bigsubjectmenunumber*36*18));
         subjectmenuresource(subjectlist, detailmarginstart, detailleftmargin, detailtopmargin);
     }
-
 
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -201,6 +201,108 @@ public class addcontainer {
 
         constraintLayout.addView(subjectmenu);
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    public void createsubjectmenu3(ArrayList subjectlist){
+        //세부과목과 교과목이 들어갈 텍스트뷰와 그것을 구성하는 옵션들이 들어갈것 정의
+        int detailmarginstart= (int)(dpToPx(16));
+        int detailleftmargin= (int)(dpToPx(16));
+        int detailtopmargin= (int)(dpToPx(60+24*detailsubjectnumber+18*subjectmenunumber+yaubun+bigsubjectmenunumber*36*18));
+        subjectmenuresource2(subjectlist, detailmarginstart, detailleftmargin, detailtopmargin);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    public void createsubjectmenu4(ArrayList subjectlist){
+        //세부과목과 교과목이 들어갈 텍스트뷰와 그것을 구성하는 옵션들이 들어갈것 정의
+        int detailmarginstart= (int)(dpToPx(40));
+        int detailleftmargin= (int)(dpToPx(40));
+        int detailtopmargin= (int)(dpToPx(60+24*detailsubjectnumber+18*subjectmenunumber+yaubun+bigsubjectmenunumber*36*18));
+        subjectmenuresource2(subjectlist, detailmarginstart, detailleftmargin, detailtopmargin);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    private void subjectmenuresource2(ArrayList subjectlist, int detailmarginstart, int detailleftmargin, int detailtopmargin) {
+        subject_r_c_adapter adapter1  = null ;
+        subject_r_c_adapter adapter2  = null ;
+        RecyclerView detailsubject= new RecyclerView(context);
+        RecyclerView subjectmenu= new RecyclerView(context);
+        Constraints.LayoutParams params = new Constraints.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        Constraints.LayoutParams params2 = new Constraints.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        //세부과목부터
+        params.startToStart = containerid;
+        params.topToTop = containerid;
+        prevviewid= View.generateViewId();
+        detailsubject.setId(prevviewid);
+        detailsubjectnumber++;
+
+        ArrayList<String> onlydetail=new ArrayList<String>();
+        String text1=subjectlist.get(0).toString();
+        onlydetail.add(text1);
+        //
+        detailsubject.setLayoutManager(new LinearLayoutManager(context));
+        if(subjectlist.size()>=2){
+            adapter1 = new subject_r_c_adapter(onlydetail,true);
+            chainred=true;
+        }
+
+        if(subjectlist.size()<2){
+            adapter1 = new subject_r_c_adapter(onlydetail,false);
+            chainred=false;
+        }
+        adapter1.notifyDataSetChanged();
+        detailsubject.setAdapter(adapter1);
+
+        //
+        params.setMarginStart(detailmarginstart);
+        params.leftMargin = detailleftmargin;
+        params.topMargin = (detailtopmargin);
+        detailsubject.setLayoutParams(params);
+        constraintLayout.addView(detailsubject);
+
+        //교과목
+
+        params2.setMarginStart((int)(dpToPx(8)));
+        params2.leftMargin = (int)(dpToPx(8));
+        params2.topMargin = (int)(dpToPx(24*(detailsubjectnumber-1)+18*subjectmenunumber+yaubun+bigsubjectmenunumber*36*18));
+        params2.startToEnd = prevviewid;
+        params2.topToBottom = progressbarid;
+
+        ArrayList<String> onlysubject=new ArrayList<String>();
+        if(subjectlist.size()==1){
+            String imsi="";
+            onlysubject.add(imsi);
+            subjectmenunumber++;
+        }
+        for(int i=1; i<subjectlist.size();i++){
+            String imsi= subjectlist.get(i).toString();
+            onlysubject.add(imsi);
+            subjectmenunumber++;
+        }
+        if(subjectlist.size()>35){
+            subjectmenunumber=0;
+            bigsubjectmenunumber++;
+        }
+        subjectmenu.setLayoutParams(params2);
+        subjectmenu.setLayoutManager(new LinearLayoutManager(context));
+        if(chainred) {
+            adapter2 = new subject_r_c_adapter(onlysubject, true);
+            adapter2.notifyDataSetChanged();
+            subjectmenu.setAdapter(adapter2);
+        }
+        else{
+            adapter2 = new subject_r_c_adapter(onlysubject, false);
+            adapter2.notifyDataSetChanged();
+            subjectmenu.setAdapter(adapter2);
+        }
+
+
+        constraintLayout.addView(subjectmenu);
+    }
+
+
+
+
+
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void createnodivisionsubjectmenu(ArrayList subjectlist){

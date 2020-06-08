@@ -21,7 +21,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="12dp"
-        android:textColor="#6799FF"
+        android:textColor="#000000"
         app:layout_constraintStart_toStartOf="@+id/recyclecontainer"
         app:layout_constraintTop_toTopOf="@+id/recyclecontainer" />
 

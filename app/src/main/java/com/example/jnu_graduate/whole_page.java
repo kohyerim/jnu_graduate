@@ -36,7 +36,6 @@ public class whole_page extends AppCompatActivity {
     private String max_libartscredit = null;
     private String max_majorcredit = null;
     private String max_wholecredit;
-
     private String here_libartscredit =null;
     private String here_majorscredit =null;
     private String here_wholecredit =null;

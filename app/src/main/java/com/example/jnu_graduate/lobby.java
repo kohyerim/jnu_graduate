@@ -33,6 +33,7 @@ public class lobby extends AppCompatActivity {
     TextView libarts;
     TextView major;
     TextView whole;
+    TextView pilsu;
     TextView cultureGP;
     TextView majorGP;
     TextView totalGP;
@@ -58,8 +59,6 @@ public class lobby extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lobby);
         //로비 진입시 로그인 액티비티 종료
-        MainActivity loginactivity= (MainActivity) MainActivity.loginactivity;
-        loginactivity.finish();
 
 
 
@@ -128,7 +127,7 @@ public class lobby extends AppCompatActivity {
         golibarts_page();
         gomajor_page();
         gowhole_page();
-
+        gopilsu_page();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -200,6 +199,21 @@ public class lobby extends AppCompatActivity {
                 golibarts.putExtra("hakbeon",myHakbeon);
                 golibarts.putExtra("major",majorClass);
                 startActivity(golibarts);
+            }
+        });
+
+    }
+
+    public void gopilsu_page(){
+        pilsu=findViewById(R.id.pilsu_container);
+        pilsu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent gopilsu=new Intent(lobby.this, PilsuSubject_page.class);
+                // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
+                gopilsu.putExtra("hakbeon",myHakbeon);
+                gopilsu.putExtra("major",majorClass);
+                startActivity(gopilsu);
             }
         });
 

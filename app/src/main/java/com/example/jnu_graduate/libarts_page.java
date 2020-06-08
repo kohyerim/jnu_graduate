@@ -36,10 +36,6 @@ public class libarts_page extends AppCompatActivity {
     private int detailsubjectnum=0;
     private String hakbeon = null;
     private String major = null;
-    private String min_libartscredit = null;
-    private String max_libartscredit = null;
-    private String max_majorcredit = null;
-
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @SuppressLint("ResourceType")
@@ -57,9 +53,6 @@ public class libarts_page extends AppCompatActivity {
         Intent intent = getIntent();
         hakbeon = intent.getExtras().getString("hakbeon");
         major = intent.getExtras().getString("major");
-        min_libartscredit = intent.getExtras().getString("min_libartscredit");
-        max_libartscredit = intent.getExtras().getString("max_libartscredit ");
-        max_majorcredit = intent.getExtras().getString("max_majorcredit");
         System.out.println(hakbeon+"교양");
 
 
