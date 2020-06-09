@@ -290,7 +290,12 @@ public class lobby extends AppCompatActivity {
         jsonObject = new JSONObject(jsonString);
 
         student_name.setText(jsonObject.get("student_name").toString());
-        dept.setText(jsonObject.get("major").toString());
+        if(jsonObject.get("dbl_dept_nm").toString().length() > 1){
+            dept.setText(jsonObject.get("major").toString() + "  /  " + jsonObject.get("dbl_dept_nm"));
+        }
+        else{
+            dept.setText(jsonObject.get("major").toString());
+        }
 
         myHakbeon = jsonObject.get("student_num").toString().substring(0,4);
         majorClass = jsonObject.get("major").toString();
