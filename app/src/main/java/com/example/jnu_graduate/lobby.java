@@ -295,4 +295,8 @@ public class lobby extends AppCompatActivity {
         myHakbeon = jsonObject.get("student_num").toString().substring(0,4);
         majorClass = jsonObject.get("major").toString();
     }
+
+    public void onBackPressed(){
+        // super.onBackPressed();
+    }
 }
