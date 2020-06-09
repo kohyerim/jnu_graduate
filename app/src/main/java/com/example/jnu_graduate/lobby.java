@@ -290,8 +290,8 @@ public class lobby extends AppCompatActivity {
         jsonObject = new JSONObject(jsonString);
 
         student_name.setText(jsonObject.get("student_name").toString());
-        if(jsonObject.get("dbl_dept_nm").toString().length() > 1){
-            dept.setText(jsonObject.get("major").toString() + "  /  " + jsonObject.get("dbl_dept_nm"));
+        if(jsonObject.has("dbl_dept_nm")){
+            dept.setText(jsonObject.get("major").toString() + "  /  " + jsonObject.get("dbl_dept_nm").toString());
         }
         else{
             dept.setText(jsonObject.get("major").toString());
