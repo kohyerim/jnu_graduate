@@ -16,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import org.json.JSONException;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.Calendar;
 
@@ -31,8 +33,8 @@ public class MainActivity extends AppCompatActivity {
 
         loginactivity=MainActivity.this;
         loginBtn = findViewById(R.id.loginBtn);
-        loginBtn.setOnClickListener(new View.OnClickListener() {
 
+        loginBtn.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
@@ -42,9 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 String id = idView.getText().toString();
                 String pw = pwView.getText().toString();
                 service.execute(getApplicationContext(), id, pw, MainActivity.this);
-
             }
-
         });
     }
 }
