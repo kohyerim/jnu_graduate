@@ -15,6 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -75,9 +76,17 @@ public class Service extends AsyncTask<Object, Void, Boolean>{
             JSONObject profileObj = new JSONObject();
             profileObj.put("student_num", hakjuk.get("student_no").toString()); // == strings[0]: 학번
             profileObj.put("student_name", hakjuk.get("nm").toString());
-            profileObj.put("major", hakjuk.get("maj_nm").toString());  // 전공
+            if(hakjuk.get("maj_nm").toString().length() < 1){ // 전공 추가 (학부 x)
+                profileObj.put("major", hakjuk.get("cls_nm").toString());
+            }
+            else{  // 전공 추가 (학부 - 학과)
+                profileObj.put("major", hakjuk.get("maj_nm").toString());
+            }
             profileObj.put("grade", hakjuk.get("grade_nm").toString()); // 학년
             profileObj.put("term_grade", hakjuk.get("term_grade").toString());  // 몇학기 인지 (ex. 7)
+            if(hakjuk.get("dbl_dept_nm").toString().length() > 2){ // 복수전공 혹은 연계전공 있다면 추가
+                profileObj.put("dbl_dept_nm", hakjuk.get("dbl_dept_nm"));
+            }
 
             int s_num = Integer.parseInt(hakjuk.get("student_no").toString().substring(0,4));
             int curr_year = Calendar.getInstance().get(Calendar.YEAR);
@@ -95,6 +104,11 @@ public class Service extends AsyncTask<Object, Void, Boolean>{
 
             try {
                 // 파일 확인 : Shift 2번 -> Device File Explorer -> data/data/com.example.jnu_graduate/files
+
+                //origin.json
+                FileOutputStream originStream = ctx.openFileOutput("origin.json", Context.MODE_PRIVATE);
+                originStream.write(hakjuk.toString().getBytes());
+                originStream.close();
 
                 // profile.json
                 FileOutputStream profileStream = ctx.openFileOutput("profile.json", Context.MODE_PRIVATE);
