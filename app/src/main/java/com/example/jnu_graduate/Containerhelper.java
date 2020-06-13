@@ -36,6 +36,10 @@ public class Containerhelper {
     //
     private int pilsumaxcount =0;
     private int pilsuherecount =0;
+    //졸업자격
+    private ArrayList<ArrayList<String>> graduategrouparr;
+
+
 
     public int get_herecredit(){
         return hereCredit;
@@ -222,6 +226,93 @@ public class Containerhelper {
     public ArrayList<ArrayList<String>> get_libartsgrouparr(){
         return libartsgrouparr;
     }
+
+
+    public void makegrauate_major(JSONObject majorinfo){
+        this.majorInfo=majorinfo;
+        JSONObject list= null;
+        try {
+            list = (JSONObject)majorinfo.get("전공영역");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        make_resource(list);
+
+    }
+
+
+    public void makelicense(JSONObject majorinfo){
+        this.majorInfo=majorinfo;
+        JSONObject list= null;
+        try {
+            list = (JSONObject)majorinfo.get("인정자격증");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        make_resource(list);
+    }
+
+    public void makeforeign(JSONObject majorinfo){
+        this.majorInfo=majorinfo;
+        JSONObject list= null;
+        try {
+            list = (JSONObject)majorinfo.get("외국어영역");
+            Iterator listI = list.keys();
+            ArrayList<ArrayList<String>> grouparr = new ArrayList<>();
+            while (listI.hasNext()) {
+                ArrayList<String> childarr = new ArrayList<>();
+                String list2title = listI.next().toString();
+                JSONObject list2 = (JSONObject) list.get(list2title);
+                childarr.add(list2title);
+                Iterator list2I=list2.keys();
+                while(list2I.hasNext()){
+                    String imsi=list2I.next().toString();
+                    String imsi2=list2.get(imsi).toString();
+                    childarr.add(imsi+":"+imsi2);
+                }
+                grouparr.add(childarr);
+            }
+            graduategrouparr = new ArrayList<>();
+            graduategrouparr = grouparr;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+
+
+
+    public ArrayList<ArrayList<String>> get_graduate_grouparr(){
+        return graduategrouparr;
+    }
+
+    private void make_resource(JSONObject list) {
+        try {
+            Iterator listI = list.keys();
+            ArrayList<ArrayList<String>> grouparr = new ArrayList<>();
+            while (listI.hasNext()) {
+                ArrayList<String> childarr = new ArrayList<>();
+                String list2title = listI.next().toString();
+                JSONArray list2 = (JSONArray) list.get(list2title);
+                childarr.add(list2title);
+                for (int i = 0; i < list2.length(); i++) {
+                    String imsi = list2.get(i).toString();
+                    childarr.add(imsi);
+                }
+                grouparr.add(childarr);
+            }
+            graduategrouparr = new ArrayList<>();
+            graduategrouparr = grouparr;
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public int get_pilsumaxcount(){
         for(int i=0; i<majorgrouparr.size(); i++){

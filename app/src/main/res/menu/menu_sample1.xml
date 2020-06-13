@@ -19,6 +19,15 @@
             android:id="@+id/whole_btn"
             android:title="전체학점"
             />
+        <item
+            android:id="@+id/pilsu_btn"
+            android:title="필수과목"
+            />
+        <item
+            android:id="@+id/chain_btn"
+            android:title="연계학점"
+            />
+
 
 
 </menu>

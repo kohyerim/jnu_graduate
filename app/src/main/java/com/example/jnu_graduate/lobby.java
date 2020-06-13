@@ -1,7 +1,6 @@
 package com.example.jnu_graduate;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,12 +20,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 
 public class lobby extends AppCompatActivity {
 
@@ -35,6 +32,8 @@ public class lobby extends AppCompatActivity {
     TextView major;
     TextView whole;
     TextView pilsu;
+    TextView graduate_major;
+    TextView graduate_foreign;
     TextView pilsuGP;
     TextView cultureGP;
     TextView majorGP;
@@ -136,10 +135,12 @@ public class lobby extends AppCompatActivity {
         gomajor_page();
         gowhole_page();
         gopilsu_page();
+        gograduate_foreign();
+        gograduate_major();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu_sample, menu);
+        getMenuInflater().inflate(R.menu.menu_sample1, menu);
         return true;
     }
 
@@ -167,8 +168,17 @@ public class lobby extends AppCompatActivity {
                 // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
                 gowhole.putExtra("hakbeon",myHakbeon);
                 gowhole.putExtra("major",majorClass);
-
                 startActivity(gowhole);
+
+            case R.id.pilsu_btn:
+                Intent gopisu=new Intent(lobby.this, PilsuSubject_page.class);
+                // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
+                gopisu.putExtra("hakbeon",myHakbeon);
+                gopisu.putExtra("major",majorClass);
+                startActivity(gopisu);
+
+                
+
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -195,6 +205,36 @@ public class lobby extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    public void gograduate_major(){
+        graduate_major=findViewById(R.id.graduate_major_container);
+        graduate_major.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goGD_major=new Intent(lobby.this, graduate_major_page.class);
+                // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
+                goGD_major.putExtra("hakbeon",myHakbeon);
+                goGD_major.putExtra("major",majorClass);
+                startActivity(goGD_major);
+            }
+        });
+
+    }
+
+    public void gograduate_foreign(){
+        graduate_foreign=findViewById(R.id.graduate_foreign_container);
+        graduate_foreign.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goGD_foreign=new Intent(lobby.this, graduate_foreign_page.class);
+                // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
+                goGD_foreign.putExtra("hakbeon",myHakbeon);
+                goGD_foreign.putExtra("major",majorClass);
+                startActivity(goGD_foreign);
+            }
+        });
+
     }
 
     public void golibarts_page(){

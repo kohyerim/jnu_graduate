@@ -15,14 +15,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class major_page extends AppCompatActivity {
     public static Activity majoractivity;
@@ -137,7 +135,7 @@ public class major_page extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu_sample, menu);
+        getMenuInflater().inflate(R.menu.menu_sample1, menu);
         return true;
     }
 
@@ -168,6 +166,12 @@ public class major_page extends AppCompatActivity {
 
                 startActivity(gowhole);
                 return true;
+            case R.id.pilsu_btn:
+                Intent gopisu=new Intent(major_page.this, PilsuSubject_page.class);
+                // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
+                gopisu.putExtra("hakbeon",hakbeon);
+                gopisu.putExtra("major",major);
+                startActivity(gopisu);
             default:
                 return super.onOptionsItemSelected(item);
         }

@@ -242,12 +242,12 @@ public class addcontainer {
         detailsubject.setLayoutManager(new LinearLayoutManager(context));
         if(subjectlist.size()>=2){
             adapter1 = new subject_r_c_adapter(onlydetail,true);
-            chainred=true;
+
         }
 
         if(subjectlist.size()<2){
             adapter1 = new subject_r_c_adapter(onlydetail,false);
-            chainred=false;
+
         }
         adapter1.notifyDataSetChanged();
         detailsubject.setAdapter(adapter1);
@@ -255,7 +255,7 @@ public class addcontainer {
         //
         params.setMarginStart(detailmarginstart);
         params.leftMargin = detailleftmargin;
-        params.topMargin = (detailtopmargin);
+        params.topMargin = detailtopmargin;
         detailsubject.setLayoutParams(params);
         constraintLayout.addView(detailsubject);
 
@@ -264,8 +264,8 @@ public class addcontainer {
         params2.setMarginStart((int)(dpToPx(8)));
         params2.leftMargin = (int)(dpToPx(8));
         params2.topMargin = (int)(dpToPx(24*(detailsubjectnumber-1)+18*subjectmenunumber+yaubun+bigsubjectmenunumber*36*18));
-        params2.startToEnd = prevviewid;
-        params2.topToBottom = progressbarid;
+        params2.startToStart = prevviewid;
+        params2.topToTop = containerid;
 
         ArrayList<String> onlysubject=new ArrayList<String>();
         if(subjectlist.size()==1){
@@ -284,52 +284,79 @@ public class addcontainer {
         }
         subjectmenu.setLayoutParams(params2);
         subjectmenu.setLayoutManager(new LinearLayoutManager(context));
-        if(chainred) {
-            adapter2 = new subject_r_c_adapter(onlysubject, true);
-            adapter2.notifyDataSetChanged();
-            subjectmenu.setAdapter(adapter2);
-        }
-        else{
-            adapter2 = new subject_r_c_adapter(onlysubject, false);
-            adapter2.notifyDataSetChanged();
-            subjectmenu.setAdapter(adapter2);
-        }
-
-
+        adapter2 = new subject_r_c_adapter(onlysubject, true);
+        adapter2.notifyDataSetChanged();
+        subjectmenu.setAdapter(adapter2);
         constraintLayout.addView(subjectmenu);
     }
 
 
-
-
-
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    public void createsubjectmenu5(ArrayList subjectlist){
+        //세부과목과 교과목이 들어갈 텍스트뷰와 그것을 구성하는 옵션들이 들어갈것 정의
+        int detailmarginstart= (int)(dpToPx(16));
+        int detailleftmargin= (int)(dpToPx(16));
+        int detailtopmargin= (int)(dpToPx(40+50*detailsubjectnumber+20*subjectmenunumber+yaubun+bigsubjectmenunumber*36*18));
+        subjectmenuresource3(subjectlist, detailmarginstart, detailleftmargin, detailtopmargin);
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public void createnodivisionsubjectmenu(ArrayList subjectlist){
-        //세부과목없는 전공과목나열
-        onlysubject_r_c_adapter adapter  = null ;
-        RecyclerView noDetailsubject= new RecyclerView(context);
+    private void subjectmenuresource3(ArrayList subjectlist, int detailmarginstart, int detailleftmargin, int detailtopmargin) {
+        subject_r_c_adapter adapter1  = null ;
+        subject_r_c_adapter adapter2  = null ;
+        RecyclerView detailsubject= new RecyclerView(context);
+        RecyclerView subjectmenu= new RecyclerView(context);
         Constraints.LayoutParams params = new Constraints.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        //파라미터 정의
+        Constraints.LayoutParams params2 = new Constraints.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        //세부과목부터
         params.startToStart = containerid;
-        params.topToBottom = prevviewid;
-        params.setMarginStart((int)(dpToPx(16)));
-        params.leftMargin = (int)(dpToPx(16));
-        params.topMargin = (int)(dpToPx(18));
+        params.topToTop = containerid;
         prevviewid= View.generateViewId();
-        noDetailsubject.setId(prevviewid);
+        detailsubject.setId(prevviewid);
         detailsubjectnumber++;
-        noDetailsubject.setLayoutParams(params);
+        ArrayList<String> onlydetail=new ArrayList<String>();
+        String text1=subjectlist.get(0).toString()+":";
+        onlydetail.add(text1);
+        detailsubject.setLayoutManager(new LinearLayoutManager(context));
+        adapter1 = new subject_r_c_adapter(onlydetail,true);
+        adapter1.notifyDataSetChanged();
+        detailsubject.setAdapter(adapter1);
+        params.setMarginStart(detailmarginstart);
+        params.leftMargin = detailleftmargin;
+        params.topMargin = (detailtopmargin);
+        detailsubject.setLayoutParams(params);
+        constraintLayout.addView(detailsubject);
 
-        for(int i=0; i<subjectlist.size();i++){
+        //교과목
+
+        params2.setMarginStart((int)(dpToPx(8)));
+        params2.leftMargin = (int)(dpToPx(13));
+        params2.topMargin = (int)(dpToPx(64+50*(detailsubjectnumber-1)+20*subjectmenunumber+yaubun+bigsubjectmenunumber*36*18));
+        params2.startToStart = prevviewid;
+        params2.topToTop = containerid;
+
+        ArrayList<String> onlysubject=new ArrayList<String>();
+        if(subjectlist.size()==1){
+            String imsi="";
+            onlysubject.add(imsi);
             subjectmenunumber++;
         }
-        //
-        noDetailsubject.setLayoutManager(new LinearLayoutManager(context));
-        adapter=new onlysubject_r_c_adapter(subjectlist,true);
-        adapter.notifyDataSetChanged();
-        noDetailsubject.setAdapter(adapter);
-        constraintLayout.addView(noDetailsubject);
+        for(int i=1; i<subjectlist.size();i++){
+            String imsi= subjectlist.get(i).toString();
+            onlysubject.add(imsi);
+            subjectmenunumber++;
+        }
+        if(subjectlist.size()>35){
+            subjectmenunumber=0;
+            bigsubjectmenunumber++;
+        }
+        subjectmenu.setLayoutParams(params2);
+        subjectmenu.setLayoutManager(new LinearLayoutManager(context));
+        adapter2 = new subject_r_c_adapter(onlysubject,true);
+        adapter2.notifyDataSetChanged();
+        subjectmenu.setAdapter(adapter2);
+
+        constraintLayout.addView(subjectmenu);
     }
 
 
@@ -347,14 +374,19 @@ public class addcontainer {
         }
         containerHeight=100+detailsubjectcounter*24+menucounter*18+bigmenucounter*18*36;
     }
-
-    public void onlymajorcalculateheigth(ArrayList arrayList){
-        detailsubjectcounter++;// 메뉴가아니라 세부로 사용
-        for(int i=0; i<arrayList.size();i++){
+    public void calculateheigth2(ArrayList arrayList){
+        detailsubjectcounter++;
+        for(int i=1; i<arrayList.size();i++){
             menucounter++;
         }
-        yaubun=arrayList.size()/5;
-
-        containerHeight=120+detailsubjectcounter*26+menucounter*28;
+        if(arrayList.size()==1){
+            menucounter++;
+        }
+        if(menucounter>35){
+            bigmenucounter++;
+            menucounter=0;
+        }
+        containerHeight=100+detailsubjectcounter*50+menucounter*18+bigmenucounter*18*36;
     }
+
 }
