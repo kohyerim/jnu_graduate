@@ -208,7 +208,7 @@ public class lobby extends AppCompatActivity {
     }
 
     public void gograduate_major(){
-        graduate_major=findViewById(R.id.graduate_major_container);
+        graduate_major=findViewById(R.id.lobby_graduate_major_inner_btn);
         graduate_major.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -223,7 +223,7 @@ public class lobby extends AppCompatActivity {
     }
 
     public void gograduate_foreign(){
-        graduate_foreign=findViewById(R.id.graduate_foreign_container);
+        graduate_foreign=findViewById(R.id.lobby_graduate_foreign_inner_btn);
         graduate_foreign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

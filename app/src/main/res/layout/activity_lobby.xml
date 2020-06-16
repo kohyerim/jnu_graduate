@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+
+
+
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,11 +10,6 @@
     android:layout_height="match_parent"
     tools:context=".lobby">
 
-
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".lobby">
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -52,6 +50,7 @@
         android:background="@drawable/lobby_info"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <!--사진-->
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/st_picture"
@@ -312,8 +311,8 @@
 
     <TextView
         android:id="@+id/graduation_requirements_container"
-        android:layout_width="387dp"
-        android:layout_height="413dp"
+        android:layout_width="381dp"
+        android:layout_height="275dp"
         android:layout_marginStart="12dp"
         android:layout_marginLeft="12dp"
         android:layout_marginTop="30dp"
@@ -322,268 +321,108 @@
         app:layout_constraintTop_toBottomOf="@+id/st_info" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="6dp"
-        android:text="외국어 영역"
-        android:textColor="#00D8FF"
-        app:layout_constraintStart_toStartOf="@+id/graduation_requirements_container"
-        app:layout_constraintTop_toTopOf="@+id/graduation_requirements_container" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginLeft="28dp"
-        android:layout_marginTop="248dp"
-        android:text="전공 영역"
-        android:textColor="#00D8FF"
-        app:layout_constraintStart_toStartOf="@+id/graduation_requirements_container"
-        app:layout_constraintTop_toTopOf="@+id/graduation_requirements_container" />
-
-    <TextView
-        android:clickable="true"
         android:id="@+id/graduate_foreign_container"
-        android:layout_width="368dp"
-        android:layout_height="206dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_width="156dp"
+        android:layout_height="212dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="36dp"
         android:background="@drawable/lobby_grade_container"
+        android:clickable="true"
         app:layout_constraintStart_toStartOf="@+id/graduation_requirements_container"
         app:layout_constraintTop_toTopOf="@+id/graduation_requirements_container" />
 
-    <TextView
-        android:id="@+id/english"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="12dp"
-        android:text="TOEIC,TOEIC Speaking, TOEFL, TEPS,G_TELP"
-        app:layout_constraintStart_toEndOf="@+id/english_text"
-        app:layout_constraintTop_toTopOf="@+id/graduate_foreign_container" />
+
+
 
     <TextView
-        android:id="@+id/english_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="312dp"
-        android:layout_marginRight="312dp"
-        android:text="영어 :"
-        app:layout_constraintEnd_toEndOf="@+id/graduate_foreign_container"
-        app:layout_constraintTop_toTopOf="@+id/graduate_foreign_container" />
-
-    <TextView
-        android:id="@+id/Japanese"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="44dp"
-        android:text="JLPT, JPT"
-        app:layout_constraintStart_toEndOf="@+id/Japanese_text"
-        app:layout_constraintTop_toTopOf="@+id/graduate_foreign_container" />
-
-    <TextView
-        android:id="@+id/Japanese_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="44dp"
-        android:text="일본어 :"
-        app:layout_constraintStart_toStartOf="@+id/graduate_foreign_container"
-        app:layout_constraintTop_toTopOf="@+id/graduate_foreign_container" />
-
-    <TextView
-        android:id="@+id/Chinese"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="76dp"
-        android:text="HSK, TOCFL"
-        app:layout_constraintStart_toEndOf="@+id/Chinese_text"
-        app:layout_constraintTop_toTopOf="@+id/graduate_foreign_container" />
-
-    <TextView
-        android:id="@+id/Chinese_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="76dp"
-        android:text="중국어 :"
-        app:layout_constraintStart_toStartOf="@+id/graduate_foreign_container"
-        app:layout_constraintTop_toTopOf="@+id/graduate_foreign_container" />
-
-    <TextView
-        android:id="@+id/German"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="108dp"
-        android:layout_marginLeft="4dp"
-        android:text="ZDaF"
-        app:layout_constraintStart_toEndOf="@+id/Jerman_text"
-        app:layout_constraintTop_toTopOf="@+id/graduate_foreign_container" />
-
-    <TextView
-        android:id="@+id/Jerman_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="108dp"
-        android:text="독일어 :"
-        app:layout_constraintStart_toStartOf="@+id/graduate_foreign_container"
-        app:layout_constraintTop_toTopOf="@+id/graduate_foreign_container" />
-
-    <TextView
-        android:id="@+id/French"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="140dp"
-        android:text="DELF"
-        app:layout_constraintStart_toEndOf="@+id/French_text"
-        app:layout_constraintTop_toTopOf="@+id/graduate_foreign_container" />
-
-    <TextView
-        android:id="@+id/French_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="140dp"
-        android:text="프랑스어 :"
-        app:layout_constraintStart_toStartOf="@+id/graduate_foreign_container"
-        app:layout_constraintTop_toTopOf="@+id/graduate_foreign_container" />
-
-    <TextView
-        android:id="@+id/hanza"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="172dp"
-        android:text="DELF"
-        app:layout_constraintStart_toEndOf="@+id/hanza_text"
-        app:layout_constraintTop_toTopOf="@+id/graduate_foreign_container" />
-
-    <TextView
-        android:id="@+id/hanza_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="172dp"
-        android:text="한자 :"
-        app:layout_constraintStart_toStartOf="@+id/graduate_foreign_container"
-        app:layout_constraintTop_toTopOf="@+id/graduate_foreign_container" />
-
-    <TextView
-        android:clickable="true"
         android:id="@+id/graduate_major_container"
-        android:layout_width="370dp"
-        android:layout_height="132dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="276dp"
+        android:layout_width="156dp"
+        android:layout_height="212dp"
+        android:layout_marginStart="212dp"
+        android:layout_marginLeft="212dp"
+        android:layout_marginTop="36dp"
         android:background="@drawable/lobby_grade_container"
+        android:clickable="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/graduation_requirements_container" />
 
     <TextView
-        android:id="@+id/graduate_test_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="8dp"
-        android:text="졸업종합시험 :"
+        android:layout_marginBottom="6dp"
+        android:text="외국어 영역"
+        android:textColor="#00D8FF"
+        app:layout_constraintBottom_toTopOf="@+id/graduate_foreign_container"
+        app:layout_constraintStart_toStartOf="@+id/graduate_foreign_container" />
+
+
+    <TextView
+        android:id="@+id/lobby_graduate_foreign_text"
+        android:layout_width="134dp"
+        android:layout_height="100dp"
+        android:background="@drawable/lobby_credit_container"
+        android:gravity="center"
+        android:text="영어,일본어\n중국어,독일어\n프랑스어,한자"
+        android:textColor="#000000"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/graduate_foreign_container"
+        app:layout_constraintEnd_toEndOf="@+id/graduate_foreign_container"
+        app:layout_constraintStart_toStartOf="@+id/graduate_foreign_container"
+        app:layout_constraintTop_toTopOf="@+id/graduate_foreign_container"
+        app:layout_constraintVertical_bias="0.175" />
+
+    <Button
+        android:id="@+id/lobby_graduate_foreign_inner_btn"
+        android:layout_width="134dp"
+        android:layout_height="58dp"
+        android:background="@drawable/lobby_credit_container"
+        android:text="외국어영역\n상세정보 확인"
+        app:layout_constraintBottom_toBottomOf="@+id/graduate_foreign_container"
+        app:layout_constraintEnd_toEndOf="@+id/graduate_foreign_container"
+        app:layout_constraintHorizontal_bias="0.466"
+        app:layout_constraintStart_toStartOf="@+id/graduate_foreign_container"
+        app:layout_constraintTop_toTopOf="@+id/graduate_foreign_container"
+        app:layout_constraintVertical_bias="0.885" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:text="전공 영역"
+        android:textColor="#00D8FF"
+        app:layout_constraintBottom_toTopOf="@+id/graduate_major_container"
+        app:layout_constraintStart_toStartOf="@+id/graduate_major_container" />
+
+
+    <TextView
+        android:id="@+id/lobby_graduate_major_text"
+        android:layout_width="134dp"
+        android:layout_height="100dp"
+        android:gravity="center"
+        android:text="졸업종합시험\n작품발표\n대치인정\n인정 자격증 종류"
+        android:textColor="#000000"
+        android:textSize="15dp"
+        android:background="@drawable/lobby_credit_container"
+        app:layout_constraintBottom_toBottomOf="@+id/graduate_major_container"
+        app:layout_constraintEnd_toEndOf="@+id/graduate_major_container"
         app:layout_constraintStart_toStartOf="@+id/graduate_major_container"
-        app:layout_constraintTop_toTopOf="@+id/graduate_major_container" />
+        app:layout_constraintTop_toTopOf="@+id/graduate_major_container"
+        app:layout_constraintVertical_bias="0.175"
+        />
 
-    <TextView
-        android:id="@+id/hanza_test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="8dp"
-        android:text="컴퓨터전공 교과목중 선택하여 종합시험 실시"
-        app:layout_constraintStart_toEndOf="@+id/graduate_test_text"
-        app:layout_constraintTop_toTopOf="@+id/graduate_major_container" />
-
-    <TextView
-        android:id="@+id/graduate_product_pt_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginLeft="36dp"
-        android:layout_marginTop="36dp"
-        android:text="작품발표 :"
+    <Button
+        android:id="@+id/lobby_graduate_major_inner_btn"
+        android:layout_width="134dp"
+        android:layout_height="58dp"
+        android:background="@drawable/lobby_credit_container"
+        android:text="전공영역\n상세정보 확인"
+        app:layout_constraintBottom_toBottomOf="@+id/graduate_major_container"
+        app:layout_constraintEnd_toEndOf="@+id/graduate_major_container"
+        app:layout_constraintHorizontal_bias="0.466"
         app:layout_constraintStart_toStartOf="@+id/graduate_major_container"
-        app:layout_constraintTop_toTopOf="@+id/graduate_major_container" />
-
-    <TextView
-        android:id="@+id/graduate_product_pt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="36dp"
-        android:text="졸업작품발표(3학년 이후 인정)"
-        app:layout_constraintStart_toEndOf="@+id/graduate_product_pt_text"
-        app:layout_constraintTop_toTopOf="@+id/graduate_major_container" />
-
-    <TextView
-        android:id="@+id/graduate_other_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginLeft="36dp"
-        android:layout_marginTop="64dp"
-        android:text="대치인정 :"
-        app:layout_constraintStart_toStartOf="@+id/graduate_major_container"
-        app:layout_constraintTop_toTopOf="@+id/graduate_major_container" />
-
-    <TextView
-        android:id="@+id/graduate_other1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="64dp"
-        android:text="학과 지정 전산관련 자격증 2개 취득"
-        app:layout_constraintStart_toEndOf="@+id/graduate_product_pt_text"
-        app:layout_constraintTop_toTopOf="@+id/graduate_major_container" />
-
-    <TextView
-        android:id="@+id/graduate_other2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="88dp"
-        android:text="전국단위 공모전(수상)/학술대회 참가"
-        app:layout_constraintStart_toEndOf="@+id/graduate_product_pt_text"
-        app:layout_constraintTop_toTopOf="@+id/graduate_major_container" />
-
-    <TextView
-        android:id="@+id/graduate_other3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="110dp"
-        android:text="현장실습(인턴쉽)관련 교과목 이수"
-        app:layout_constraintStart_toEndOf="@+id/graduate_product_pt_text"
-        app:layout_constraintTop_toTopOf="@+id/graduate_major_container" />
+        app:layout_constraintTop_toTopOf="@+id/graduate_major_container"
+        app:layout_constraintVertical_bias="0.885" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
-</androidx.constraintlayout.widget.ConstraintLayout>
