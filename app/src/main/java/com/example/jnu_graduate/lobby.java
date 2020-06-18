@@ -194,6 +194,8 @@ public class lobby extends AppCompatActivity {
                 getApplicationContext().deleteFile("class.json");
                 getApplicationContext().deleteFile("parsedClass.json");
                 getApplicationContext().deleteFile("profile.json");
+                getApplicationContext().deleteFile("origin.json");
+                getApplicationContext().deleteFile("score.json");
                 Intent loginintent=new Intent(lobby.this, MainActivity.class);
                 startActivity(loginintent);
                 Activity libarts_activity=(Activity)libarts_page.libartsactivity;

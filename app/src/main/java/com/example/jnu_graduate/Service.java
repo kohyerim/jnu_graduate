@@ -95,7 +95,7 @@ public class Service extends AsyncTask<Object, Void, Boolean>{
             // 수강한 수업 가져오기 : [cookie, 연도, 학기] param
             for (int i=s_num; i<=curr_year; i++){
                 for(int j=0; j<term_list.length; j++){
-                    JSONObject tmp = dreamy.getClass(this.cookie, i, term_list[j]);
+                    JSONObject tmp = dreamy.getScore(this.cookie, i, term_list[j]);
                     if(tmp.toString().length() > 30){
                         classJson.put(tmp);
                     }
@@ -119,6 +119,11 @@ public class Service extends AsyncTask<Object, Void, Boolean>{
                 FileOutputStream classStream = ctx.openFileOutput("class.json", Context.MODE_PRIVATE);
                 classStream.write(classJson.toString().getBytes());
                 classStream.close();
+//
+//                // score.json
+//                FileOutputStream scoreStream = ctx.openFileOutput("score.json", Context.MODE_PRIVATE);
+//                scoreStream.write(test.toString().getBytes());
+//                scoreStream.close();
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();

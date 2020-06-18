@@ -11,6 +11,7 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Base64;
 
@@ -101,5 +102,35 @@ public class Dreamy {
 //        System.out.println(tmp);
 
         return classJson;
+    }
+
+    public JSONObject getScore(String cookie, Integer year, Integer term_gb) throws IOException, JSONException {
+        String body = "susj/sj/sta_sj_3220q.jejunu";
+        String param = "&mode=doList&year="+ year + "&term_gb="+ term_gb + "&group_gb=20&student_no="+this.studentNum + "&outside_seq=0&del_gb=AND SJ_DEL_GB IS NULL";
+
+        url = new URL(this.uri+body);
+        HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("User-Agent", "Mozilla/5.0");
+        conn.setRequestProperty("Cookie", cookie);
+
+        conn.setDoOutput(true);
+        DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
+        wr.writeBytes(param);
+        wr.flush();
+        wr.close();
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        String inputLine;
+        StringBuilder response = new StringBuilder();
+
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+        JSONObject scoreJson =  new JSONObject(response.toString());
+        System.out.println(scoreJson.toString());
+
+        return scoreJson;
     }
 }

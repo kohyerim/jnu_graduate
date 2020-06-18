@@ -51,18 +51,35 @@ public class ClassParser {
         JSONObject finalJson = new JSONObject();
         for(int i=0; i<classjson.length(); i++){
             JSONObject tmpJson = (JSONObject) classjson.get(i);
-            JSONArray tmp = (JSONArray) tmpJson.get("DTL_LIST");
+            JSONArray tmp = (JSONArray) tmpJson.get("GRID_DATA");
             JSONArray jsonArray = new JSONArray();
             for(int j=0; j<tmp.length(); j++){
                 JSONObject subject = (JSONObject) tmp.get(j);
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("credit", subject.get("credit"));
-                jsonObject.put("curri_year", subject.get("curri_year"));
-                jsonObject.put("term_gb", subject.get("term_gb"));
+                jsonObject.put("curri_year", subject.get("year"));
+                if(subject.get("term_gb")=="1학기"){
+                    jsonObject.put("term_gb", "10");
+                }
+                else if(subject.get("term_gb") == "2학기"){
+                    jsonObject.put("term_gb", "20");
+                }
+                else if(subject.get("term_gb") == "하기계절"){
+                    jsonObject.put("term_gb", "11");
+                }
+                else{
+                    jsonObject.put("term_gb", "21");
+                }
+                //jsonObject.put("term_gb", subject.get("term_gb"));
                 jsonObject.put("isu_nm", subject.get("isu_nm"));
                 jsonObject.put("subject_nm", subject.get("subject_nm"));
-                jsonObject.put("sum_credit", subject.get("sum_credit"));
-                jsonObject.put("trans_credit", subject.get("trans_credit"));
+                /*
+                  "credit": "2",
+                  "curri_year": "2017",
+                  "term_gb": "10",
+                  "isu_nm": "전인교양",
+                  "subject_nm": "생활속프로그래밍",
+                */
                 jsonArray.put(jsonObject);
                 finalJson.put(String.valueOf(i), jsonArray);
             }
