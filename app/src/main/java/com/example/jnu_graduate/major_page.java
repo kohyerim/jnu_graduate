@@ -86,7 +86,7 @@ public class major_page extends AppCompatActivity {
                 final addcontainer container=new addcontainer();
                 final Containerhelper containerhelper=new Containerhelper();
 
-                containerhelper.setMajorStartSetting(title,hakbeon,classJson,majorInfo,gradeInfo);
+                containerhelper.setMajorStartSetting(title,hakbeon,classJson);
                 containerhelper.majorContainerCreate();
                 final String herecredit=String.valueOf(containerhelper.get_herecredit());
                 final String maxcredit=containerhelper.get_maxcredit();

@@ -69,7 +69,7 @@ public class PilsuSubject_page extends AppCompatActivity {
                     // 해당 키값에 맞는 곳에 배열에 들어있는 과목 출력해주시면 됩니다!
                     JSONObject majorInfo = gradeParser.eachMajor();
                     Containerhelper containerhelper=new Containerhelper();
-                    containerhelper.makePilsuStartSetting(hakbeon,classJson,majorInfo);
+                    containerhelper.makePilsuStartSetting(hakbeon,classJson);
                     final ArrayList<ArrayList<String>> libarts_grouparr=containerhelper.get_libartsgrouparr();
                     final ArrayList<ArrayList<String>> major_grouparr=containerhelper.get_majorgrouparr();
                     final addcontainer addcontainer1=new addcontainer();

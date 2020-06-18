@@ -54,7 +54,7 @@ public class Linkedmajor_page extends AppCompatActivity {
         major = intent.getExtras().getString("major");
         linkedmajor=intent.getExtras().getString("linkedmajor");
         onoffLinked=intent.getBooleanExtra("onofflinked",false);
-        System.out.println(hakbeon+"전공");
+
 
 
         //----------------------------------------------------------------기초정의-한 액티비티당 한번만
@@ -86,14 +86,12 @@ public class Linkedmajor_page extends AppCompatActivity {
                 final String title="연계전공";
                 final Containerhelper containerhelper=new Containerhelper();
 
-                containerhelper.setlinkedmajorStartSetting(title,hakbeon,classJson,majorInfo,gradeInfo);
-                System.out.println("나의 연계전공은?"+linkedmajor);
+                containerhelper.setlinkedmajorStartSetting(title,hakbeon,classJson);
                 containerhelper.LinkedmajorContainerCreate(linkedmajor);
                 final String herecredit=String.valueOf(containerhelper.get_herecredit());
                 final String maxcredit=containerhelper.get_maxcredit();
                 final addcontainer addcontainer1=new addcontainer();
                 final ArrayList<ArrayList<String>> grouparr=containerhelper.getGrouparr();
-                System.out.println(grouparr+"완성된거 잘받아왓니?");
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

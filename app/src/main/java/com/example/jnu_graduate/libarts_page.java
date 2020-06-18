@@ -73,51 +73,32 @@ public class libarts_page extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                try {
                     // 전공필수 과목 참고코드
                     // 해당 키값에 맞는 곳에 배열에 들어있는 과목 출력해주시면 됩니다!
-                    JSONObject majorInfo = gradeParser.eachMajor();
-                    JSONObject hakbeonInfo = (JSONObject) majorInfo.get(hakbeon);
-                    JSONObject cultureInfo = (JSONObject) hakbeonInfo.get("교양필수");
-                    System.out.println(cultureInfo);
-
                     // 교양세부과목
-                    JSONObject gradeInfo = gradeParser.getMajor();
-                    JSONObject gradePoint = (JSONObject) gradeInfo.get("교양학점");
-                    JSONObject cultureGradePoint = (JSONObject) gradePoint.get(hakbeon);
-                    JSONObject division = (JSONObject) cultureGradePoint.get("구분");
 
-
-                    // progress bar하실때 세부학점 받아오는 부분 참고 코드입니다.
-                    JSONObject gradePointDetail = (JSONObject) cultureGradePoint.get("세부학점");
-                    Iterator divisionI=division.keys();
-                    System.out.println("division : " + division);
-                    while(divisionI.hasNext()){
-                        final String title=divisionI.next().toString();
-                        System.out.println(title+"타이틀이 몇개냐");
-                        final addcontainer container=new addcontainer();
-                        final Containerhelper containerhelper=new Containerhelper();
-                        containerhelper.setStartSetting(title,hakbeon,classJson,majorInfo,gradeInfo);
-                        containerhelper.cultureContainerCreate();
-                        final String herecredit=String.valueOf(containerhelper.get_herecredit());
-                        final String maxcredit=containerhelper.get_maxcredit();
+                    Containerhelper containerhelper=new Containerhelper();
+                    containerhelper.setnewStartSetting(hakbeon,classJson);
+                    containerhelper.libartsContainercreate();
+                    ArrayList<ArrayList<ArrayList<String>>> libartsarraylist=containerhelper.getlibartsArraylist();
+                    ArrayList<ArrayList<String>> libartsarraylistmenu=containerhelper.getlibartsArraylistmenu();
+                    for(int i=0; i<libartsarraylistmenu.size(); i++){
+                        ArrayList<String> containerpackage=libartsarraylistmenu.get(i);
+                        final String title=containerpackage.get(0);
+                        final String herecredit=containerpackage.get(1);
+                        final String maxcredit=containerpackage.get(2);
+                        final ArrayList<ArrayList<String>> containercontent=libartsarraylist.get(i);
                         final addcontainer addcontainer1=new addcontainer();
-                        final ArrayList<ArrayList<String>> grouparr=containerhelper.getGrouparr();
-
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                easycreatecontainer(addcontainer1,title,herecredit,maxcredit,grouparr);
+                                easycreatecontainer(addcontainer1,title,herecredit,maxcredit,containercontent);
                             }
                         });
 
                     }
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+
             }
         }.start();
     }

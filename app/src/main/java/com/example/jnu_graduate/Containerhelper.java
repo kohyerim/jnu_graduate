@@ -4,6 +4,8 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import com.fasterxml.jackson.core.JsonParser;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,6 +42,10 @@ public class Containerhelper {
     //졸업자격
     private ArrayList<ArrayList<String>> graduategrouparr;
     private int injungcredits=9;
+    private boolean isJNU=false;
+    //다시 리뉴얼된 교양
+    ArrayList<ArrayList<ArrayList<String>>> libartsArraylist;
+    ArrayList<ArrayList<String>> libartsArraylistMenu;
 
 
     public int get_herecredit(){
@@ -52,17 +58,23 @@ public class Containerhelper {
     public ArrayList<ArrayList<String>> getGrouparr(){
         return grouparr;
     }
-    public void setStartSetting(String title, String hakbeon, JSONObject mysubject, JSONObject majorinfo, JSONObject gradeinfo){
+    public void setStartSetting(String title, String hakbeon, JSONObject mysubject){
         this.title = title;
         this.hakbeon=hakbeon;
         gradeParser=new GradeParser();
-        this.majorInfo=majorinfo;
-        this.gradeInfo=gradeinfo;
+        try {
+            this.majorInfo=gradeParser.eachMajor();
+            this.gradeInfo=gradeParser.getMajor();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
         if(title.equals("학문기초")||title.equals("기초교양")){
             needdivision=true;
         }
-
 
         ArrayList<String> keyArr = new ArrayList<>();
         divisionSubject=new ArrayList<JSONObject>();
@@ -91,27 +103,61 @@ public class Containerhelper {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-
     }
 
-    public void setMajorStartSetting(String title, String hakbeon, JSONObject mysubject, JSONObject majorinfo, JSONObject gradeinfo){
+    public void setnewStartSetting(String hakbeon, JSONObject mysubject){
+        this.hakbeon=hakbeon;
+        gradeParser=new GradeParser();
+        try {
+            this.majorInfo=gradeParser.eachMajor();
+            this.gradeInfo=gradeParser.getMajor();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        ArrayList<String> keyArr = new ArrayList<>();
+        divisionSubject=new ArrayList<JSONObject>();
+
+        try {
+            Iterator iterator = mysubject.keys();
+            while (iterator.hasNext()) {
+                keyArr.add(iterator.next().toString());
+            }
+            for (int num = 0; num < keyArr.size(); num++) {
+                JSONArray tmp = (JSONArray) mysubject.get(keyArr.get(num));
+                for (int num2 = 0; num2 < tmp.length(); num2++) {
+                    JSONObject tmpobj = (JSONObject) tmp.get(num2);
+                    if (!tmpobj.get("isu_nm").equals("전공")&&!tmpobj.get("isu_nm").equals("전공필수")&&!tmpobj.get("isu_nm").equals("복수전공(전공)")&&!tmpobj.get("isu_nm").equals("일반선택")) {
+                        divisionSubject.add(tmpobj);
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setMajorStartSetting(String title, String hakbeon, JSONObject mysubject){
         this.title = title;
         this.hakbeon=hakbeon;
         gradeParser=new GradeParser();
-        this.majorInfo=majorinfo;
-        this.gradeInfo=gradeinfo;
+        try {
+            this.majorInfo=gradeParser.eachMajor();
+            this.gradeInfo=gradeParser.getMajor();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
 //        System.out.println("학번은 어케생겻니"+hakbeon);
         ArrayList<String> keyArr = new ArrayList<>();
         divisionSubject=new ArrayList<JSONObject>();
-        final String finalTitle;
-        if (title.equals("전공탐색교양")){
-            finalTitle = "전공탐색";
-        }
-        else {
-            finalTitle = title;
-        }
+
 
         try {
             Iterator iterator = mysubject.keys();
@@ -122,7 +168,7 @@ public class Containerhelper {
                 JSONArray majortmp = (JSONArray) mysubject.get(keyArr.get(num));
                 for (int num2 = 0; num2 < majortmp.length(); num2++) {
                     JSONObject tmpobj = (JSONObject) majortmp.get(num2);
-                    if (tmpobj.get("isu_nm").equals(finalTitle)||tmpobj.get("isu_nm").equals("전공필수")||tmpobj.get("isu_nm").equals("복수전공(전공)")) {
+                    if (tmpobj.get("isu_nm").equals(title)||tmpobj.get("isu_nm").equals("전공필수")||tmpobj.get("isu_nm").equals("복수전공(전공)")) {
                         if(!tmpobj.get("credit").equals("0")){
                             divisionSubject.add(tmpobj);
                         }
@@ -134,12 +180,19 @@ public class Containerhelper {
         }
     }
 
-    public void setlinkedmajorStartSetting(String title, String hakbeon, JSONObject mysubject, JSONObject majorinfo, JSONObject gradeinfo){
+    public void setlinkedmajorStartSetting(String title, String hakbeon, JSONObject mysubject){
         this.title = title;
         this.hakbeon=hakbeon;
         gradeParser=new GradeParser();
-        this.majorInfo=majorinfo;
-        this.gradeInfo=gradeinfo;
+        try {
+            this.majorInfo=gradeParser.eachMajor();
+            this.gradeInfo=gradeParser.getMajor();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         final String finaltitle;
         if(title.equals("연계전공")){
             finaltitle="복수전공(전공)";
@@ -161,13 +214,11 @@ public class Containerhelper {
                     JSONObject tmpobj = (JSONObject) majortmp.get(num2);
                     if (tmpobj.get("isu_nm").equals(finaltitle)||tmpobj.get("isu_nm").equals("전공필수")||tmpobj.get("isu_nm").equals("전공")) {
                         if(!tmpobj.get("credit").equals("0")){
-                            System.out.println("이 연계전공이 잘들어가니"+tmpobj);
                             divisionSubject.add(tmpobj);
                         }
                     }
                 }
             }
-            System.out.println("완성된배열"+divisionSubject);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -177,8 +228,15 @@ public class Containerhelper {
 
 
 
-    public void makePilsuStartSetting(String hakbeon,JSONObject mysubject, JSONObject majorinfo){
-        this.majorInfo=majorinfo;
+    public void makePilsuStartSetting(String hakbeon,JSONObject mysubject){
+        gradeParser=new GradeParser();
+        try {
+            this.majorInfo=gradeParser.eachMajor();
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
 
         try {
             JSONObject hakbeonInfo = (JSONObject) majorInfo.get(hakbeon);
@@ -383,6 +441,236 @@ public class Containerhelper {
         }
         return pilsuherecount;
     }
+
+    public void libartsContainercreate(){
+        try {
+            //제목,현재학점,목표학점이 들어갈 배열 +최종 arr작업
+            ArrayList<ArrayList<String>> components=new ArrayList<>();
+            ArrayList<ArrayList<ArrayList<String>>> libartsarraylist=new ArrayList<>();
+            JSONObject gradeInfo1=(JSONObject)gradeInfo.get("교양학점");
+            JSONObject gradeInfo2=(JSONObject)gradeInfo1.get(hakbeon);
+            JSONObject gradeInfo3=(JSONObject)gradeInfo2.get("구분");
+            Iterator gradeInfo3I=gradeInfo3.keys();
+            while(gradeInfo3I.hasNext()){
+                String imsi=gradeInfo3I.next().toString();
+                ArrayList<String> childarr=new ArrayList<>();
+                childarr.add(imsi);//타이틀
+
+                if(imsi.equals("JNU특성화교양")) { //JNU특성화 교양이 분류에있니? 이걸로 나중에 JNU를 일반교양으로 바꿀지 말지 판단할것임
+                    isJNU = true;
+                }
+                childarr.add("0");//현재학점
+                childarr.add(gradeInfo3.get(imsi).toString());//max학점
+                components.add(childarr);
+                //여기까지
+                //여기는 최종arr 작업
+                JSONArray imsi2=(JSONArray) gradeInfo2.get(imsi); //
+                ArrayList<ArrayList<String>>grouparr=new ArrayList<>(); //언어와문학,역사와철학 이런게담길거임
+                for(int z=0; z<imsi2.length(); z++){
+                    String imsi3=imsi2.get(z).toString();
+                    ArrayList<String> childarr2=new ArrayList<>();
+                    childarr2.add(imsi3);//맨첫번째 칸에 언어와 문학 이렇게 하나가 들어갈거임
+                    grouparr.add(childarr2);
+                }
+                libartsarraylist.add(grouparr);
+            }
+            ArrayList<String> imsichildarr1=new ArrayList<>();
+            imsichildarr1.add("일반교양");//타이틀
+            imsichildarr1.add("0");//현재학점
+            imsichildarr1.add("0");//max학점
+            components.add(imsichildarr1);
+            ArrayList<String> imsichildarr2=new ArrayList<>();
+            imsichildarr2.add("일반교양");
+            ArrayList<ArrayList<String>> imsigrouparr=new ArrayList<>();
+            imsigrouparr.add(imsichildarr2);
+            libartsarraylist.add(imsigrouparr);
+
+            //기초교양, 학문기초용 배열
+            ArrayList<String> submaxcreditarray=new ArrayList();
+            ArrayList<String> submaxtitlecreditarray=new ArrayList();
+            JSONObject submaxcredit=(JSONObject)gradeInfo2.get("세부학점");
+            Iterator submaxcreditI=submaxcredit.keys();
+            while(submaxcreditI.hasNext()){
+                String imsi=submaxcreditI.next().toString();
+                submaxtitlecreditarray.add(imsi);
+                submaxcreditarray.add(submaxcredit.get(imsi).toString());
+                submaxcreditarray.add("0");
+            }
+
+            // 기초작업끝
+            //db 미리가져오기
+            JSONObject culturedb = getotherCultureDB(hakbeon);
+
+            //
+            //이제 과목분리 할차례
+
+            for(int i=0; i<divisionSubject.size(); i++){
+                JSONObject subjectobject=divisionSubject.get(i);
+
+                String curri_year=subjectobject.get("curri_year").toString();
+                String isu_nm=subjectobject.get("isu_nm").toString();
+                String subject_nm=subjectobject.get("subject_nm").toString();
+                if(isu_nm.equals("전공탐색")){
+                    isu_nm="전공탐색교양";
+                }
+                else{
+                }
+                String credit=subjectobject.get("credit").toString();
+                String detail=null;
+
+                //detail구하기(세부분류)
+                if(isu_nm.equals("JNU특성화교양")&&!isJNU){//JNU특성화 교양일때 내 구분에 JNU가 없다?
+                    isu_nm="일반교양";
+                    detail="일반교양";
+                }
+                else{ //둘중에 하나가 아니다?
+                    JSONObject myculturedb=(JSONObject) culturedb.get(isu_nm);
+                    Iterator myculturedbI=myculturedb.keys();
+                    while(myculturedbI.hasNext()){
+                        String imsi1= myculturedbI.next().toString();
+                        if(subject_nm.equals(imsi1)){ //만약 서브젝트네임과 db의 서브젝트 네임이 같다?
+                            detail=myculturedb.get(imsi1).toString();
+
+                            break;
+                        }
+                    }
+                    //검색햇는데 아직도 detail null이다?
+                    if(detail==null) {
+                        if (isu_nm.equals("JNU특성화교양")) { //그럼 JNU특성화교양도 교양이아니네? 돌아가
+                            isu_nm = "일반교양";
+                            detail = "일반교양";
+                        } else {
+                            JSONObject imsiotherculturedb = getotherCultureDB(curri_year);
+                            JSONObject otherculturedb = (JSONObject) imsiotherculturedb.get(isu_nm);
+                            Iterator otherculturedbI = otherculturedb.keys();
+                            while (otherculturedbI.hasNext()) {
+                                String imsi1 = otherculturedbI.next().toString();
+                                detail = otherculturedb.get(imsi1).toString();
+
+                                break;
+                            }
+                        }
+                    }
+                }
+                //여기까지 detail 구하기엿습니다
+                //이제 과목분류할 차례
+                if(isu_nm.equals("기초교양")||isu_nm.equals("학문기초")) {
+                    loop:
+                    for (int k = 0; k < components.size(); k++) {
+                        ArrayList<String> imsi1 = components.get(k); //타이틀, 현재학점, 목표학점
+                        if (imsi1.get(0).equals(isu_nm)) {// 만약 타이틀과 isu_nm이 같다면
+                            ArrayList<ArrayList<String>> imsi2 = libartsarraylist.get(k); //libartslsit에서 꺼내라
+                            for(int l=0; l<imsi2.size(); l++){
+                                ArrayList<String> imsi3= imsi2.get(l);
+                                String imsi4= imsi3.get(0);
+                                if(imsi4.equals(detail)){ // 만약 첫번째꺼 꺼냇는데 세부항목이랑 같다면?
+                                    imsi3.add(subject_nm); //항목을 넣고 학점계산을 실시한다
+                                    ///////////학점계산실시
+                                    for(int z=0; z<submaxcreditarray.size()/2; z++){
+                                        String innerdetail=submaxtitlecreditarray.get(z).toString();
+                                        if(innerdetail.equals(detail)){
+                                            int herecredit=Integer.parseInt(imsi1.get(1));
+                                            int uppercredit=Integer.parseInt(credit);
+                                            int limitcredit=Integer.parseInt(submaxcreditarray.get(z*2).toString());
+                                            int herelimitcredit=Integer.parseInt(submaxcreditarray.get(z*2+1).toString());
+                                            if((herelimitcredit+uppercredit)<=limitcredit){
+                                                herelimitcredit+=uppercredit;
+                                                herecredit+=uppercredit;
+                                                submaxcreditarray.set(z*2+1,String.valueOf(herelimitcredit));
+                                                imsi1.set(1,String.valueOf(herecredit));
+                                                components.set(k,imsi1);
+                                                System.out.println("조건1");
+                                                System.out.println("현재과목"+subject_nm);
+                                                System.out.println(herelimitcredit);
+                                                System.out.println(herecredit);
+                                                System.out.println(submaxcreditarray);
+                                                break loop;
+                                            }
+                                            else{
+                                                int differ=limitcredit-herelimitcredit;
+                                                herelimitcredit+=differ;
+                                                herecredit+=differ;
+                                                submaxcreditarray.set(z*2+1,String.valueOf(herelimitcredit));
+                                                imsi1.set(1,String.valueOf(herecredit));
+                                                components.set(k,imsi1);
+                                                System.out.println("조건2");
+                                                System.out.println("현재과목"+subject_nm);
+                                                System.out.println(herelimitcredit);
+                                                System.out.println(herecredit);
+                                                System.out.println(submaxcreditarray);
+                                                break loop;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+                else{
+                    loop:
+                    for (int k = 0; k < components.size(); k++) {
+                        ArrayList<String> imsi1 = components.get(k); //타이틀, 현재학점, 목표학점
+                        if (imsi1.get(0).equals(isu_nm)) {// 만약 타이틀과 isu_nm이 같다면
+                            ArrayList<ArrayList<String>> imsi2 = libartsarraylist.get(k); //libartslsit에서 꺼내라
+                            for(int l=0; l<imsi2.size(); l++){
+                                ArrayList<String> imsi3= imsi2.get(l);
+                                String imsi4= imsi3.get(0);
+                                if(imsi4.equals(detail)){ // 만약 첫번째꺼 꺼냇는데 세부항목이랑 같다면?
+                                    imsi3.add(subject_nm); //항목을 넣고 학점계산을 실시한다
+                                    String imsi5=imsi1.get(1).toString();
+                                    int imsi6= Integer.parseInt(imsi5);
+                                    int uppercredit=Integer.parseInt(credit);
+                                    imsi6+=uppercredit;
+                                    imsi1.set(1,String.valueOf(imsi6));
+                                    components.set(k,imsi1);
+                                    break loop;
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+            ///마지막 일반교양이 0이면 일반교양을 삭제
+            loop:
+            for(int i=0 ; i<components.size();i++){
+                ArrayList<String> imsi1=components.get(i);
+                if(imsi1.get(0).equals("일반교양")){
+                    ArrayList<ArrayList<String>> imsi2=libartsarraylist.get(i);
+                    for(int k=0; k<imsi2.size(); k++){
+                        ArrayList<String> imsi3= imsi2.get(k);
+                        if(imsi3.get(0).equals("일반교양")&&imsi3.size()<2){
+                            libartsarraylist.remove(i);
+                            components.remove(i);
+                        }
+                    }
+                }
+
+            }
+
+
+            this.libartsArraylist=libartsarraylist;
+            this.libartsArraylistMenu=components;
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public ArrayList<ArrayList<ArrayList<String>>> getlibartsArraylist(){
+        return libartsArraylist;
+    }
+    public ArrayList<ArrayList<String>> getlibartsArraylistmenu(){
+        return libartsArraylistMenu;
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void cultureContainerCreate(){
         try {
@@ -414,6 +702,7 @@ public class Containerhelper {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
             ////////////////////////////////////////////////////////////////////
             JSONArray _title = (JSONArray)cultureGradePoint.get(title);//_title은 그 타이틀이 가지고있어야하는 요소를 가진 jsonobject
 
@@ -618,6 +907,8 @@ public class Containerhelper {
         }
     }
 
+
+
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void LinkedmajorContainerCreate(String linkedmajor){
         try {
@@ -638,9 +929,9 @@ public class Containerhelper {
 
             JSONObject linkedmajor1=(JSONObject)linkedInfo.get(linkedmajor);
             JSONObject linkedmajor2=(JSONObject)linkedmajor1.get("중복전공");
-            System.out.println("이 학과에는 무슨과목이있을까요?"+linkedmajor2);
+
             //검색
-            System.out.println(divisionSubject+"잘받아왓니?");
+
             for(int i=0; i<divisionSubject.size();i++) {
 
                 JSONObject imsi = divisionSubject.get(i);
@@ -693,19 +984,18 @@ public class Containerhelper {
             childarr3.add("남은인정학점:"+injungcredits);
             childarr1.set(0,"연계전공        ");
             childarr2.set(0,"복수개설전공");
-            System.out.println(childarr1);
-            System.out.println(childarr2);
             grouparr.add(childarr1);
             grouparr.add(childarr2);
             grouparr.add(childarr3);
             //학점계산.
             this.grouparr=grouparr;
-            System.out.println(grouparr+"완성됫니?");
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
+
+
 
     public void wholeContainerCreate(){
         try {

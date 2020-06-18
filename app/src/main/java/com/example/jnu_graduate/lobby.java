@@ -122,22 +122,28 @@ public class lobby extends AppCompatActivity {
                     Object jolupGP = majorGradePoint.get("졸업학점");
                     Object major = majorGradePoint.get("심화전공");
                     Object Linked = majorGradePoint.get("연계전공");
-                    totalGP.setText(opener.getTotalGP()+"/"+jolupGP.toString());
-                    majorGP.setText(opener.getMajorGP()+"/"+major.toString()+"~");
 
-
-                    max_wholecredit=jolupGP.toString();
-                    max_majorcredit=major.toString();
-
-                    String title="연계전공";
                     classJson = opener.getJSONObject();
                     Containerhelper containerhelper=new Containerhelper();
-                    containerhelper.setlinkedmajorStartSetting(title,myHakbeon,classJson,majorInfo,gradeInfo);
+                    containerhelper.setnewStartSetting(myHakbeon,classJson);
+                    containerhelper.libartsContainercreate();
+                    containerhelper=new Containerhelper();
+
+                    String title="전공";
+                    containerhelper.setMajorStartSetting(title,myHakbeon,classJson);
+                    containerhelper.majorContainerCreate();
+                    totalGP.setText(opener.getTotalGP()+"/"+jolupGP.toString());
+                    majorGP.setText(containerhelper.get_herecredit()+"/"+major.toString()+"~");
+                    max_wholecredit=jolupGP.toString();
+                    max_majorcredit=major.toString();
+                    title="연계전공";
+                    containerhelper=new Containerhelper();
+                    containerhelper.setlinkedmajorStartSetting(title,myHakbeon,classJson);
                     containerhelper.LinkedmajorContainerCreate(linkedmajor);
                     String herecredit=String.valueOf(containerhelper.get_herecredit());
                     LinkedGP.setText(herecredit+"/"+Linked.toString());
                     containerhelper=new Containerhelper();
-                    containerhelper.makePilsuStartSetting(myHakbeon,classJson,majorInfo);
+                    containerhelper.makePilsuStartSetting(myHakbeon,classJson);
                     pilsuGP.setText(containerhelper.get_pilsuherecount()+"/"+containerhelper.get_pilsumaxcount());
                     if(!onoffLinked){
                         TextView linktext=findViewById(R.id.Linked_Major_text);

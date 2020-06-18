@@ -130,7 +130,7 @@ public class whole_page extends AppCompatActivity {
                 final String title="일반선택";
                 final addcontainer wholecontainer = new addcontainer();
                 final Containerhelper containerhelper=new Containerhelper();
-                containerhelper.setStartSetting(title,hakbeon,classJson,majorInfo,gradeInfo);
+                containerhelper.setStartSetting(title,hakbeon,classJson);
                 containerhelper.wholeContainerCreate();
                 final ArrayList<ArrayList<String>> normallist=containerhelper.getGrouparr();
                 //
