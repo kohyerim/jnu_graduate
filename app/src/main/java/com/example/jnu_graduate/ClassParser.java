@@ -58,16 +58,16 @@ public class ClassParser {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("credit", subject.get("credit"));
                 jsonObject.put("curri_year", subject.get("year"));
-                if(subject.get("term_gb")=="1학기"){
+                if(subject.get("term_gb").toString().equals("1학기")){
                     jsonObject.put("term_gb", "10");
                 }
-                else if(subject.get("term_gb") == "2학기"){
+                else if(subject.get("term_gb").toString().equals("2학기")){
                     jsonObject.put("term_gb", "20");
                 }
-                else if(subject.get("term_gb") == "하기계절"){
+                else if(subject.get("term_gb").toString().equals("하기계절")){
                     jsonObject.put("term_gb", "11");
                 }
-                else{
+                else if(subject.get("term_gb").toString().equals("동기계절")){
                     jsonObject.put("term_gb", "21");
                 }
                 //jsonObject.put("term_gb", subject.get("term_gb"));
