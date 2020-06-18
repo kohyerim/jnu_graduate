@@ -122,7 +122,7 @@ public class Containerhelper {
                 JSONArray majortmp = (JSONArray) mysubject.get(keyArr.get(num));
                 for (int num2 = 0; num2 < majortmp.length(); num2++) {
                     JSONObject tmpobj = (JSONObject) majortmp.get(num2);
-                    if (tmpobj.get("isu_nm").equals(finalTitle)||tmpobj.get("isu_nm").equals("전공필수")) {
+                    if (tmpobj.get("isu_nm").equals(finalTitle)||tmpobj.get("isu_nm").equals("전공필수")||tmpobj.get("isu_nm").equals("복수전공(전공)")) {
                         if(!tmpobj.get("credit").equals("0")){
                             divisionSubject.add(tmpobj);
                         }
@@ -585,12 +585,25 @@ public class Containerhelper {
 
                 if(isu_nm.equals(childarr1.get(0).toString())){
                     childarr1.add(curri_year+"-"+_term_gb+":"+subject_nm);
-
+                    hereCredit+=Integer.parseInt(credit);
+                }
+                else if (isu_nm.equals(childarr2.get(0).toString())) {
+                    childarr2.add(curri_year+"-"+_term_gb+":"+subject_nm);
+                    hereCredit+=Integer.parseInt(credit);
                 }
                 else{
-                    childarr2.add(curri_year+"-"+_term_gb+":"+subject_nm);
+                    int imsicredit=Integer.parseInt(credit);
+                    if ((injungcredits -imsicredit ) >=0) {
+                        injungcredits -= imsicredit;
+                        hereCredit+=imsicredit;
+                    }
+                    if ((injungcredits -imsicredit ) <0) {
+                        int differ = imsicredit-injungcredits;
+                        injungcredits=0;
+                        imsicredit-=differ;
+                        hereCredit+=imsicredit;
+                    }
                 }
-                hereCredit+=Integer.parseInt(credit);
 
             }
             childarr2.set(0,"전공필수");
@@ -653,8 +666,6 @@ public class Containerhelper {
                 if(isu_nm.equals(childarr1.get(0).toString())){
                     childarr1.add(curri_year+"-"+_term_gb+":"+subject_nm);
                     hereCredit+=Integer.parseInt(credit);
-                    System.out.println("연계전공 지금학점:"+hereCredit);
-                    System.out.println("나는야 연계전공 핫둘핫둘"+curri_year+"-"+_term_gb+":"+subject_nm);
                 }
                 else{
                     Iterator linkedmajor2I=linkedmajor2.keys();
@@ -662,29 +673,18 @@ public class Containerhelper {
                         String imsi1=linkedmajor2I.next().toString();
 
                         if(imsi1.equals(subject_nm)){
-                            System.out.println("맞았어!");
+
                             childarr2.add(curri_year+"-"+_term_gb+":"+subject_nm);
                             int imsicredit=Integer.parseInt(credit);
                             if ((injungcredits -imsicredit ) >=0) {
-                                System.out.println("현재인정학점"+injungcredits);
-                                System.out.println("과목학점:"+imsicredit);
-                                System.out.println("첫번째조건 결과"+(injungcredits-imsicredit));
-
                                 injungcredits -= imsicredit;
                                 hereCredit+=imsicredit;
-                                System.out.println("첫번째 조건 인정학점:"+injungcredits);
-                                System.out.println("첫번째 조건 지금학점:"+hereCredit);
                             }
                             if ((injungcredits -imsicredit ) <0) {
-                                System.out.println("현재인정학점"+injungcredits);
-                                System.out.println("과목학점:"+imsicredit);
-                                System.out.println("두번째조건 결과"+(injungcredits-imsicredit));
                                 int differ = imsicredit-injungcredits;
                                 injungcredits=0;
                                 imsicredit-=differ;
                                 hereCredit+=imsicredit;
-                                System.out.println("두번째 조건 인정학점:"+injungcredits);
-                                System.out.println("두번째 조건 지금학점:"+hereCredit);
                             }
                         }
                     }
