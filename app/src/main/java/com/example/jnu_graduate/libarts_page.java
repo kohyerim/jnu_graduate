@@ -33,7 +33,8 @@ public class libarts_page extends AppCompatActivity {
     private int detailsubjectnum=0;
     private String hakbeon = null;
     private String major = null;
-
+    String linkedmajor=null;
+    boolean onoffLinked;
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @SuppressLint("ResourceType")
     @Override
@@ -50,6 +51,8 @@ public class libarts_page extends AppCompatActivity {
         Intent intent = getIntent();
         hakbeon = intent.getExtras().getString("hakbeon");
         major = intent.getExtras().getString("major");
+        linkedmajor=intent.getExtras().getString("linkedmajor");
+        onoffLinked=intent.getBooleanExtra("onofflinked",false);
         System.out.println(hakbeon+"교양");
 
 
@@ -178,29 +181,47 @@ public class libarts_page extends AppCompatActivity {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.lobby_btn:
-                Intent golobby = new Intent(libarts_page.this, lobby.class);
+                Intent golobby = new Intent(context, lobby.class);
                 startActivity(golobby);
                 return true;
             case R.id.major_btn:
-                Intent gomajor = new Intent(libarts_page.this, major_page.class);
+                Intent gomajor = new Intent(context, major_page.class);
                 // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
                 gomajor.putExtra("hakbeon", hakbeon);
                 gomajor.putExtra("major", major);
+                gomajor.putExtra("linkedmajor",linkedmajor);
+                gomajor.putExtra("onofflinked", onoffLinked);
                 startActivity(gomajor);
                 return true;
             case R.id.whole_btn:
-                Intent gowhole=new Intent(libarts_page.this, whole_page.class);
+                Intent gowhole=new Intent(context, whole_page.class);
                 // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
                 gowhole.putExtra("hakbeon",hakbeon);
                 gowhole.putExtra("major",major);
+                gowhole.putExtra("linkedmajor",linkedmajor);
+                gowhole.putExtra("onofflinked", onoffLinked);
                 startActivity(gowhole);
                 return true;
             case R.id.pilsu_btn:
-                Intent gopisu=new Intent(libarts_page.this, PilsuSubject_page.class);
+                Intent gopisu=new Intent(context, PilsuSubject_page.class);
                 // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
                 gopisu.putExtra("hakbeon",hakbeon);
                 gopisu.putExtra("major",major);
+                gopisu.putExtra("linkedmajor",linkedmajor);
+                gopisu.putExtra("onofflinked", onoffLinked);
                 startActivity(gopisu);
+                return true;
+            case R.id.linked_major_btn:
+                if(onoffLinked) {
+                    Intent golinked = new Intent(context, Linkedmajor_page.class);
+                    // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
+                    golinked.putExtra("hakbeon", hakbeon);
+                    golinked.putExtra("major", major);
+                    golinked.putExtra("linkedmajor", linkedmajor);
+                    golinked.putExtra("onofflinked", onoffLinked);
+                    startActivity(golinked);
+                    return true;
+                }
             default:
                 return super.onOptionsItemSelected(item);
         }

@@ -24,7 +24,7 @@
             android:title="필수과목"
             />
         <item
-            android:id="@+id/chain_btn"
+            android:id="@+id/linked_major_btn"
             android:title="연계학점"
             />
 

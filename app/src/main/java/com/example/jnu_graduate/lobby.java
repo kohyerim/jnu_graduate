@@ -1,7 +1,9 @@
 package com.example.jnu_graduate;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,10 +13,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,12 +36,17 @@ public class lobby extends AppCompatActivity {
     TextView major;
     TextView whole;
     TextView pilsu;
+    TextView linked;
     TextView graduate_major;
     TextView graduate_foreign;
     TextView pilsuGP;
     TextView cultureGP;
     TextView majorGP;
     TextView totalGP;
+    TextView LinkedGP;
+
+
+
     private String jsonString;
     private JSONObject jsonObject;
 
@@ -52,8 +61,11 @@ public class lobby extends AppCompatActivity {
     String max_libartscredit;
     String max_majorcredit;
     String max_wholecredit;
-
     JSONObject classJson;
+    String linkedmajor=null;
+    boolean onoffLinked;
+
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +81,7 @@ public class lobby extends AppCompatActivity {
         majorGP = findViewById(R.id.major_credit);
         totalGP = findViewById(R.id.whole_credit);
         pilsuGP = findViewById(R.id.pilsu_credit);
+        LinkedGP = findViewById(R.id.Linked_Major_credit);
         try {
             setProfile();
 
@@ -108,6 +121,7 @@ public class lobby extends AppCompatActivity {
                     JSONObject majorGradePoint = (JSONObject) majorInfo.get(myHakbeon);
                     Object jolupGP = majorGradePoint.get("졸업학점");
                     Object major = majorGradePoint.get("심화전공");
+                    Object Linked = majorGradePoint.get("연계전공");
                     totalGP.setText(opener.getTotalGP()+"/"+jolupGP.toString());
                     majorGP.setText(opener.getMajorGP()+"/"+major.toString()+"~");
 
@@ -115,13 +129,23 @@ public class lobby extends AppCompatActivity {
                     max_wholecredit=jolupGP.toString();
                     max_majorcredit=major.toString();
 
-
+                    String title="연계전공";
                     classJson = opener.getJSONObject();
                     Containerhelper containerhelper=new Containerhelper();
+                    containerhelper.setlinkedmajorStartSetting(title,myHakbeon,classJson,majorInfo,gradeInfo);
+                    containerhelper.LinkedmajorContainerCreate(linkedmajor);
+                    String herecredit=String.valueOf(containerhelper.get_herecredit());
+                    LinkedGP.setText(herecredit+"/"+Linked.toString());
+                    containerhelper=new Containerhelper();
                     containerhelper.makePilsuStartSetting(myHakbeon,classJson,majorInfo);
                     pilsuGP.setText(containerhelper.get_pilsuherecount()+"/"+containerhelper.get_pilsumaxcount());
-
-
+                    if(!onoffLinked){
+                        TextView linktext=findViewById(R.id.Linked_Major_text);
+                        LinkedGP.setText("내역없음");
+                        String color="#FCFCFC";
+                        linktext.setTextColor(Color.parseColor(color));
+                        LinkedGP.setTextColor(Color.parseColor(color));
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {
@@ -137,6 +161,13 @@ public class lobby extends AppCompatActivity {
         gopilsu_page();
         gograduate_foreign();
         gograduate_major();
+        if(onoffLinked){
+            goLinked_page();
+        }
+        else{
+            linked=findViewById(R.id.Linked_Major_container);
+            linked.setBackground(ContextCompat.getDrawable(this, R.drawable.lobby_disable));
+        }
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -153,6 +184,8 @@ public class lobby extends AppCompatActivity {
                 // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
                 golibarts.putExtra("hakbeon",myHakbeon);
                 golibarts.putExtra("major",majorClass);
+                golibarts.putExtra("linkedmajor",linkedmajor);
+                golibarts.putExtra("onofflinked",onoffLinked);
                 startActivity(golibarts);
                 return true;
             case R.id.major_btn:
@@ -160,7 +193,8 @@ public class lobby extends AppCompatActivity {
                 // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
                 gomajor.putExtra("hakbeon",myHakbeon);
                 gomajor.putExtra("major",majorClass);
-
+                gomajor.putExtra("linkedmajor",linkedmajor);
+                gomajor.putExtra("onofflinked",onoffLinked);
                 startActivity(gomajor);
                 return true;
             case R.id.whole_btn:
@@ -168,18 +202,31 @@ public class lobby extends AppCompatActivity {
                 // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
                 gowhole.putExtra("hakbeon",myHakbeon);
                 gowhole.putExtra("major",majorClass);
+                gowhole.putExtra("linkedmajor",linkedmajor);
+                gowhole.putExtra("onofflinked",onoffLinked);
                 startActivity(gowhole);
-
+                return true;
             case R.id.pilsu_btn:
                 Intent gopisu=new Intent(lobby.this, PilsuSubject_page.class);
                 // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
                 gopisu.putExtra("hakbeon",myHakbeon);
                 gopisu.putExtra("major",majorClass);
+                gopisu.putExtra("linkedmajor",linkedmajor);
+                gopisu.putExtra("onofflinked",onoffLinked);
                 startActivity(gopisu);
+                return true;
 
-                
-
-
+            case R.id.linked_major_btn:
+                if(onoffLinked) {
+                    Intent golinked = new Intent(lobby.this, Linkedmajor_page.class);
+                    // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
+                    golinked.putExtra("hakbeon", myHakbeon);
+                    golinked.putExtra("major", majorClass);
+                    golinked.putExtra("linkedmajor", linkedmajor);
+                    golinked.putExtra("onofflinked", onoffLinked);
+                    startActivity(golinked);
+                    return true;
+                }
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -248,6 +295,7 @@ public class lobby extends AppCompatActivity {
                 // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
                 golibarts.putExtra("hakbeon",myHakbeon);
                 golibarts.putExtra("major",majorClass);
+                golibarts.putExtra("linkedmajor",linkedmajor);
                 startActivity(golibarts);
             }
         });
@@ -263,10 +311,24 @@ public class lobby extends AppCompatActivity {
                 // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
                 gopilsu.putExtra("hakbeon",myHakbeon);
                 gopilsu.putExtra("major",majorClass);
+                gopilsu.putExtra("linkedmajor",linkedmajor);
                 startActivity(gopilsu);
             }
         });
-
+    }
+    public void goLinked_page(){
+        linked=findViewById(R.id.Linked_Major_container);
+        linked.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent golinked=new Intent(lobby.this, Linkedmajor_page.class);
+                // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
+                golinked.putExtra("hakbeon",myHakbeon);
+                golinked.putExtra("major",majorClass);
+                golinked.putExtra("linkedmajor",linkedmajor);
+                startActivity(golinked);
+            }
+        });
     }
 
     public void gomajor_page(){
@@ -278,6 +340,7 @@ public class lobby extends AppCompatActivity {
                 // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
                 gomajor.putExtra("hakbeon",myHakbeon);
                 gomajor.putExtra("major",majorClass);
+                gomajor.putExtra("linkedmajor",linkedmajor);
                 startActivity(gomajor);
             }
         });
@@ -293,9 +356,7 @@ public class lobby extends AppCompatActivity {
                 // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
                 gowhole.putExtra("hakbeon",myHakbeon);
                 gowhole.putExtra("major",majorClass);
-                gowhole.putExtra("min_libartscredit",min_libartscredit);
-                gowhole.putExtra("max_libartscredit",max_libartscredit);
-                gowhole.putExtra("max_majorcredit",max_majorcredit);
+                gowhole.putExtra("linkedmajor",linkedmajor);
                 startActivity(gowhole);
             }
         });
@@ -333,10 +394,14 @@ public class lobby extends AppCompatActivity {
 
         student_name.setText(jsonObject.get("student_name").toString());
         if(jsonObject.has("dbl_dept_nm")){
-            dept.setText(jsonObject.get("major").toString() + "  /  " + jsonObject.get("dbl_dept_nm").toString());
+            linkedmajor =jsonObject.get("dbl_dept_nm").toString();
+            dept.setText(jsonObject.get("major").toString() + "  /  " + linkedmajor);
+            onoffLinked=true;
+
         }
         else{
             dept.setText(jsonObject.get("major").toString());
+            onoffLinked=false;
         }
 
         myHakbeon = jsonObject.get("student_num").toString().substring(0,4);

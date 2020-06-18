@@ -40,7 +40,8 @@ public class whole_page extends AppCompatActivity {
     JSONObject classJson;
     OpenJSONFile opener;
     ClassParser classParser;
-
+    String linkedmajor=null;
+    boolean onoffLinked;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +56,8 @@ public class whole_page extends AppCompatActivity {
         Intent intent=getIntent();
         hakbeon = intent.getExtras().getString("hakbeon");
         major = intent.getExtras().getString("major");
-
+        linkedmajor=intent.getExtras().getString("linkedmajor");
+        onoffLinked=intent.getBooleanExtra("onofflinked",false);
 
 
         //----------------------------------------------------------------기초정의-한 액티비티당 한번만
@@ -212,29 +214,43 @@ public class whole_page extends AppCompatActivity {
             case R.id.lobby_btn:
                 Intent golobby=new Intent(whole_page.this, lobby.class);
                 startActivity(golobby);
-
             case R.id.libarts_btn:
                 Intent golibarts=new Intent(whole_page.this, libarts_page.class);
                 // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
                 golibarts.putExtra("hakbeon",hakbeon);
                 golibarts.putExtra("major",major);
+                golibarts.putExtra("linkedmajor",linkedmajor);
+                golibarts.putExtra("onofflinked", onoffLinked);
                 startActivity(golibarts);
-
                 return true;
             case R.id.major_btn:
                 Intent gomajor=new Intent(whole_page.this, major_page.class);
                 // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
                 gomajor.putExtra("hakbeon",hakbeon);
                 gomajor.putExtra("major",major);
+                gomajor.putExtra("linkedmajor",linkedmajor);
+                gomajor.putExtra("onofflinked", onoffLinked);
                 startActivity(gomajor);
-
                 return true;
             case R.id.pilsu_btn:
                 Intent gopisu=new Intent(whole_page.this, PilsuSubject_page.class);
                 // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
                 gopisu.putExtra("hakbeon",hakbeon);
                 gopisu.putExtra("major",major);
+                gopisu.putExtra("linkedmajor",linkedmajor);
+                gopisu.putExtra("onofflinked", onoffLinked);
                 startActivity(gopisu);
+            case R.id.linked_major_btn:
+                if(onoffLinked) {
+                    Intent golinked = new Intent(context, Linkedmajor_page.class);
+                    // 학번(2017)하고 전공(컴퓨터공학전공)값 넘겨주기
+                    golinked.putExtra("hakbeon", hakbeon);
+                    golinked.putExtra("major", major);
+                    golinked.putExtra("linkedmajor", linkedmajor);
+                    golinked.putExtra("onofflinked", onoffLinked);
+                    startActivity(golinked);
+                    return true;
+                }
 
             default:
                 return super.onOptionsItemSelected(item);

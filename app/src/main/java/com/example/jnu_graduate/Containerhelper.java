@@ -24,6 +24,7 @@ public class Containerhelper {
     private String hakbeon; //10자리인지 4자리인지 확인해야함
     private JSONObject subMaxCredit;
     private JSONObject db;
+    private ArrayList<String> etcsubject;
     //안에서 생성될거
     private ArrayList<JSONObject> divisionSubject;
     private int hereCredit=0;
@@ -38,7 +39,7 @@ public class Containerhelper {
     private int pilsuherecount =0;
     //졸업자격
     private ArrayList<ArrayList<String>> graduategrouparr;
-
+    private int injungcredits=9;
 
 
     public int get_herecredit(){
@@ -133,15 +134,54 @@ public class Containerhelper {
         }
     }
 
+    public void setlinkedmajorStartSetting(String title, String hakbeon, JSONObject mysubject, JSONObject majorinfo, JSONObject gradeinfo){
+        this.title = title;
+        this.hakbeon=hakbeon;
+        gradeParser=new GradeParser();
+        this.majorInfo=majorinfo;
+        this.gradeInfo=gradeinfo;
+        final String finaltitle;
+        if(title.equals("연계전공")){
+            finaltitle="복수전공(전공)";
+        }
+        else{
+            finaltitle=title;
+        }
+//        System.out.println("학번은 어케생겻니"+hakbeon);
+        ArrayList<String> keyArr = new ArrayList<>();
+        divisionSubject=new ArrayList<JSONObject>();
+        try {
+            Iterator iterator = mysubject.keys();
+            while (iterator.hasNext()) {
+                keyArr.add(iterator.next().toString());
+            }
+            for (int num = 0; num < keyArr.size(); num++) {
+                JSONArray majortmp = (JSONArray) mysubject.get(keyArr.get(num));
+                for (int num2 = 0; num2 < majortmp.length(); num2++) {
+                    JSONObject tmpobj = (JSONObject) majortmp.get(num2);
+                    if (tmpobj.get("isu_nm").equals(finaltitle)||tmpobj.get("isu_nm").equals("전공필수")||tmpobj.get("isu_nm").equals("전공")) {
+                        if(!tmpobj.get("credit").equals("0")){
+                            System.out.println("이 연계전공이 잘들어가니"+tmpobj);
+                            divisionSubject.add(tmpobj);
+                        }
+                    }
+                }
+            }
+            System.out.println("완성된배열"+divisionSubject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
     public void makePilsuStartSetting(String hakbeon,JSONObject mysubject, JSONObject majorinfo){
         this.majorInfo=majorinfo;
 
         try {
-
-            JSONObject majorinfo2=majorInfo;
-
             JSONObject hakbeonInfo = (JSONObject) majorInfo.get(hakbeon);
-
             JSONObject pilsu_cultureInfo = (JSONObject) hakbeonInfo.get("교양필수");
             JSONObject pilsu_majorInfo = (JSONObject) hakbeonInfo.get("전공필수");
 
@@ -223,6 +263,7 @@ public class Containerhelper {
     public ArrayList<ArrayList<String>> get_majorgrouparr(){
         return majorgrouparr;
     }
+
     public ArrayList<ArrayList<String>> get_libartsgrouparr(){
         return libartsgrouparr;
     }
@@ -413,7 +454,6 @@ public class Containerhelper {
                 }
                 //만일 db에 없는 것일경우(년도가 달라서 분류가 달라졋으면 수강년도기준으로 다시찾기)
                 if(intoarr==null){
-//
                     JSONObject otherdb= null;
                     try {
                         otherdb = getotherCultureDB(curri_year);
@@ -537,8 +577,74 @@ public class Containerhelper {
                         _term_gb="2";
                         break;
                     case "11":
+                    case "21":
                         _term_gb="계절학기";
                         break;
+
+                }
+
+                if(isu_nm.equals(childarr1.get(0).toString())){
+                    childarr1.add(curri_year+"-"+_term_gb+":"+subject_nm);
+
+                }
+                else{
+                    childarr2.add(curri_year+"-"+_term_gb+":"+subject_nm);
+                }
+                hereCredit+=Integer.parseInt(credit);
+
+            }
+            childarr2.set(0,"전공필수");
+            childarr2.set(0,"전공        ");
+            grouparr.add(childarr1);
+            grouparr.add(childarr2);
+
+                //학점계산.
+            this.grouparr=grouparr;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    public void LinkedmajorContainerCreate(String linkedmajor){
+        try {
+            // 전공필수 과목 참고코드
+            JSONObject majorgradeInfo = gradeParser.eachMajor();
+            JSONObject majorGradePoint = (JSONObject) majorgradeInfo.get(hakbeon);
+            JSONObject linkedInfo = gradeParser.getlinkedMajor();
+            maxCredit=majorGradePoint.get("연계전공").toString();
+            //제목넣기
+            ArrayList<ArrayList<String>> grouparr=new ArrayList<ArrayList<String>>();
+            ArrayList<String> childarr1=new ArrayList<String>();
+            childarr1.add("복수전공(전공)");
+            ArrayList<String> childarr2=new ArrayList<String>();
+            childarr2.add("복수개설전공");
+            ArrayList<String> childarr3=new ArrayList<String>();
+            childarr3.add("복수개설전공인정학점");
+            childarr3.add("최대인정학점:"+injungcredits);
+
+            JSONObject linkedmajor1=(JSONObject)linkedInfo.get(linkedmajor);
+            JSONObject linkedmajor2=(JSONObject)linkedmajor1.get("중복전공");
+            System.out.println("이 학과에는 무슨과목이있을까요?"+linkedmajor2);
+            //검색
+            System.out.println(divisionSubject+"잘받아왓니?");
+            for(int i=0; i<divisionSubject.size();i++) {
+
+                JSONObject imsi = divisionSubject.get(i);
+                String curri_year = imsi.get("curri_year").toString();
+                String subject_nm = imsi.get("subject_nm").toString();
+                String isu_nm=imsi.get("isu_nm").toString();
+                String credit=imsi.get("credit").toString();
+                String term_gb=imsi.get("term_gb").toString();
+                String _term_gb=null;
+                switch (term_gb){
+                    case "10":
+                        _term_gb="1";
+                        break;
+                    case "20":
+                        _term_gb="2";
+                        break;
+                    case "11":
                     case "21":
                         _term_gb="계절학기";
                         break;
@@ -546,31 +652,56 @@ public class Containerhelper {
 
                 if(isu_nm.equals(childarr1.get(0).toString())){
                     childarr1.add(curri_year+"-"+_term_gb+":"+subject_nm);
+                    hereCredit+=Integer.parseInt(credit);
+                    System.out.println("연계전공 지금학점:"+hereCredit);
+                    System.out.println("나는야 연계전공 핫둘핫둘"+curri_year+"-"+_term_gb+":"+subject_nm);
                 }
                 else{
-                    childarr2.add(curri_year+"-"+_term_gb+":"+subject_nm);
+                    Iterator linkedmajor2I=linkedmajor2.keys();
+                    while(linkedmajor2I.hasNext()){
+                        String imsi1=linkedmajor2I.next().toString();
 
+                        if(imsi1.equals(subject_nm)){
+                            System.out.println("맞았어!");
+                            childarr2.add(curri_year+"-"+_term_gb+":"+subject_nm);
+                            int imsicredit=Integer.parseInt(credit);
+                            if ((injungcredits -imsicredit ) >=0) {
+                                System.out.println("현재인정학점"+injungcredits);
+                                System.out.println("과목학점:"+imsicredit);
+                                System.out.println("첫번째조건 결과"+(injungcredits-imsicredit));
+
+                                injungcredits -= imsicredit;
+                                hereCredit+=imsicredit;
+                                System.out.println("첫번째 조건 인정학점:"+injungcredits);
+                                System.out.println("첫번째 조건 지금학점:"+hereCredit);
+                            }
+                            if ((injungcredits -imsicredit ) <0) {
+                                System.out.println("현재인정학점"+injungcredits);
+                                System.out.println("과목학점:"+imsicredit);
+                                System.out.println("두번째조건 결과"+(injungcredits-imsicredit));
+                                int differ = imsicredit-injungcredits;
+                                injungcredits=0;
+                                imsicredit-=differ;
+                                hereCredit+=imsicredit;
+                                System.out.println("두번째 조건 인정학점:"+injungcredits);
+                                System.out.println("두번째 조건 지금학점:"+hereCredit);
+                            }
+                        }
+                    }
                 }
-                hereCredit+=Integer.parseInt(credit);
             }
-            childarr2.set(0,"전공        ");
+            childarr3.add("남은인정학점:"+injungcredits);
+            childarr1.set(0,"연계전공        ");
+            childarr2.set(0,"복수개설전공");
+            System.out.println(childarr1);
+            System.out.println(childarr2);
             grouparr.add(childarr1);
             grouparr.add(childarr2);
-
-                //학점계산.
+            grouparr.add(childarr3);
+            //학점계산.
             this.grouparr=grouparr;
-//            for (int x = 0; x < grouparr.size(); x++) {
-//                ArrayList<String> childarr = grouparr.get(x);//childarr설정
-//                for(int i=1; i<childarr.size(); i++){
-//                    for(int k=0; k<divisionSubject.size();k++){
-//                        JSONObject imsi=divisionSubject.get(k);
-//                        if(imsi.get("subject_nm").equals(childarr.get(i))){
-//                            int addcredt=Integer.parseInt(imsi.get("credit").toString());
-//                            hereCredit+=addcredt;
-//                        }
-//                    }
-//                }
-//            }
+            System.out.println(grouparr+"완성됫니?");
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -603,11 +734,10 @@ public class Containerhelper {
                         _term_gb="2";
                         break;
                     case "11":
-                        _term_gb="계절학기";
-                        break;
                     case "21":
                         _term_gb="계절학기";
                         break;
+
                 }
                 if(isu_nm.equals(childarr1.get(0).toString())){
                     childarr1.add(curri_year+"-"+_term_gb+":"+subject_nm);
@@ -619,18 +749,7 @@ public class Containerhelper {
 
             //학점계산.
             this.grouparr=grouparr;
-//            for (int x = 0; x < grouparr.size(); x++) {
-//                ArrayList<String> childarr = grouparr.get(x);//childarr설정
-//                for(int i=1; i<childarr.size(); i++){
-//                    for(int k=0; k<divisionSubject.size();k++){
-//                        JSONObject imsi=divisionSubject.get(k);
-//                        if(imsi.get("subject_nm").equals(childarr.get(i))){
-//                            int addcredt=Integer.parseInt(imsi.get("credit").toString());
-//                            hereCredit+=addcredt;
-//                        }
-//                    }
-//                }
-//            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -647,9 +766,4 @@ public class Containerhelper {
         JSONObject cultureSub = (JSONObject) subjectInfo.get("교양");
         return cultureSub;
     }
-
-
-
-
-
 }
