@@ -248,15 +248,14 @@ public class lobby extends AppCompatActivity {
                 getApplicationContext().deleteFile("parsedClass.json");
                 getApplicationContext().deleteFile("profile.json");
                 getApplicationContext().deleteFile("origin.json");
-                getApplicationContext().deleteFile("score.json");
                 Intent loginintent=new Intent(lobby.this, MainActivity.class);
                 startActivity(loginintent);
-                Activity libarts_activity=(Activity)libarts_page.libartsactivity;
-                libarts_activity.finish();
-                Activity major_activity=(Activity)major_page.majoractivity;
-                major_activity.finish();
-                Activity whole_activity=(Activity)whole_page.wholeactivity;
-                whole_activity.finish();
+//                Activity libarts_activity=(Activity)libarts_page.libartsactivity;
+//                libarts_activity.finish();
+//                Activity major_activity=(Activity)major_page.majoractivity;
+//                major_activity.finish();
+//                Activity whole_activity=(Activity)whole_page.wholeactivity;
+//                whole_activity.finish();
                 finish();
             }
         });
