@@ -45,7 +45,7 @@ public class PilsuSubject_page extends AppCompatActivity {
         hakbeon = intent.getExtras().getString("hakbeon");
         major = intent.getExtras().getString("major");
         linkedmajor=intent.getExtras().getString("linkedmajor");
-        onoffLinked=intent.getBooleanExtra("onofflinked",false);
+        onoffLinked=intent.getExtras().getBoolean("onofflinked",false);
         //----------------------------------------------------------------기초정의-한 액티비티당 한번만
         //컨테이너가 들어가서 위치를 잡을 기준점인 이전 view의 id를 찾아내기-기본적으로 미리 설정되어있는 레이아웃의 맨위쪽에 잇는 텍스트박스id
         prevcontainerid=R.id.toolbar5;

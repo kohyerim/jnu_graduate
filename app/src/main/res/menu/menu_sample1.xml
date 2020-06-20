@@ -25,7 +25,7 @@
             />
         <item
             android:id="@+id/linked_major_btn"
-            android:title="연계학점"
+            android:title="연계전공"
             />
 
 

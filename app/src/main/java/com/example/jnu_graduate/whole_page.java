@@ -57,7 +57,7 @@ public class whole_page extends AppCompatActivity {
         hakbeon = intent.getExtras().getString("hakbeon");
         major = intent.getExtras().getString("major");
         linkedmajor=intent.getExtras().getString("linkedmajor");
-        onoffLinked=intent.getBooleanExtra("onofflinked",false);
+        onoffLinked=intent.getExtras().getBoolean("onofflinked",false);
 
 
         //----------------------------------------------------------------기초정의-한 액티비티당 한번만

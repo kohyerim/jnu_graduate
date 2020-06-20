@@ -565,6 +565,7 @@ public class Containerhelper {
                                 String imsi4= imsi3.get(0);
                                 if(imsi4.equals(detail)){ // 만약 첫번째꺼 꺼냇는데 세부항목이랑 같다면?
                                     imsi3.add(subject_nm); //항목을 넣고 학점계산을 실시한다
+
                                     ///////////학점계산실시
                                     for(int z=0; z<submaxcreditarray.size()/2; z++){
                                         String innerdetail=submaxtitlecreditarray.get(z).toString();
@@ -579,11 +580,6 @@ public class Containerhelper {
                                                 submaxcreditarray.set(z*2+1,String.valueOf(herelimitcredit));
                                                 imsi1.set(1,String.valueOf(herecredit));
                                                 components.set(k,imsi1);
-                                                System.out.println("조건1");
-                                                System.out.println("현재과목"+subject_nm);
-                                                System.out.println(herelimitcredit);
-                                                System.out.println(herecredit);
-                                                System.out.println(submaxcreditarray);
                                                 break loop;
                                             }
                                             else{
@@ -593,11 +589,6 @@ public class Containerhelper {
                                                 submaxcreditarray.set(z*2+1,String.valueOf(herelimitcredit));
                                                 imsi1.set(1,String.valueOf(herecredit));
                                                 components.set(k,imsi1);
-                                                System.out.println("조건2");
-                                                System.out.println("현재과목"+subject_nm);
-                                                System.out.println(herelimitcredit);
-                                                System.out.println(herecredit);
-                                                System.out.println(submaxcreditarray);
                                                 break loop;
                                             }
                                         }
@@ -619,6 +610,7 @@ public class Containerhelper {
                                 String imsi4= imsi3.get(0);
                                 if(imsi4.equals(detail)){ // 만약 첫번째꺼 꺼냇는데 세부항목이랑 같다면?
                                     imsi3.add(subject_nm); //항목을 넣고 학점계산을 실시한다
+
                                     String imsi5=imsi1.get(1).toString();
                                     int imsi6= Integer.parseInt(imsi5);
                                     int uppercredit=Integer.parseInt(credit);
@@ -869,15 +861,16 @@ public class Containerhelper {
                     case "21":
                         _term_gb="계절학기";
                         break;
-
                 }
 
                 if(isu_nm.equals(childarr1.get(0).toString())){
                     childarr1.add(curri_year+"-"+_term_gb+":"+subject_nm);
+
                     hereCredit+=Integer.parseInt(credit);
                 }
                 else if (isu_nm.equals(childarr2.get(0).toString())) {
                     childarr2.add(curri_year+"-"+_term_gb+":"+subject_nm);
+
                     hereCredit+=Integer.parseInt(credit);
                 }
                 else{

@@ -54,7 +54,7 @@ public class major_page extends AppCompatActivity {
         hakbeon = intent.getExtras().getString("hakbeon");
         major = intent.getExtras().getString("major");
         linkedmajor=intent.getExtras().getString("linkedmajor");
-        onoffLinked=intent.getBooleanExtra("onofflinked",false);
+        onoffLinked=intent.getExtras().getBoolean("onofflinked",false);
         System.out.println(hakbeon+"전공");
 
 

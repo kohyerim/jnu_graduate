@@ -117,6 +117,7 @@ public class addcontainer {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void createsubjectmenu(ArrayList subjectlist){
         //세부과목과 교과목이 들어갈 텍스트뷰와 그것을 구성하는 옵션들이 들어갈것 정의
+        yaubun=0;
         int detailmarginstart= (int)(dpToPx(16));
         int detailleftmargin= (int)(dpToPx(16));
         int detailtopmargin= (int)(dpToPx(24*detailsubjectnumber+18*subjectmenunumber+yaubun+bigsubjectmenunumber*36*18));
@@ -125,6 +126,7 @@ public class addcontainer {
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void createsubjectmenu2(ArrayList subjectlist){
+        yaubun=0;
         //세부과목과 교과목이 들어갈 텍스트뷰와 그것을 구성하는 옵션들이 들어갈것 정의
         int detailmarginstart= (int)(dpToPx(40));
         int detailleftmargin= (int)(dpToPx(40));
@@ -160,6 +162,11 @@ public class addcontainer {
         if(subjectlist.size()<2){
             adapter1 = new subject_r_c_adapter(onlydetail,false);
         }
+        if(subjectlist.get(0).equals("일반선택")){
+            adapter1 = new subject_r_c_adapter(onlydetail,true);
+        }
+
+
         adapter1.notifyDataSetChanged();
         detailsubject.setAdapter(adapter1);
 
@@ -189,10 +196,13 @@ public class addcontainer {
             onlysubject.add(imsi);
             subjectmenunumber++;
         }
+        yaubun=(subjectmenunumber/8)*30;
         if(subjectlist.size()>35){
             subjectmenunumber=0;
             bigsubjectmenunumber++;
+            yaubun=135;
         }
+
         subjectmenu.setLayoutParams(params2);
         subjectmenu.setLayoutManager(new LinearLayoutManager(context));
         adapter2 = new subject_r_c_adapter(onlysubject,true);
@@ -204,6 +214,7 @@ public class addcontainer {
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void createsubjectmenu3(ArrayList subjectlist){
+        yaubun=0;
         //세부과목과 교과목이 들어갈 텍스트뷰와 그것을 구성하는 옵션들이 들어갈것 정의
         int detailmarginstart= (int)(dpToPx(16));
         int detailleftmargin= (int)(dpToPx(16));
@@ -213,6 +224,7 @@ public class addcontainer {
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void createsubjectmenu4(ArrayList subjectlist){
+        yaubun=0;
         //세부과목과 교과목이 들어갈 텍스트뷰와 그것을 구성하는 옵션들이 들어갈것 정의
         int detailmarginstart= (int)(dpToPx(40));
         int detailleftmargin= (int)(dpToPx(40));
@@ -278,10 +290,13 @@ public class addcontainer {
             onlysubject.add(imsi);
             subjectmenunumber++;
         }
+        yaubun=(subjectmenunumber/8)*30;
         if(subjectlist.size()>35){
             subjectmenunumber=0;
             bigsubjectmenunumber++;
+            yaubun=135;
         }
+
         subjectmenu.setLayoutParams(params2);
         subjectmenu.setLayoutManager(new LinearLayoutManager(context));
         adapter2 = new subject_r_c_adapter(onlysubject, true);
@@ -294,6 +309,7 @@ public class addcontainer {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void createsubjectmenu5(ArrayList subjectlist){
         //세부과목과 교과목이 들어갈 텍스트뷰와 그것을 구성하는 옵션들이 들어갈것 정의
+        yaubun=0;
         int detailmarginstart= (int)(dpToPx(16));
         int detailleftmargin= (int)(dpToPx(16));
         int detailtopmargin= (int)(dpToPx(40+50*detailsubjectnumber+20*subjectmenunumber+yaubun+bigsubjectmenunumber*36*18));
@@ -346,10 +362,13 @@ public class addcontainer {
             onlysubject.add(imsi);
             subjectmenunumber++;
         }
+        yaubun=(subjectmenunumber/8)*30;
         if(subjectlist.size()>35){
             subjectmenunumber=0;
             bigsubjectmenunumber++;
+            yaubun=135;
         }
+
         subjectmenu.setLayoutParams(params2);
         subjectmenu.setLayoutManager(new LinearLayoutManager(context));
         adapter2 = new subject_r_c_adapter(onlysubject,true);
@@ -368,11 +387,16 @@ public class addcontainer {
         if(arrayList.size()==1){
             menucounter++;
         }
+        yaubun=(menucounter/8)*30;
         if(menucounter>35){
             bigmenucounter++;
             menucounter=0;
+            yaubun=135;
         }
-        containerHeight=100+detailsubjectcounter*24+menucounter*18+bigmenucounter*18*36;
+
+
+
+        containerHeight=yaubun+118+detailsubjectcounter*24+menucounter*18+bigmenucounter*18*36;
     }
     public void calculateheigth2(ArrayList arrayList){
         detailsubjectcounter++;
@@ -382,11 +406,13 @@ public class addcontainer {
         if(arrayList.size()==1){
             menucounter++;
         }
+        yaubun=(menucounter/8)*30;
         if(menucounter>35){
             bigmenucounter++;
             menucounter=0;
+            yaubun=135;
         }
-        containerHeight=100+detailsubjectcounter*50+menucounter*18+bigmenucounter*18*36;
+        containerHeight=yaubun+100+detailsubjectcounter*50+menucounter*18+bigmenucounter*18*36;
     }
 
 }
