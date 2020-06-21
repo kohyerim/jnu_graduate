@@ -4,9 +4,11 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
+import android.widget.Button;
 import android.widget.ProgressBar;
 
 import androidx.annotation.RequiresApi;
@@ -37,6 +39,7 @@ public class Service extends AsyncTask<Object, Void, Boolean>{
     JSONArray classJson = new JSONArray();
     Context ctx;
     Context MainActivity;
+    Button loginBtn;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -45,6 +48,7 @@ public class Service extends AsyncTask<Object, Void, Boolean>{
         this.MainActivity = (Context) objects[3];
         String id = objects[1].toString();
         String pw = objects[2].toString();
+        this.loginBtn = (Button) objects[4];
         this.dreamy = new Dreamy(id, pw);
         try{
             // SSLHandShakeException Fixed
@@ -166,7 +170,7 @@ public class Service extends AsyncTask<Object, Void, Boolean>{
         }
         // login Fail
         else{
-            System.out.println("login fail");
+            loginBtn.setEnabled(true);
             AlertDialog.Builder builder = new AlertDialog.Builder(this.MainActivity);
             builder.setMessage("Login Fail");
             builder.setPositiveButton("확인", null);

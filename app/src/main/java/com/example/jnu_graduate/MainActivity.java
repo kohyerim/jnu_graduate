@@ -40,13 +40,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 loginBtn.setEnabled(false);
-                loginBtn.setBackgroundColor(Color.GRAY);
                 service = new Service();
                 TextView idView = findViewById(R.id.studentNum);
                 TextView pwView = findViewById(R.id.password);
                 String id = idView.getText().toString();
                 String pw = pwView.getText().toString();
-                service.execute(getApplicationContext(), id, pw, MainActivity.this);
+                service.execute(getApplicationContext(), id, pw, MainActivity.this, loginBtn);
             }
         });
     }
