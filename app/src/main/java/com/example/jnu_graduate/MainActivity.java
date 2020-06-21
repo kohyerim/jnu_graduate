@@ -2,6 +2,7 @@ package com.example.jnu_graduate;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -38,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
+                loginBtn.setEnabled(false);
+                loginBtn.setBackgroundColor(Color.GRAY);
                 service = new Service();
                 TextView idView = findViewById(R.id.studentNum);
                 TextView pwView = findViewById(R.id.password);

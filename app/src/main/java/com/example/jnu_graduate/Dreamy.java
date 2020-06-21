@@ -129,7 +129,6 @@ public class Dreamy {
         }
         in.close();
         JSONObject scoreJson =  new JSONObject(response.toString());
-        System.out.println(scoreJson.toString());
 
         return scoreJson;
     }
