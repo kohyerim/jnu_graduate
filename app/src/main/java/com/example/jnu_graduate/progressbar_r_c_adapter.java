@@ -92,7 +92,7 @@ public class progressbar_r_c_adapter extends RecyclerView.Adapter<progressbar_r_
             heretext = itemView.findViewById(R.id.here_text);
             Constraints.LayoutParams params = new Constraints.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             params.startToStart = R.id.recycleprogressbar;
-            params.topToBottom = R.id.recycleprogressbar;
+            params.bottomToTop = R.id.recycleprogressbar;
             System.out.println(margin+":margin3");
             params.leftMargin=(int) dpToPx(margin);
             heretext.setLayoutParams(params);

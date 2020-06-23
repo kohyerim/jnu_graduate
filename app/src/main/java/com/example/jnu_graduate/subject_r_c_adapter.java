@@ -13,29 +13,31 @@ import java.util.ArrayList;
 
 public class subject_r_c_adapter extends RecyclerView.Adapter<subject_r_c_adapter.ViewHolder> {
 
-    private boolean textcolor;
+    private int textcolor;
     private ArrayList<String> mData =null;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView text ;
 
-        ViewHolder(View itemView, boolean textcolor) {
+        ViewHolder(View itemView, int textcolor) {
             super(itemView) ;
 
             // 뷰 객체에 대한 참조. (hold strong reference)
 
             text = itemView.findViewById(R.id.text1);
-            if(textcolor==true){
+            if(textcolor==1){
                 text.setTextColor(Color.parseColor("#0054FF"));
             }
-            if(textcolor==false){
+            if(textcolor==0){
                 text.setTextColor(Color.parseColor("#FF0000"));
+            }
+            if(textcolor==2){
             }
         }
     }
 
 
-    subject_r_c_adapter(ArrayList<String> List, boolean setTextcolor){
+    subject_r_c_adapter(ArrayList<String> List, int setTextcolor){
         mData= List;
         this.textcolor=setTextcolor;
     }

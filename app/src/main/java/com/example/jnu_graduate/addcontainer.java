@@ -37,6 +37,7 @@ public class addcontainer {
     private int bigsubjectmenunumber=0;
     private float containerHeight=80;
     private int yaubun=0;
+    private boolean ismax=false;
 
     progressbar_r_c_adapter p_Adapter = null;
     container_r_c_adapter c_Adapter = null ;
@@ -86,7 +87,7 @@ public class addcontainer {
     //프로그래스바 만들기
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void createprogressbar(){
-        Constraints.LayoutParams params = new Constraints.LayoutParams((int) dpToPx(365), (int) dpToPx(56));
+        Constraints.LayoutParams params = new Constraints.LayoutParams((int) dpToPx(365), (int) dpToPx(62));
         params.startToStart = containerid;
         params.topToTop = containerid;
         params.setMarginStart((int)(dpToPx(12)));
@@ -108,9 +109,14 @@ public class addcontainer {
         progressbar_item item = new progressbar_item();
         progressbarlist.add(item);
         prevviewid=progressbarid;
+        int _here=Integer.parseInt(here);
+        int _max=Integer.parseInt(max);
+        if(_here>=_max){
+            ismax=true;
+        }
+
         this.here=here;
         this.max=max;
-        System.out.println("1");
     }
 
     //세부과목 만들기
@@ -156,14 +162,20 @@ public class addcontainer {
         //
         detailsubject.setLayoutManager(new LinearLayoutManager(context));
         if(subjectlist.size()>=2){
-            adapter1 = new subject_r_c_adapter(onlydetail,true);
+            adapter1 = new subject_r_c_adapter(onlydetail,1);
+        }
+        if(subjectlist.size()<2){
+            if(ismax){
+                adapter1 = new subject_r_c_adapter(onlydetail,2);
+            }
+            else{
+                adapter1 = new subject_r_c_adapter(onlydetail,0);
+            }
         }
 
-        if(subjectlist.size()<2){
-            adapter1 = new subject_r_c_adapter(onlydetail,false);
-        }
+
         if(subjectlist.get(0).equals("일반선택")){
-            adapter1 = new subject_r_c_adapter(onlydetail,true);
+            adapter1 = new subject_r_c_adapter(onlydetail,1);
         }
 
 
@@ -205,7 +217,7 @@ public class addcontainer {
 
         subjectmenu.setLayoutParams(params2);
         subjectmenu.setLayoutManager(new LinearLayoutManager(context));
-        adapter2 = new subject_r_c_adapter(onlysubject,true);
+        adapter2 = new subject_r_c_adapter(onlysubject,1);
         adapter2.notifyDataSetChanged();
         subjectmenu.setAdapter(adapter2);
 
@@ -252,15 +264,19 @@ public class addcontainer {
         onlydetail.add(text1);
         //
         detailsubject.setLayoutManager(new LinearLayoutManager(context));
+
         if(subjectlist.size()>=2){
-            adapter1 = new subject_r_c_adapter(onlydetail,true);
-
+            adapter1 = new subject_r_c_adapter(onlydetail,1);
         }
-
         if(subjectlist.size()<2){
-            adapter1 = new subject_r_c_adapter(onlydetail,false);
-
+            if(ismax){
+                adapter1 = new subject_r_c_adapter(onlydetail,2);
+            }
+            else{
+                adapter1 = new subject_r_c_adapter(onlydetail,0);
+            }
         }
+
         adapter1.notifyDataSetChanged();
         detailsubject.setAdapter(adapter1);
 
@@ -299,7 +315,7 @@ public class addcontainer {
 
         subjectmenu.setLayoutParams(params2);
         subjectmenu.setLayoutManager(new LinearLayoutManager(context));
-        adapter2 = new subject_r_c_adapter(onlysubject, true);
+        adapter2 = new subject_r_c_adapter(onlysubject, 1);
         adapter2.notifyDataSetChanged();
         subjectmenu.setAdapter(adapter2);
         constraintLayout.addView(subjectmenu);
@@ -334,7 +350,7 @@ public class addcontainer {
         String text1=subjectlist.get(0).toString()+":";
         onlydetail.add(text1);
         detailsubject.setLayoutManager(new LinearLayoutManager(context));
-        adapter1 = new subject_r_c_adapter(onlydetail,true);
+        adapter1 = new subject_r_c_adapter(onlydetail,1);
         adapter1.notifyDataSetChanged();
         detailsubject.setAdapter(adapter1);
         params.setMarginStart(detailmarginstart);
@@ -371,7 +387,7 @@ public class addcontainer {
 
         subjectmenu.setLayoutParams(params2);
         subjectmenu.setLayoutManager(new LinearLayoutManager(context));
-        adapter2 = new subject_r_c_adapter(onlysubject,true);
+        adapter2 = new subject_r_c_adapter(onlysubject,1);
         adapter2.notifyDataSetChanged();
         subjectmenu.setAdapter(adapter2);
 

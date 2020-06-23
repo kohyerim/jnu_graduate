@@ -10,7 +10,7 @@
         android:id="@+id/text1"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:textColor="#0054FF"
+
 
         />
 
