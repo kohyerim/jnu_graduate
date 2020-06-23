@@ -950,7 +950,7 @@ public class Containerhelper {
                 }
 
                 if(isu_nm.equals(childarr1.get(0).toString())){
-                    childarr1.add(curri_year+"-"+_term_gb+":"+subject_nm);
+                    childarr1.add(curri_year+"-"+_term_gb+" : "+subject_nm);
                     hereCredit+=Integer.parseInt(credit);
                 }
                 else{
@@ -1025,7 +1025,7 @@ public class Containerhelper {
 
                 }
                 if(isu_nm.equals(childarr1.get(0).toString())){
-                    childarr1.add(curri_year+"-"+_term_gb+":"+subject_nm);
+                    childarr1.add(curri_year+"-"+_term_gb+" : "+subject_nm);
                 }
                 hereCredit+=Integer.parseInt(credit);
             }

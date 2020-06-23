@@ -47,7 +47,7 @@ public class Linkedmajor_page extends AppCompatActivity {
         setSupportActionBar(tb);
         ActionBar ab = getSupportActionBar();
 
-        ab.setTitle("전공 학점");
+        ab.setTitle("연계 전공");
 
         Intent intent = getIntent();
         hakbeon = intent.getExtras().getString("hakbeon");
