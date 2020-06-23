@@ -378,8 +378,6 @@ public class Containerhelper {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
     }
 
 
@@ -400,7 +398,11 @@ public class Containerhelper {
                 childarr.add(list2title);
                 for (int i = 0; i < list2.length(); i++) {
                     String imsi = list2.get(i).toString();
-                    childarr.add(imsi);
+                    String[] temp=imsi.split(":");
+                    for(int k=0; k<temp.length; k++){
+                        childarr.add(temp[k]);
+                    }
+
                 }
                 grouparr.add(childarr);
             }
@@ -864,12 +866,12 @@ public class Containerhelper {
                 }
 
                 if(isu_nm.equals(childarr1.get(0).toString())){
-                    childarr1.add(curri_year+"-"+_term_gb+":"+subject_nm);
+                    childarr1.add(curri_year+"-"+_term_gb+" : "+subject_nm);
 
                     hereCredit+=Integer.parseInt(credit);
                 }
                 else if (isu_nm.equals(childarr2.get(0).toString())) {
-                    childarr2.add(curri_year+"-"+_term_gb+":"+subject_nm);
+                    childarr2.add(curri_year+"-"+_term_gb+" : "+subject_nm);
 
                     hereCredit+=Integer.parseInt(credit);
                 }
